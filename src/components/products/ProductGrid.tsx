@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 const ProductGrid: React.FC = () => {
   const article = [
@@ -53,22 +54,17 @@ const ProductGrid: React.FC = () => {
                   href=""
                   className="text-1.5xl text-dark-color hover:text-[#FFE8DF]]"
                 >
-                  <i className="fa-regular fa-heart"></i>
+                  <HeartIcon className="w-6 h-6" />
                 </a>
 
                 <div className="flex flex-col items-center">
-                  <span className=" text-[0.75rem] text-FF5151 mb-1">
+                  <span className=" text-xs text-gray-500 mb-1 font-medium">
                     {data.price1}
                   </span>
-                  <span className="text-h3-font-size font-bold">
-                    {data.price2}
-                  </span>
+                  <span className="text-[17px] font-bold">{data.price2}</span>
                 </div>
-                <a
-                  href=""
-                  className="text-1.5xl text-dark-color hover:text-[#FFE8DF]]"
-                >
-                  <i className="fa-solid fa-cart-shopping"></i>
+                <a href="" className="text-2xl">
+                  <i className="bx bx-cart-alt "></i>
                 </a>
               </div>
             </div>
