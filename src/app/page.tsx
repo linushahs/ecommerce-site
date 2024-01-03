@@ -6,12 +6,12 @@ import { Provider } from "react-redux";
 
 export default function Home() {
   return (
-    <main className="">
       <Provider store={store}>
-        {/* <Login /> */}
-        {/* <Dashboard /> */}
-        <Profile />
+        <main className="h-full">
+            {/* <Login /> */}
+            {/* <Dashboard /> */}
+            <Profile />
+        </main>
       </Provider>
-    </main>
   );
 }

@@ -19,7 +19,7 @@ export default function ProductPage() {
   return (
     <main className="mt-24">
       <div className="max-w-screen-xl flex gap-12 mx-auto px-4">
-        <div className="w-[40%] flex flex-col gap-2">
+        <div className="w-[40%] flex flex-col gap-4">
           <Image
             src={productData[currentProductImage].png}
             alt="product image"
@@ -34,7 +34,8 @@ export default function ProductPage() {
                   onClick={() => setCurrentProductImage(id)}
                   className={twMerge(
                     "rounded-lg cursor-pointer",
-                    currentProductImage === id && "active"
+                    currentProductImage === id &&
+                      "border-[3px] border-orange-500 opacity-60"
                   )}
                   src={thumbnail}
                   alt="thumbnail"
