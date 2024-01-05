@@ -1,6 +1,6 @@
 "use client";
 
-import { filters, sortOptions, subCategories } from "@/components/utils/constants";
+import { filters, sortOptions, subCategories } from "@/constants/";
 import {
   FunnelIcon,
   Squares2X2Icon

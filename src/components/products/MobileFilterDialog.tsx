@@ -2,7 +2,7 @@ import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import React, { Fragment } from "react";
 import { MobileFilterProps } from "./interface";
-import { filters, subCategories } from "../utils/constants";
+import { filters, subCategories } from "../../constants";
 
 const MobileFilterDialog: React.FC<MobileFilterProps> = ({
   open,

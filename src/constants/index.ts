@@ -1,4 +1,4 @@
-export const productData = [
+ const productData = [
   {
     id: 0,
     png: "/images/image-product-1.jpg",
@@ -21,7 +21,7 @@ export const productData = [
   },
 ];
 
-export const subCategories = [
+ const subCategories = [
   { name: "Totes", href: "#" },
   { name: "Backpacks", href: "#" },
   { name: "Travel Bags", href: "#" },
@@ -29,7 +29,7 @@ export const subCategories = [
   { name: "Laptop Sleeves", href: "#" },
 ];
 
-export const filters = [
+ const filters = [
   {
     id: "color",
     name: "Color",
@@ -67,10 +67,12 @@ export const filters = [
   },
 ];
 
-export const sortOptions = [
+ const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
   { name: "Best Rating", href: "#", current: false },
   { name: "Newest", href: "#", current: false },
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
+
+export {sortOptions, filters, productData, subCategories}
