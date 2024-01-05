@@ -9,11 +9,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+
       colors: {
         primary: {
           DEFAULT: "#3b82f6",
@@ -30,6 +26,24 @@ const config: Config = {
           "950": "#172554",
         },
       },
+
+      animation: {
+        slideUp: "slide-up 0.5s ease"
+      },
+
+      keyframes: {
+        "slide-up": {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(50px)'
+          },
+
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
+        }
+      }
     },
   },
   plugins: [require("@tailwindcss/forms")],

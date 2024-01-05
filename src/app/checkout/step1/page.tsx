@@ -1,33 +1,31 @@
 "use client";
 
-import { BasketItem } from 'components/basket';
-import { CHECKOUT_STEP_2 } from '@/constants/routes';
-import { BuildingStorefrontIcon } from '@heroicons/react/20/solid';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { BasketItem } from "components/basket";
+import { CHECKOUT_STEP_2 } from "@/constants/routes";
+import { BuildingStorefrontIcon } from "@heroicons/react/20/solid";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { FC } from 'react';
-import { StepTracker } from '../../../views/checkout/components';
-import withCheckout from '../../../views/checkout/hoc/withCheckout';
-import { OrderSummaryProps } from '../../../views/checkout/interface';
+import { FC } from "react";
+import { StepTracker } from "views/checkout/components";
+import withCheckout from "../../../views/checkout/hoc/withCheckout";
+import { OrderSummaryProps } from "views/checkout/interface";
+import { dummyData } from "@/constants";
 
 const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
   const router = useRouter();
-  const onClickPrevious = () => router.push('/');
+  const onClickPrevious = () => router.push("/");
   const onClickNext = () => router.push(CHECKOUT_STEP_2);
 
   return (
-    <div className="checkout">
+    <div className="w-full animation-slideUp">
       <StepTracker current={1} />
-      <div className="checkout-step-1">
+      <div className="w-[60%] m-auto">
         <h3 className="text-center">Order Summary</h3>
-        <span className="d-block text-center">Review items in your basket.</span>
+        <span className="block text-center">Review items in your basket.</span>
         <br />
-        <div className="checkout-items">
-          {basket.map((product) => (
-            <BasketItem
-              key={product.id}
-              product={product}
-            />
+        <div className="flex flex-col gap-4">
+          {dummyData.map((product) => (
+            <BasketItem key={product.id} product={product} />
           ))}
         </div>
         <br />
@@ -42,18 +40,12 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
             onClick={onClickPrevious}
             type="button"
           >
-            <BuildingStorefrontIcon className='w-7 h-7' />
-            &nbsp;
-            Continue Shopping
+            <BuildingStorefrontIcon className="w-7 h-7" />
+            &nbsp; Continue Shopping
           </button>
-          <button
-            className="button"
-            onClick={onClickNext}
-            type="submit"
-          >
-            Next Step
-            &nbsp;
-            <ArrowRightIcon  className='w-7 h-7' />
+          <button className="button" onClick={onClickNext} type="submit">
+            Next Step &nbsp;
+            <ArrowRightIcon className="w-7 h-7" />
           </button>
         </div>
       </div>
@@ -61,5 +53,4 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
   );
 };
 
-
-export default withCheckout(OrderSummary);
+export default OrderSummary;

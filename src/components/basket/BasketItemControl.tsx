@@ -1,66 +1,42 @@
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import PropType from 'prop-types';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { addQtyItem, minusQtyItem } from '@/redux/actions/basketActions';
+import React from "react";
+import { BasketItemProps } from "./interface";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 
-const BasketItemControl = ({ product }) => {
-  const dispatch = useDispatch();
+const BasketItemControl: React.FC<BasketItemProps> = ({ product }) => {
+  // const dispatch = useDispatch();
 
-  const onAddQty = () => {
-    if (product.quantity < product.maxQuantity) {
-      dispatch(addQtyItem(product.id));
-    }
-  };
+  // const onAddQty = () => {
+  //   if (product.quantity < product.maxQuantity) {
+  //     dispatch(addQtyItem(product.id));
+  //   }
+  // };
 
-  const onMinusQty = () => {
-    if ((product.maxQuantity >= product.quantity) && product.quantity !== 0) {
-      dispatch(minusQtyItem(product.id));
-    }
-  };
+  // const onMinusQty = () => {
+  //   if (product.maxQuantity >= product.quantity && product.quantity !== 0) {
+  //     dispatch(minusQtyItem(product.id));
+  //   }
+  // };
 
   return (
-    <div className="basket-item-control">
+    <div className="flex flex-col items-center min-h-full w-12 divide-y divide-gray-200 border-r border-gray-200">
       <button
-        className="button button-border button-border-gray button-small basket-control basket-control-add"
-        disabled={product.maxQuantity === product.quantity}
-        onClick={onAddQty}
+        className="flex-1 w-full flex justify-center items-center  hover:bg-gray-100"
+        // disabled={product.maxQuantity === product.quantity}
+        // onClick={onAddQty}
         type="button"
       >
-        <PlusOutlined style={{ fontSize: '9px' }} />
+        <PlusIcon className="w-5 h-5 " />
       </button>
       <button
-        className="button button-border button-border-gray button-small basket-control basket-control-minus"
-        disabled={product.quantity === 1}
-        onClick={onMinusQty}
+        className="flex-1  hover:bg-gray-100 w-full flex justify-center items-center "
+        // disabled={product.quantity === 1}
+        // onClick={onMinusQty}
         type="button"
       >
-        <MinusOutlined style={{ fontSize: '9px' }} />
+        <MinusIcon className="w-5 h-5 " />
       </button>
     </div>
   );
-};
-
-BasketItemControl.propTypes = {
-  product: PropType.shape({
-    id: PropType.string,
-    name: PropType.string,
-    brand: PropType.string,
-    price: PropType.number,
-    quantity: PropType.number,
-    maxQuantity: PropType.number,
-    description: PropType.string,
-    keywords: PropType.arrayOf(PropType.string),
-    selectedSize: PropType.string,
-    selectedColor: PropType.string,
-    imageCollection: PropType.arrayOf(PropType.string),
-    sizes: PropType.arrayOf(PropType.number),
-    image: PropType.string,
-    imageUrl: PropType.string,
-    isFeatured: PropType.bool,
-    isRecommended: PropType.bool,
-    availableColors: PropType.arrayOf(PropType.string)
-  }).isRequired
 };
 
 export default BasketItemControl;

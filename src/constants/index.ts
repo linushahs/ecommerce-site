@@ -1,3 +1,5 @@
+import { BasketItemProps, Product } from "@/components/basket/interface";
+
  const productData = [
   {
     id: 0,
@@ -75,4 +77,73 @@
   { name: "Price: High to Low", href: "#", current: false },
 ];
 
-export {sortOptions, filters, productData, subCategories}
+
+const dummyData: Product[] = [
+  {
+
+      id: "1",
+      name: "Product 1",
+      brand: "Brand A",
+      price: 19.99,
+      quantity: 2,
+      maxQuantity: 10,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      keywords: ["keyword1", "keyword2"],
+      selectedSize: "Medium",
+      selectedColor: "Blue",
+      imageCollection: ["image1.jpg", "image2.jpg"],
+      sizes: [1, 2, 3],
+      image: "main_image.jpg",
+      imageUrl: "https://example.com/product1.jpg",
+      isFeatured: true,
+      isRecommended: false,
+      availableColors: ["Blue", "Red", "Green"],
+    },
+
+  {
+
+      id: "2",
+      name: "Product 2",
+      brand: "Brand B",
+      price: 29.99,
+      quantity: 1,
+      maxQuantity: 5,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      keywords: ["keyword3", "keyword4"],
+      selectedSize: "Large",
+      selectedColor: "Red",
+      imageCollection: ["image3.jpg", "image4.jpg"],
+      sizes: [2, 3, 4],
+      image: "main_image2.jpg",
+      imageUrl: "https://example.com/product2.jpg",
+      isFeatured: false,
+      isRecommended: true,
+      availableColors: ["Red", "Black", "White"],
+    },
+
+  {
+
+      id: "3",
+      name: "Product 3",
+      brand: "Brand C",
+      price: 39.99,
+      quantity: 3,
+      maxQuantity: 8,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      keywords: ["keyword5", "keyword6"],
+      selectedSize: "Small",
+      selectedColor: "Green",
+      imageCollection: ["image5.jpg", "image6.jpg"],
+      sizes: [1, 2, 3],
+      image: "main_image3.jpg",
+      imageUrl: "https://example.com/product3.jpg",
+      isFeatured: true,
+      isRecommended: true,
+      availableColors: ["Green", "Yellow", "Blue"],
+
+  },
+];
+
+
+
+export {sortOptions, filters, productData, subCategories, dummyData}
