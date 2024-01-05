@@ -2,14 +2,18 @@
 
 import { BasketItem } from "components/basket";
 import { CHECKOUT_STEP_2 } from "@/constants/routes";
-import { BuildingStorefrontIcon } from "@heroicons/react/20/solid";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowRightIcon,
+  BuildingStorefrontIcon,
+} from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import { StepTracker } from "views/checkout/components";
+
 import withCheckout from "../../../views/checkout/hoc/withCheckout";
 import { OrderSummaryProps } from "views/checkout/interface";
 import { dummyData } from "@/constants";
+import { StepTracker } from "@/views/checkout/components";
+import Button from "@/components/common/Button";
 
 const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
   const router = useRouter();
@@ -17,11 +21,15 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
   const onClickNext = () => router.push(CHECKOUT_STEP_2);
 
   return (
-    <div className="w-full animation-slideUp">
+    <div className="w-full animation-slideUp mb-8">
       <StepTracker current={1} />
-      <div className="w-[60%] m-auto">
-        <h3 className="text-center">Order Summary</h3>
-        <span className="block text-center">Review items in your basket.</span>
+      <div className="w-[50%] m-auto">
+        <h3 className="text-3xl font-semibold text-center mb-2">
+          Order Summary
+        </h3>
+        <span className="text-gray-500 font-medium  block text-center">
+          Review items in your basket.
+        </span>
         <br />
         <div className="flex flex-col gap-4">
           {dummyData.map((product) => (
@@ -29,24 +37,24 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
           ))}
         </div>
         <br />
-        <div className="basket-total text-right">
-          <p className="basket-total-title">Subtotal:</p>
-          <h2 className="basket-total-amount">{subtotal}</h2>
+        <div className="text-right">
+          <p className="font-medium">Subtotal:</p>
+          <h2 className="my-2 font-bold">{subtotal || 200}</h2>
         </div>
         <br />
-        <div className="checkout-shipping-action">
+        <div className="flex items-center justify-between">
           <button
-            className="button button-muted"
+            className=" font-bold relative flex items-center py-2.5 px-3 rounded-md justify-center border-2 text-sm border-gray-200 bg-gray-100 text-gray-500"
             onClick={onClickPrevious}
             type="button"
           >
-            <BuildingStorefrontIcon className="w-7 h-7" />
+            <BuildingStorefrontIcon className="w-6 h-6" />
             &nbsp; Continue Shopping
           </button>
-          <button className="button" onClick={onClickNext} type="submit">
-            Next Step &nbsp;
-            <ArrowRightIcon className="w-7 h-7" />
-          </button>
+          <Button variant="default">
+            Next Step
+            <ArrowRightIcon className="w-5 h-5" />
+          </Button>
         </div>
       </div>
     </div>

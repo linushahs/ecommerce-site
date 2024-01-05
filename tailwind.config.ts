@@ -9,7 +9,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-
       colors: {
         primary: {
           DEFAULT: "#3b82f6",
@@ -25,6 +24,7 @@ const config: Config = {
           "900": "#1e3a8a",
           "950": "#172554",
         },
+
       },
 
       animation: {

@@ -9,15 +9,15 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
     <div className=" border border-gray-300 pr-4 rounded-md transition-transform ease-in duration-200 transform hover:scale-[1.02] flex gap-2 overflow-hidden">
       <BasketItemControl product={product} />
 
-      <div className="flex flex-1 items-center py-4">
-        <div className="w-24 h-24 mr-4 relative">
+      <div className="flex flex-1 items-center py-1.5">
+        <div className="w-28 h-28 mr-4 relative">
           <Image
             alt={product.name}
             className="w-full h-full object-contain"
             src={
-              "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70"
+              "https://firebasestorage.googleapis.com/v0/b/salinaka-ecommerce.appspot.com/o/products%2FcLGc3mcbZrK3Tl3yJ3xW?alt=media&token=44f74e92-f2ca-4af3-82f6-7a3bcace7f7a"
             }
-            width={200}
+            width={300}
             height={200}
           />
         </div>

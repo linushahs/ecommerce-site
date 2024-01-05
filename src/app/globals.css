@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../variables/_colors.css";
+
 a {
   text-decoration: none;
 }
 ul {
   list-style: none;
+}
+
+@layer base {
+  :root {
+    --navbar-height: 100px;
+  }
 }
