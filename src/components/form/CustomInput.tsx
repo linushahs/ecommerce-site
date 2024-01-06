@@ -1,13 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { CustomInputProps } from "./interface";
 
-const CustomInput: React.FC<CustomInputProps> = ({
-  label,
-  name,
-  register,
-  required = false,
-  ...props
-}) => (
+const CustomInput: React.ForwardRefRenderFunction<
+  HTMLInputElement,
+  CustomInputProps
+> = ({ label, name, register, required = false, ...props }, ref) => (
   <div className="flex flex-1 flex-col">
     <label className="label-input" htmlFor={name}>
       {label}
@@ -18,8 +15,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
       className="py-2 px-3 border border-[var(--border-color-focus)] rounded"
       {...register(name, { required })}
       {...props}
+      ref={ref}
     />
   </div>
 );
 
-export default CustomInput;
+export default forwardRef(CustomInput);

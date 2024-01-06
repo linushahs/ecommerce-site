@@ -2,14 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../variables/_colors.css";
+@import "../styles/_colors.css";
+@import "../styles/_sizes.css";
 
-a {
-  text-decoration: none;
-}
-ul {
-  list-style: none;
-}
+/* Checkout style  */
+@import "../styles/_checkout.css";
+@import "../styles/_basket.css";
 
 @layer base {
   :root {
@@ -20,5 +18,9 @@ ul {
 @layer components {
   .label-input {
     @apply font-medium mb-1.5 inline-block;
+  }
+
+  .checkout-step-title {
+    @apply text-3xl font-semibold text-center mb-2;
   }
 }

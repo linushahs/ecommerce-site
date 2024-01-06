@@ -23,9 +23,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
     <div className="w-full animation-slideUp mb-8">
       <StepTracker current={1} />
       <div className="w-[50%] m-auto">
-        <h3 className="text-3xl font-semibold text-center mb-2">
-          Order Summary
-        </h3>
+        <h3 className="checkout-step-title">Order Summary</h3>
         <span className="text-gray-500 font-medium  block text-center">
           Review items in your basket.
         </span>

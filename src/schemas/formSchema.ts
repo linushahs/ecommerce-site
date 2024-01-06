@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const FormSchema = z.object({
+const shipmentFormSchema = z.object({
     fullname: z.string({ required_error: 'Full name is required.' })
         .min(8, { message: 'Full name must be at least 8 characters long.' })
         .max(60, { message: 'Full name must only be less than 60 characters.' }),
@@ -23,4 +23,20 @@ const FormSchema = z.object({
     isDone: z.boolean(),
 });
 
-export { FormSchema };
+
+const paymentFormSchema = z.object({
+    name: z.string({ required_error: 'Name is required' }).min(4, { message: 'Name should be at least 4 characters.' }),
+    cardnumber: z.string()
+        .min(13, { message: 'Card number should be 13-19 digits long' })
+        .max(19, { message: 'Card number should only be 13-19 digits long' })
+    ,
+    expiry: z.date().refine(data => data !== null, { message: 'Credit card expiry is required.' }),
+    ccv: z.string()
+        .min(3, { message: 'CCV length should be 3-4 digit' })
+        .max(4, { message: 'CCV length should only be 3-4 digit' })
+    ,
+    type: z.string().refine(data => data !== null, { message: 'Please select payment mode' }),
+});
+
+
+export { shipmentFormSchema, paymentFormSchema };

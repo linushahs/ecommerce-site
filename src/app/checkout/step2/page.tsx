@@ -2,7 +2,7 @@
 
 import Button from "@/components/common/Button";
 import { CHECKOUT_STEP_1 } from "@/constants/routes";
-import { FormSchema } from "@/schemas/formSchema";
+import { shipmentFormSchema } from "@/schemas/formSchema";
 import { StepTracker } from "@/views/checkout/components";
 import { ShippingDetailsProps } from "@/views/checkout/interface";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
@@ -32,7 +32,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ShippingDetailsProps>({ resolver: zodResolver(FormSchema) });
+  } = useForm<ShippingDetailsProps>({
+    resolver: zodResolver(shipmentFormSchema),
+  });
 
   const onSubmitForm: SubmitHandler<FieldValues> = (formData) => {
     // Handle form submission logic here
@@ -43,9 +45,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     <div className="animation-slideUp mb-8">
       <StepTracker current={2} />
       <div className="w-1/2 mx-auto">
-        <h3 className="text-2xl font-semibold text-center mb-2">
-          Shipping Details
-        </h3>
+        <h3 className="checkout-step-title">Shipping Details</h3>
         <form onSubmit={handleSubmit(onSubmitForm)}>
           <ShippingForm />
           <br />

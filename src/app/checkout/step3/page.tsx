@@ -1,95 +1,64 @@
-import { CHECKOUT_STEP_1 } from '@/constants/routes';
-import { Form, Formik } from 'formik';
-import { displayActionMessage } from '@/helpers/utils';
-import { useDocumentTitle, useScrollTop } from '@/hooks';
-import PropType from 'prop-types';
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import * as Yup from 'yup';
-import { StepTracker } from '../../../views/checkout/components';
-import withCheckout from '../../../views/checkout/hoc/withCheckout';
-import CreditPayment from '../../../views/checkout/components/CreditPayment';
-import PayPalPayment from '../../../views/checkout/components/PayPalPayment';
-import Total from '../../../views/checkout/components/Total';
+"use client";
 
-const FormSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(4, 'Name should be at least 4 characters.')
-    .required('Name is required'),
-  cardnumber: Yup.string()
-    .min(13, 'Card number should be 13-19 digits long')
-    .max(19, 'Card number should only be 13-19 digits long')
-    .required('Card number is required.'),
-  expiry: Yup.date()
-    .required('Credit card expiry is required.'),
-  ccv: Yup.string()
-    .min(3, 'CCV length should be 3-4 digit')
-    .max(4, 'CCV length should only be 3-4 digit')
-    .required('CCV is required.'),
-  type: Yup.string().required('Please select paymend mode')
-});
+import { paymentFormSchema } from "@/schemas/formSchema";
+import {
+  CreditPayment,
+  PayPalPayment,
+  StepTracker,
+  Total,
+} from "@/views/checkout/components";
+import { PaymentProps } from "@/views/checkout/interface";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { FC } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-const Payment = ({ shipping, payment, subtotal }) => {
-  useDocumentTitle('Check Out Final Step | Salinaka');
-  useScrollTop();
+// const initPaymentValues = {
+//   defaultValues: {
+//     name: payment.name || "",
+//     cardnumber: payment.cardnumber || "",
+//     expiry: payment.expiry || "",
+//     ccv: payment.ccv || "",
+//     type: payment.type || "paypal",
+//   },
+// };
 
-  const initFormikValues = {
-    name: payment.name || '',
-    cardnumber: payment.cardnumber || '',
-    expiry: payment.expiry || '',
-    ccv: payment.ccv || '',
-    type: payment.type || 'paypal'
+const Payment: FC<PaymentProps> = ({ shipping, payment, subtotal }) => {
+  const router = useRouter();
+
+  const { register, handleSubmit, watch } = useForm({
+    resolver: zodResolver(paymentFormSchema),
+  });
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // Handle form submission here
+    // displayActionMessage("Feature not ready yet :)", "info");
+    console.log("submitted");
   };
 
-  const onConfirm = () => {
-    displayActionMessage('Feature not ready yet :)', 'info');
-  };
+  const selectedPaymentType = watch("type");
 
-  if (!shipping || !shipping.isDone) {
-    return <Redirect to={CHECKOUT_STEP_1} />;
-  }
+  // If payment type is PayPal, display a message (replace this with actual logic)
+  // if (selectedPaymentType === "paypal") {
+  //   displayActionMessage("Feature not ready yet :)", "info");
+  // }
+
+  // Redirect back if shipping information is not completed
+  // if (!shipping || !shipping.isDone) {
+  //   router.back();
+  // }
+
   return (
-    <div className="checkout">
+    <div className="checkout mb-8">
       <StepTracker current={3} />
-      <Formik
-        initialValues={initFormikValues}
-        validateOnChange
-        validationSchema={FormSchema}
-        validate={(form) => {
-          if (form.type === 'paypal') {
-            displayActionMessage('Feature not ready yet :)', 'info');
-          }
-        }}
-        onSubmit={onConfirm}
-      >
-        {() => (
-          <Form className="checkout-step-3">
-            <CreditPayment />
-            <PayPalPayment />
-            <Total
-              isInternational={shipping.isInternational}
-              subtotal={subtotal}
-            />
-          </Form>
-        )}
-      </Formik>
+      <form className="checkout-step-3" onSubmit={handleSubmit(onSubmit)}>
+        <CreditPayment register={register} />
+        <PayPalPayment />
+
+        <Total isInternational={false} subtotal={2000} />
+      </form>
     </div>
   );
 };
 
-Payment.propTypes = {
-  shipping: PropType.shape({
-    isDone: PropType.bool,
-    isInternational: PropType.bool
-  }).isRequired,
-  payment: PropType.shape({
-    name: PropType.string,
-    cardnumber: PropType.string,
-    expiry: PropType.string,
-    ccv: PropType.string,
-    type: PropType.string
-  }).isRequired,
-  subtotal: PropType.number.isRequired
-};
-
-export default withCheckout(Payment);
+export default Payment;

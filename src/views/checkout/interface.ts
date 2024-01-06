@@ -36,4 +36,19 @@ interface ShippingTotalProps {
   subtotal: number;
 }
 
-export type { OrderSummaryProps, ShippingDetailsProps, Profile, Mobile, ShippingTotalProps };
+interface PaymentProps {
+  shipping: {
+    isDone: boolean;
+    isInternational: boolean;
+  };
+  payment: {
+    name: string;
+    cardnumber: string;
+    expiry: string;
+    ccv: string;
+    type: string;
+  };
+  subtotal: number;
+}
+
+export type { OrderSummaryProps, ShippingDetailsProps, Profile, Mobile, ShippingTotalProps, PaymentProps };

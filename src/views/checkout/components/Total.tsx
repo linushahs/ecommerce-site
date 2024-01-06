@@ -1,63 +1,42 @@
-import { ArrowLeftOutlined, CheckOutlined } from '@ant-design/icons';
-import { CHECKOUT_STEP_2 } from '@/constants/routes';
-import { useFormikContext } from 'formik';
-import { displayMoney } from '@/helpers/utils';
-import PropType from 'prop-types';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { setPaymentDetails } from '@/redux/actions/checkoutActions';
+import { CHECKOUT_STEP_2 } from "@/constants/routes";
+import React from "react";
+import Button from "@/components/common/Button";
+import { CTotalProps } from "@/components/form/interface";
+import { ArrowLeftIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
-const Total = ({ isInternational, subtotal }) => {
-  const { values, submitForm } = useFormikContext();
-  const history = useHistory();
-  const dispatch = useDispatch();
+const Total: React.FC<CTotalProps> = ({ isInternational, subtotal }) => {
+  const router = useRouter();
+  // const dispatch = useDispatch();
 
   const onClickBack = () => {
     // destructure to only select left fields omitting cardnumber and ccv
-    const { cardnumber, ccv, ...rest } = values;
+    // const { cardnumber, ccv, ...rest } = values;
 
-    dispatch(setPaymentDetails({ ...rest })); // save payment details
-    history.push(CHECKOUT_STEP_2);
+    // dispatch(setPaymentDetails({ ...rest })); // save payment details
+    router.push(CHECKOUT_STEP_2);
   };
 
   return (
     <>
-      <div className="basket-total text-right">
+      <div className="basket-total text-right pb-1">
         <p className="basket-total-title">Total:</p>
         <h2 className="basket-total-amount">
-          {displayMoney(subtotal + (isInternational ? 50 : 0))}
+          {subtotal + (isInternational ? 50 : 0)}
         </h2>
       </div>
-      <br />
       <div className="checkout-shipping-action">
-        <button
-          className="button button-muted"
-          onClick={() => onClickBack(values)}
-          type="button"
-        >
-          <ArrowLeftOutlined />
-          &nbsp;
+        <Button variant="muted" onClick={onClickBack} type="button">
+          <ArrowLeftIcon className="w-5 h-5" />
           Go Back
-        </button>
-        <button
-          className="button"
-          disabled={false}
-          onClick={submitForm}
-          type="button"
-        >
-          <CheckOutlined />
-          &nbsp;
+        </Button>
+        <Button disabled={false} type="button">
+          <CheckIcon className="w-5 h-5" />
           Confirm
-        </button>
+        </Button>
       </div>
     </>
   );
-};
-
-Total.propTypes = {
-  isInternational: PropType.bool.isRequired,
-  subtotal: PropType.number.isRequired
 };
 
 export default Total;

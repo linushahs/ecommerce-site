@@ -1,3 +1,4 @@
+import { PaymentProps } from "@/views/checkout/interface";
 import { InputHTMLAttributes } from "react";
 import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
@@ -28,4 +29,13 @@ interface CustomInputProps<TFieldValues extends FieldValues = FieldValues>
     required?: boolean;
 }
 
-export type { CustomInputProps, CustomMobileInputProps, CheckboxProps }
+interface CPaymentProps {
+    register: UseFormRegister<any>;
+}
+
+interface CTotalProps {
+    isInternational?: boolean;
+    subtotal: number
+}
+
+export type { CustomInputProps, CustomMobileInputProps, CheckboxProps, CPaymentProps, CTotalProps }

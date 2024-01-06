@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 const ShippingTotal: React.FC<ShippingTotalProps> = ({ subtotal = 2000 }) => {
   return (
-    <div className="flex justify-end my-0 pr-4">
+    <div className="flex justify-end my-0">
       <table>
         <tbody>
           {renderRow("International Shipping:", "$0.00")}
