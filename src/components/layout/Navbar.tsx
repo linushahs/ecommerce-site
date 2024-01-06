@@ -8,15 +8,15 @@ const menuVariants = {
     "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500",
 };
 
-const menus = ["home", "products"];
+const menus = ["home", "shop"];
 
 function Navbar() {
   return (
-    <nav className="bg-[#eee] dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-gray-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b-2 border-gray-200 dark:border-gray-600">
+      <div className="container flex flex-wrap items-center justify-between py-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="text-black self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            <Image src="/images/logo.svg" alt="logo" width={140} height={50}/>
+            <Image src="/images/logo.svg" alt="logo" width={140} height={50} />
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:items-center rtl:space-x-reverse">

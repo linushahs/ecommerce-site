@@ -23,4 +23,8 @@
   .checkout-step-title {
     @apply text-3xl font-semibold text-center mb-2;
   }
+
+  .container {
+    @apply max-w-screen-xl mx-auto;
+  }
 }
