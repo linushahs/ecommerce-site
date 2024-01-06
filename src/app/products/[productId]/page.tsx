@@ -1,7 +1,7 @@
 "use client";
 
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { productData } from "components/utils/constants";
+import { productData } from "@/constants";
 import Image from "next/image";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";

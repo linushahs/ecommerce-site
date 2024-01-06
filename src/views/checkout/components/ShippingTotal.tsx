@@ -1,59 +1,37 @@
-import { useFormikContext } from 'formik';
-import { displayMoney } from '@/helpers/utils';
-import PropType from 'prop-types';
-import React from 'react';
+import React from "react";
+import { ShippingTotalProps } from "../interface";
+import { twMerge } from "tailwind-merge";
 
-const ShippingTotal = ({ subtotal }) => {
-  const { values } = useFormikContext();
-
+const ShippingTotal: React.FC<ShippingTotalProps> = ({ subtotal = 2000 }) => {
   return (
-    <div className="checkout-total d-flex-end padding-right-m">
+    <div className="flex justify-end my-0 pr-4">
       <table>
         <tbody>
-          <tr>
-            <td>
-              <span className="d-block margin-0 padding-right-s text-right">
-                International Shipping: &nbsp;
-              </span>
-            </td>
-            <td>
-              <h4 className="basket-total-amount text-subtle text-right margin-0 ">
-                {values.isInternational ? '$50.00' : '$0.00'}
-              </h4>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span className="d-block margin-0 padding-right-s text-right">
-                Subtotal: &nbsp;
-              </span>
-            </td>
-            <td>
-              <h4 className="basket-total-amount text-subtle text-right margin-0">
-                {displayMoney(subtotal)}
-              </h4>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span className="d-block margin-0 padding-right-s text-right">
-                Total: &nbsp;
-              </span>
-            </td>
-            <td>
-              <h2 className="basket-total-amount text-right">
-                {displayMoney(Number(subtotal) + (values.isInternational ? 50 : 0))}
-              </h2>
-            </td>
-          </tr>
+          {renderRow("International Shipping:", "$0.00")}
+          {renderRow("Subtotal:", `$${subtotal.toFixed(2)}`)}
+          {renderRow("Total:", `$${subtotal.toFixed(2)}`)}
         </tbody>
       </table>
     </div>
   );
 };
 
-ShippingTotal.propTypes = {
-  subtotal: PropType.number.isRequired
-};
+const renderRow = (label: string, amount: string) => (
+  <tr key={label}>
+    <td>
+      <span className="block m-0 pr-2 text-right">{label}</span>
+    </td>
+    <td>
+      <h4
+        className={twMerge(
+          "my-2 mx-0 text-right text-gray-500 font-semibold",
+          label.includes("Total") && "text-xl text-black"
+        )}
+      >
+        {amount}
+      </h4>
+    </td>
+  </tr>
+);
 
 export default ShippingTotal;

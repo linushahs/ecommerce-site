@@ -16,3 +16,9 @@ ul {
     --navbar-height: 100px;
   }
 }
+
+@layer components {
+  .label-input {
+    @apply font-medium mb-1.5 inline-block;
+  }
+}

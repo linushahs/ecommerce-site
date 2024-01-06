@@ -1,134 +1,76 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable no-nested-ternary */
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Boundary } from '@/components/common';
-import { CHECKOUT_STEP_1, CHECKOUT_STEP_3 } from '@/constants/routes';
-import { Form, Formik } from 'formik';
-import { useDocumentTitle, useScrollTop } from '@/hooks';
-import PropType from 'prop-types';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { setShippingDetails } from '@/redux/actions/checkoutActions';
-import * as Yup from 'yup';
-import { StepTracker } from '../components';
-import withCheckout from '../hoc/withCheckout';
-import ShippingForm from '../../../views/checkout/components/ShippingForm';
-import ShippingTotal from '../../../views/checkout/components/ShippingTotal';
+"use client";
 
-const FormSchema = Yup.object().shape({
-  fullname: Yup.string()
-    .required('Full name is required.')
-    .min(2, 'Full name must be at least 2 characters long.')
-    .max(60, 'Full name must only be less than 60 characters.'),
-  email: Yup.string()
-    .email('Email is not valid.')
-    .required('Email is required.'),
-  address: Yup.string()
-    .required('Shipping address is required.'),
-  mobile: Yup.object()
-    .shape({
-      country: Yup.string(),
-      countryCode: Yup.string(),
-      dialCode: Yup.string().required('Mobile number is required'),
-      value: Yup.string().required('Mobile number is required')
-    })
-    .required('Mobile number is required.'),
-  isInternational: Yup.boolean(),
-  isDone: Yup.boolean()
-});
+import Button from "@/components/common/Button";
+import { CHECKOUT_STEP_1 } from "@/constants/routes";
+import { FormSchema } from "@/schemas/formSchema";
+import { StepTracker } from "@/views/checkout/components";
+import { ShippingDetailsProps } from "@/views/checkout/interface";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import ShippingForm from "../../../views/checkout/components/ShippingForm";
+import ShippingTotal from "../../../views/checkout/components/ShippingTotal";
 
-const ShippingDetails = ({ profile, shipping, subtotal }) => {
-  useDocumentTitle('Check Out Step 2 | Salinaka');
-  useScrollTop();
-  const dispatch = useDispatch();
-  const history = useHistory();
+// const initialShippingFormValues = { defaultValues: {
+//       fullname: shipping.fullname || profile.fullname || '',
+//       email: shipping.email || profile.email || '',
+//       address: shipping.address || profile.address || '',
+//       mobile: shipping.mobile || profile.mobile || {},
+//       isInternational: shipping.isInternational || false,
+//       isDone: shipping.isDone || false,
+//     }};
 
-  const initFormikValues = {
-    fullname: shipping.fullname || profile.fullname || '',
-    email: shipping.email || profile.email || '',
-    address: shipping.address || profile.address || '',
-    mobile: shipping.mobile || profile.mobile || {},
-    isInternational: shipping.isInternational || false,
-    isDone: shipping.isDone || false
-  };
+const ShippingDetails: React.FC<ShippingDetailsProps> = ({
+  profile,
+  shipping,
+  subtotal,
+}) => {
+  const router = useRouter();
 
-  const onSubmitForm = (form) => {
-    dispatch(setShippingDetails({
-      fullname: form.fullname,
-      email: form.email,
-      address: form.address,
-      mobile: form.mobile,
-      isInternational: form.isInternational,
-      isDone: true
-    }));
-    history.push(CHECKOUT_STEP_3);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ShippingDetailsProps>({ resolver: zodResolver(FormSchema) });
+
+  const onSubmitForm: SubmitHandler<FieldValues> = (formData) => {
+    // Handle form submission logic here
+    console.log(formData);
   };
 
   return (
-    <Boundary>
-      <div className="checkout">
-        <StepTracker current={2} />
-        <div className="checkout-step-2">
-          <h3 className="text-center">Shipping Details</h3>
-          <Formik
-            initialValues={initFormikValues}
-            validateOnChange
-            validationSchema={FormSchema}
-            onSubmit={onSubmitForm}
-          >
-            {() => (
-              <Form>
-                <ShippingForm />
-                <br />
-                {/*  ---- TOTAL --------- */}
-                <ShippingTotal subtotal={subtotal} />
-                <br />
-                {/*  ----- NEXT/PREV BUTTONS --------- */}
-                <div className="checkout-shipping-action">
-                  <button
-                    className="button button-muted"
-                    onClick={() => history.push(CHECKOUT_STEP_1)}
-                    type="button"
-                  >
-                    <ArrowLeftOutlined />
-                    &nbsp;
-                    Go Back
-                  </button>
-                  <button
-                    className="button button-icon"
-                    type="submit"
-                  >
-                    Next Step
-                    &nbsp;
-                    <ArrowRightOutlined />
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
+    <div className="animation-slideUp mb-8">
+      <StepTracker current={2} />
+      <div className="w-1/2 mx-auto">
+        <h3 className="text-2xl font-semibold text-center mb-2">
+          Shipping Details
+        </h3>
+        <form onSubmit={handleSubmit(onSubmitForm)}>
+          <ShippingForm />
+          <br />
+          {/*  ---- TOTAL --------- */}
+          <ShippingTotal subtotal={subtotal} />
+          <br />
+          {/*  ----- NEXT/PREV BUTTONS --------- */}
+          <div className="flex items-center justify-between">
+            <Button
+              variant="muted"
+              onClick={() => router.push(CHECKOUT_STEP_1)}
+              type="button"
+            >
+              <ArrowLeftIcon className="w-5 h-5" />
+              Go Back
+            </Button>
+            <Button type="submit">
+              Next Step
+              <ArrowRightIcon className="w-5 h-5" />
+            </Button>
+          </div>
+        </form>
       </div>
-    </Boundary>
+    </div>
   );
 };
 
-ShippingDetails.propTypes = {
-  subtotal: PropType.number.isRequired,
-  profile: PropType.shape({
-    fullname: PropType.string,
-    email: PropType.string,
-    address: PropType.string,
-    mobile: PropType.object
-  }).isRequired,
-  shipping: PropType.shape({
-    fullname: PropType.string,
-    email: PropType.string,
-    address: PropType.string,
-    mobile: PropType.object,
-    isInternational: PropType.bool,
-    isDone: PropType.bool
-  }).isRequired
-};
-
-export default withCheckout(ShippingDetails);
+export default ShippingDetails;

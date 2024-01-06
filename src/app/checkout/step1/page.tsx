@@ -1,19 +1,18 @@
 "use client";
 
-import { BasketItem } from "components/basket";
 import { CHECKOUT_STEP_2 } from "@/constants/routes";
 import {
   ArrowRightIcon,
   BuildingStorefrontIcon,
 } from "@heroicons/react/24/outline";
+import { BasketItem } from "components/basket";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 
-import withCheckout from "../../../views/checkout/hoc/withCheckout";
-import { OrderSummaryProps } from "views/checkout/interface";
+import Button from "@/components/common/Button";
 import { dummyData } from "@/constants";
 import { StepTracker } from "@/views/checkout/components";
-import Button from "@/components/common/Button";
+import { OrderSummaryProps } from "views/checkout/interface";
 
 const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
   const router = useRouter();
@@ -43,15 +42,11 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
         </div>
         <br />
         <div className="flex items-center justify-between">
-          <button
-            className=" font-bold relative flex items-center py-2.5 px-3 rounded-md justify-center border-2 text-sm border-gray-200 bg-gray-100 text-gray-500"
-            onClick={onClickPrevious}
-            type="button"
-          >
+          <Button variant="muted" onClick={onClickPrevious} type="button">
             <BuildingStorefrontIcon className="w-6 h-6" />
-            &nbsp; Continue Shopping
-          </button>
-          <Button variant="default">
+            Continue Shopping
+          </Button>
+          <Button variant="default" onClick={onClickNext}>
             Next Step
             <ArrowRightIcon className="w-5 h-5" />
           </Button>

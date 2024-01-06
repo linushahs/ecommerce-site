@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 type ButtonProps = {
-  variant:
+  variant?:
     | "default"
     | "disabled"
     | "link"
@@ -20,7 +20,7 @@ const variants = {
   disabled: "opacity-50 cursor-not-allowed",
   link: "bg-none text-[var(--black)] border-none hover:bg-none hover:border-none",
   muted:
-    "bg-[var(--background-color-01)] text-[var(--paragraph-color)] border border-[var(--border-color)] hover:bg-[var(--background-color)] hover:border-[var(--border-color-focus)]",
+    "py-2 px-3 rounded-md bg-[var(--background-color-01)] text-[var(--paragraph-color)] border border-[var(--border-color)] hover:bg-[var(--background-color)] hover:border-[var(--border-color-focus)]",
   block: "block w-full",
   border:
     "bg-transparent border border-[var(--button-color)] text-[var(--button-color)] hover:bg-[var(--border-color)] hover:border-[var(--button-color)]",
@@ -32,7 +32,10 @@ const variants = {
 
 const Button: React.FC<ButtonProps> = ({ variant = "default", ...props }) => {
   return (
-    <button className={twMerge("flex gap-2 items-center", variants[variant])} {...props}>
+    <button
+      className={twMerge("flex gap-2 items-center", variants[variant])}
+      {...props}
+    >
       {props.children}
     </button>
   );

@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 const StepTracker = ({ current }: { current: number }) => {
   return (
     <div className="relative flex justify-center mt-[var(--navbar-height)] mb-12 z-10 w-1/2 mx-auto">
-      <ul className="w-1/2 flex justify-between items-center relative md:w-full">
+      <ul className="w-full flex justify-between items-center">
         {[1, 2, 3].map((step) => (
           <li
             key={step}
@@ -19,11 +19,7 @@ const StepTracker = ({ current }: { current: number }) => {
             )}
           >
             <div className="step rounded-full w-10 h-10 flex justify-center items-center font-medium">
-              {step < current ? (
-                <CheckCircleIcon className="w-7 h-7 " />
-              ) : (
-                step
-              )}
+              {step < current ? <CheckCircleIcon className="w-7 h-7 " /> : step}
             </div>
             <h6 className="subtitle  mt-2 mb-0">
               {step === 1 && "Order Summary"}
