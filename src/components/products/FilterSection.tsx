@@ -27,7 +27,7 @@ const FilterOption: React.FC<
 const FilterSection: React.FC<{ section: SectionProps }> = ({
   section: { id, name, options },
 }) => (
-  <Disclosure as="div" key={id} className="border-t border-gray-200 py-6">
+  <Disclosure as="div" key={id} defaultOpen={id === "color"} className="border-t border-gray-200 py-6">
     {({ open }: { open: boolean }) => (
       <>
         <h3 className="-mx-2 -my-3 flow-root">

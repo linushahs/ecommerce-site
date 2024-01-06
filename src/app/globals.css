@@ -1,17 +1,26 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-a {
-  text-decoration: none;
+@import "../styles/_colors.css";
+@import "../styles/_sizes.css";
+
+/* Checkout style  */
+@import "../styles/_checkout.css";
+@import "../styles/_basket.css";
+
+@layer base {
+  :root {
+    --navbar-height: 100px;
+  }
 }
-ul {
-  list-style: none;
-}
-button {
-  border: none;
-  outline: none;
-  cursor: pointer;
+
+@layer components {
+  .label-input {
+    @apply font-medium mb-1.5 inline-block;
+  }
+
+  .checkout-step-title {
+    @apply text-3xl font-semibold text-center mb-2;
+  }
 }
