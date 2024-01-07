@@ -26,14 +26,22 @@ const variants = {
     "bg-transparent border border-[var(--button-color)] text-[var(--button-color)] hover:bg-[var(--border-color)] hover:border-[var(--button-color)]",
   danger: "bg-red text-[var(--white)] hover:bg-[var(--red-darker)]",
   borderGray:
-    "border border-[var(--border-color)] text-[var(--paragraph-color)] hover:border-[var(--border-color)] hover:bg-[var(--border-color)]",
+    "rounded-md py-1.5 px-3 border border-[var(--border-color)] text-[var(--paragraph-color)] hover:border-[var(--border-color)] hover:bg-[var(--button-color-01)]",
   small: "text-[var(--font-small)] p-[var(--s-size)] p-[var(--m-size)]",
 };
 
-const Button: React.FC<ButtonProps> = ({ variant = "default", ...props }) => {
+const Button: React.FC<ButtonProps> = ({
+  className,
+  variant = "default",
+  ...props
+}) => {
   return (
     <button
-      className={twMerge("flex gap-2 items-center", variants[variant])}
+      className={twMerge(
+        "flex gap-2 items-center",
+        variants[variant],
+        className
+      )}
       {...props}
     >
       {props.children}

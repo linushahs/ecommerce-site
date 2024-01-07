@@ -27,7 +27,12 @@ const FilterOption: React.FC<
 const FilterSection: React.FC<{ section: SectionProps }> = ({
   section: { id, name, options },
 }) => (
-  <Disclosure as="div" key={id} defaultOpen={id === "color"} className="border-t border-gray-200 py-6">
+  <Disclosure
+    as="div"
+    key={id}
+    defaultOpen={id === "color"}
+    className="border-t border-gray-200 py-6"
+  >
     {({ open }: { open: boolean }) => (
       <>
         <h3 className="-mx-2 -my-3 flow-root">
@@ -46,7 +51,7 @@ const FilterSection: React.FC<{ section: SectionProps }> = ({
           <div className="space-y-4">
             {options.map((option, optionIdx) => (
               <FilterOption
-                key={option.value}
+                key={optionIdx}
                 id={id}
                 optionIdx={optionIdx}
                 {...option}

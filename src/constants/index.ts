@@ -83,7 +83,7 @@ const sortOptions = [
   { name: "Price: High to Low", href: "#", current: false },
 ];
 
-const dummyData: Product[] = [
+const basketOfProduct: Product[] = [
   {
 
     id: "1",
@@ -275,5 +275,5 @@ const footMenu: IFootMenu[] = [
 
 
 
-export { dummyData, filters, footMenu, productData, productItems, sortOptions, subCategories };
+export { basketOfProduct, filters, footMenu, productData, productItems, sortOptions, subCategories };
 

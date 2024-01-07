@@ -14,8 +14,11 @@ const ProductGrid: React.FC = () => {
   return (
     <div className="lg:col-span-4">
       <main className="grid gap-4 grid-cols-4 ">
-        {productItems.map((data) => (
-          <div className="p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden">
+        {productItems.map((data, id) => (
+          <div
+            key={id}
+            className="p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden"
+          >
             <div
               className="flex items-center justify-center "
               onClick={() => router.push("/products/1")}

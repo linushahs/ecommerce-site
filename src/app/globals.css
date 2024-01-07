@@ -6,8 +6,8 @@
 @import "../styles/_sizes.css";
 
 /* Checkout style  */
-@import "../styles/_checkout.css";
 @import "../styles/_basket.css";
+@import "../styles/_checkout.css";
 
 @layer base {
   :root {
