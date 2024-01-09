@@ -5,7 +5,8 @@ import Image from "next/image";
 import { ProductCardProps } from "./interface";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { addToBasket } from "@/redux/slices/basketSlice";
+import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
+import { toast } from "sonner";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { imageUrl, id, name, price } = product;
@@ -13,6 +14,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.basket);
   const isAddedToBasket = products.some((p) => p.id === product.id);
+
+  const handleRemoveBasket = () => {
+    dispatch(removeFromBasket(product.id));
+
+    toast.error("Product has been removed", {
+      action: {
+        label: "Undo",
+        onClick: () => dispatch(addToBasket(product)),
+      },
+    });
+  };
+
+  const handleAddToBasket = () => {
+    dispatch(addToBasket(product));
+
+    toast.success("Product has been added");
+  };
 
   return (
     <div
@@ -47,11 +65,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </span>
             <span className="text-[17px] font-bold">{price}</span>
           </div>
-          <button onClick={() => dispatch(addToBasket(product))}>
+          <button>
             {isAddedToBasket ? (
-              <ShoppingBagIconSolid className="w-6 h-6" />
+              <ShoppingBagIconSolid
+                className="w-6 h-6"
+                onClick={handleRemoveBasket}
+              />
             ) : (
-              <ShoppingBagIcon className="w-6 h-6" />
+              <ShoppingBagIcon
+                className="w-6 h-6"
+                onClick={handleAddToBasket}
+              />
             )}
           </button>
         </div>

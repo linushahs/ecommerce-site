@@ -7,7 +7,8 @@ import { BasketContentProps } from "./interface";
 import { twMerge } from "tailwind-merge";
 import { CHECKOUT_STEP_1 } from "@/constants/routes";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { clearBasket } from "@/redux/slices/basketSlice";
 
 const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   // const { isOpenModal, onOpenModal, onCloseModal } = useModal();
@@ -16,6 +17,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   //   user: state.auth
   // }));
   const products = useAppSelector((state) => state.basket);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   // const { pathname } = useLocation();
   // const dispatch = useDispatch();
@@ -37,11 +39,11 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   //   history.push(CHECKOUT_STEP_1);
   // };
 
-  // const onClearBasket = () => {
-  //   if (basket.length !== 0) {
-  //     dispatch(clearBasket());
-  //   }
-  // };O
+  const onClearBasket = () => {
+    if (products.length !== 0) {
+      dispatch(clearBasket());
+    }
+  };
 
   {
     /* <Modal
@@ -76,10 +78,10 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
         <div className="basket-header mb-6">
           <h3 className="basket-header-title">
             My Basket &nbsp;
-            {/* <span>
-              ({` ${basket.length} ${basket.length > 1 ? "items" : "item"}`})
-            </span> */}
-            <span className="text-sm font-medium">(4 items)</span>
+            <span className="text-sm font-medium">
+              ({` ${products.length} ${products.length > 1 ? "items" : "item"}`}
+              )
+            </span>
           </h3>
 
           <div className="flex border border-gray-300 rounded overflow-hidden  *:rounded-none">
@@ -94,8 +96,8 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             <Button
               variant="borderGray"
               className="border-0"
-              // disabled={basket.length === 0}
-              // onClick={onClearBasket}
+              disabled={products.length === 0}
+              onClick={onClearBasket}
               type="button"
             >
               Clear Basket
@@ -107,7 +109,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             <h5 className="basket-empty-msg">Your basket is empty</h5>
           </div>
         )}
-        <div className="flex flex-col-reverse gap-3">
+        <div className="flex flex-col gap-3">
           {products.map((product, i) => (
             <BasketItem key={product.id} product={product} />
           ))}
