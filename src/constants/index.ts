@@ -1,4 +1,4 @@
-import { Product } from "@/components/basket/interface";
+import { Product } from "@/components/products/interface";
 
 interface IFootMenu {
   id: number;
@@ -90,7 +90,7 @@ const basketOfProduct: Product[] = [
     name: "Product 1",
     brand: "Brand A",
     price: 19.99,
-    quantity: 2,
+    quantity: 1,
     maxQuantity: 10,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     keywords: ["keyword1", "keyword2"],
@@ -99,7 +99,7 @@ const basketOfProduct: Product[] = [
     imageCollection: ["image1.jpg", "image2.jpg"],
     sizes: [1, 2, 3],
     image: "main_image.jpg",
-    imageUrl: "https://example.com/product1.jpg",
+    imageUrl: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
     isFeatured: true,
     isRecommended: false,
     availableColors: ["Blue", "Red", "Green"],
@@ -120,7 +120,7 @@ const basketOfProduct: Product[] = [
     imageCollection: ["image3.jpg", "image4.jpg"],
     sizes: [2, 3, 4],
     image: "main_image2.jpg",
-    imageUrl: "https://example.com/product2.jpg",
+    imageUrl: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
     isFeatured: false,
     isRecommended: true,
     availableColors: ["Red", "Black", "White"],
@@ -132,7 +132,7 @@ const basketOfProduct: Product[] = [
     name: "Product 3",
     brand: "Brand C",
     price: 39.99,
-    quantity: 3,
+    quantity: 1,
     maxQuantity: 8,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     keywords: ["keyword5", "keyword6"],
@@ -141,38 +141,11 @@ const basketOfProduct: Product[] = [
     imageCollection: ["image5.jpg", "image6.jpg"],
     sizes: [1, 2, 3],
     image: "main_image3.jpg",
-    imageUrl: "https://example.com/product3.jpg",
+    imageUrl: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
     isFeatured: true,
     isRecommended: true,
     availableColors: ["Green", "Yellow", "Blue"],
 
-  },
-];
-
-const productItems = [
-  {
-    url: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
-    headTitle: "air zoom pegasus",
-    price1: "$990.00",
-    price2: "$749.00",
-  },
-  {
-    url: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
-    headTitle: "air zoom pegasus",
-    price1: "$453.00",
-    price2: "$562.00",
-  },
-  {
-    url: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
-    headTitle: "air zoom pegasus",
-    price1: "$576.00",
-    price2: "$688.00",
-  },
-  {
-    url: "https://rukminim2.flixcart.com/image/832/832/xif0q/shoe/5/l/r/-original-imagpb4zsezbzxft.jpeg?q=70",
-    headTitle: "air zoom pegasus",
-    price1: "$798.00",
-    price2: "$895.00",
   },
 ];
 
@@ -274,6 +247,5 @@ const footMenu: IFootMenu[] = [
 ];
 
 
-
-export { basketOfProduct, filters, footMenu, productData, productItems, sortOptions, subCategories };
+export { basketOfProduct, filters, footMenu, productData, sortOptions, subCategories };
 

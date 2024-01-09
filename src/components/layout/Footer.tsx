@@ -1,14 +1,16 @@
-import { FormEvent, useState } from "react";
+"use client";
+
+import { FormEvent } from "react";
 import { footMenu } from "@/constants";
 import SocialIcons from "../utils/SocialIcons";
 import Image from "next/image";
 
 const Footer = () => {
-  const [subValue, setSubValue] = useState("");
+  // const [subValue, setSubValue] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setSubValue("");
+    // setSubValue("");
     alert("Thankyou, you are subscribed to receive our daily newsletter");
   };
 
@@ -27,14 +29,14 @@ const Footer = () => {
             Subscribe to our Email alerts to receive early discount offers, and
             new products info.
           </p>
-          <form onSubmit={handleSubmit}>
+          <form>
             <input
               type="email"
               className="bg-gray-100 border border-gray-300 w-full px-3 py-2 rounded-md  "
               placeholder="Email Address*"
               required
-              value={subValue}
-              onChange={(e) => setSubValue(e.target.value)}
+              // value={subValue}
+              // onChange={(e) => setSubValue(e.target.value)}
             />
             <button
               type="submit"

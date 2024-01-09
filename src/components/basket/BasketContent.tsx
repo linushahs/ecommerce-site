@@ -5,6 +5,10 @@ import { basketOfProduct } from "@/constants";
 import { Button } from "../common";
 import { BasketContentProps } from "./interface";
 import { twMerge } from "tailwind-merge";
+import { CHECKOUT_STEP_1 } from "@/constants/routes";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { clearBasket } from "@/redux/slices/basketSlice";
 
 const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   // const { isOpenModal, onOpenModal, onCloseModal } = useModal();
@@ -12,19 +16,22 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   //   basket: state.basket,
   //   user: state.auth
   // }));
-  // const router = useRouter();
+  const products = useAppSelector((state) => state.basket);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   // const { pathname } = useLocation();
   // const dispatch = useDispatch();
   // const didMount = useDidMount();
 
-  // const onCheckOut = () => {
-  //   if ((basket.length !== 0 && user)) {
-  //     document.body.classList.remove('is-basket-open');
-  //     history.push(CHECKOUT_STEP_1);
-  //   } else {
-  //     onOpenModal();
-  //   }
-  // };
+  const onCheckOut = () => {
+    // if ((basket.length !== 0 && user)) {
+    // document.body.classList.remove('is-basket-open');
+    onClose(); //close the basket
+    router.push(CHECKOUT_STEP_1);
+    // } else {
+    //   onOpenModal();
+    // }
+  };
 
   // const onSignInClick = () => {
   //   onCloseModal();
@@ -32,11 +39,11 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   //   history.push(CHECKOUT_STEP_1);
   // };
 
-  // const onClearBasket = () => {
-  //   if (basket.length !== 0) {
-  //     dispatch(clearBasket());
-  //   }
-  // };O
+  const onClearBasket = () => {
+    if (products.length !== 0) {
+      dispatch(clearBasket());
+    }
+  };
 
   {
     /* <Modal
@@ -71,10 +78,10 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
         <div className="basket-header mb-6">
           <h3 className="basket-header-title">
             My Basket &nbsp;
-            {/* <span>
-              ({` ${basket.length} ${basket.length > 1 ? "items" : "item"}`})
-            </span> */}
-            <span className="text-sm font-medium">(4 items)</span>
+            <span className="text-sm font-medium">
+              ({` ${products.length} ${products.length > 1 ? "items" : "item"}`}
+              )
+            </span>
           </h3>
 
           <div className="flex border border-gray-300 rounded overflow-hidden  *:rounded-none">
@@ -89,21 +96,21 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             <Button
               variant="borderGray"
               className="border-0"
-              // disabled={basket.length === 0}
-              // onClick={onClearBasket}
+              disabled={products.length === 0}
+              onClick={onClearBasket}
               type="button"
             >
               Clear Basket
             </Button>
           </div>
         </div>
-        {basketOfProduct.length <= 0 && (
+        {products.length <= 0 && (
           <div className="basket-empty">
             <h5 className="basket-empty-msg">Your basket is empty</h5>
           </div>
         )}
         <div className="flex flex-col gap-3">
-          {basketOfProduct.map((product, i) => (
+          {products.map((product, i) => (
             <BasketItem key={product.id} product={product} />
           ))}
         </div>
@@ -120,7 +127,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
         </div>
         <Button
           // disabled={basket.length === 0 || pathname === "/checkout"}
-          // onClick={onCheckOut}
+          onClick={onCheckOut}
           type="button"
         >
           Check Out

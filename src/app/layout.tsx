@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import { Provider } from "react-redux";
 import "../styles/_basket.css";
 import "./globals.css";
+import { Toaster } from "@/components/common/Toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,8 @@ export default function RootLayout({
           {children}
           <Footer />
         </Provider>
+
+        <Toaster richColors />
       </body>
     </html>
   );

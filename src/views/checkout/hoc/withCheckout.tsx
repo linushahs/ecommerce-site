@@ -1,27 +1,26 @@
-/* eslint-disable no-nested-ternary */
-import { SIGNIN } from '@/constants/routes';
-import { calculateTotal } from '@/helpers/utils';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Redirect, withRouter } from 'react-router-dom';
+import { SIGNIN } from "@/constants/routes";
+import { useAppSelector } from "@/redux/store";
+import React from "react";
 
-const withCheckout = (Component) => withRouter((props) => {
-  const state = useSelector((store) => ({
-    isAuth: !!store.auth.id && !!store.auth.role,
+const withCheckout = (Component: React.ReactElement) => (props) => {
+  const state = useAppSelector((store) => ({
+    // isAuth: !!store.auth.id && !!store.auth.role,
     basket: store.basket,
-    shipping: store.checkout.shipping,
-    payment: store.checkout.payment,
-    profile: store.profile
+    // shipping: store.checkout.shipping,
+    // payment: store.checkout.payment,
+    // profile: store.profile,
   }));
 
-  const shippingFee = state.shipping.isInternational ? 50 : 0;
-  const subtotal = calculateTotal(state.basket.map((product) => product.price * product.quantity));
-
+  // const shippingFee = state.shipping.isInternational ? 50 : 0;
+  const subtotal = state.basket.reduce(
+    (initial, product) => initial + product.price * product.quantity,
+    0
+  );
   if (!state.isAuth) {
     return <Redirect to={SIGNIN} />;
-  } if (state.basket.length === 0) {
+  } else if (state.basket.length === 0) {
     return <Redirect to="/" />;
-  } if (state.isAuth && state.basket.length !== 0) {
+  } else {
     return (
       <Component
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -34,7 +33,6 @@ const withCheckout = (Component) => withRouter((props) => {
       />
     );
   }
-  return null;
-});
+};
 
 export default withCheckout;

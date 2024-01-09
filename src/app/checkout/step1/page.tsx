@@ -13,11 +13,14 @@ import Button from "@/components/common/Button";
 import { basketOfProduct } from "@/constants";
 import { StepTracker } from "@/views/checkout/components";
 import { OrderSummaryProps } from "views/checkout/interface";
+import { useAppSelector } from "@/redux/store";
 
 const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
   const router = useRouter();
   const onClickPrevious = () => router.push("/");
   const onClickNext = () => router.push(CHECKOUT_STEP_2);
+
+  const products = useAppSelector((state) => state.basket);
 
   return (
     <div className="w-full animation-slideUp mb-8">
@@ -29,7 +32,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
         </span>
         <br />
         <div className="flex flex-col gap-4">
-          {basketOfProduct.map((product) => (
+          {products.map((product) => (
             <BasketItem key={product.id} product={product} />
           ))}
         </div>
