@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 import Button from "@/components/common/Button";
-import { dummyData } from "@/constants";
+import { basketOfProduct } from "@/constants";
 import { StepTracker } from "@/views/checkout/components";
 import { OrderSummaryProps } from "views/checkout/interface";
 
@@ -29,7 +29,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
         </span>
         <br />
         <div className="flex flex-col gap-4">
-          {dummyData.map((product) => (
+          {basketOfProduct.map((product) => (
             <BasketItem key={product.id} product={product} />
           ))}
         </div>

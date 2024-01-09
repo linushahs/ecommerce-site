@@ -17,8 +17,8 @@ export default function ProductPage() {
   //   };
 
   return (
-    <main className="mt-24">
-      <div className="max-w-screen-xl flex gap-12 mx-auto px-4">
+    <main className="mt-[var(--navbar-height)]">
+      <div className="container flex gap-12">
         <div className="w-[40%] flex flex-col gap-4">
           <Image
             src={productData[currentProductImage].png}

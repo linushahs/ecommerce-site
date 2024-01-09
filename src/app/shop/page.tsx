@@ -1,11 +1,13 @@
 "use client";
 
 import { filters, sortOptions, subCategories } from "@/constants/";
+import { FunnelIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
 import {
-  FunnelIcon,
-  Squares2X2Icon
-} from "@heroicons/react/20/solid";
-import {MobileFilterDialog, ProductGrid, SortMenu, FilterSection} from "components/products";
+  MobileFilterDialog,
+  ProductGrid,
+  SortMenu,
+  FilterSection,
+} from "components/products";
 import { useState } from "react";
 
 export default function Example() {
@@ -20,14 +22,14 @@ export default function Example() {
           onClose={() => setMobileFiltersOpen(false)}
         />
 
-        <main className="mx-auto max-w-screen-xl px-4">
+        <main className="container">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
               New Arrivals
             </h1>
 
             <div className="flex items-center">
-              <SortMenu sortOptions={sortOptions}/>
+              <SortMenu sortOptions={sortOptions} />
 
               <button
                 type="button"
@@ -67,8 +69,8 @@ export default function Example() {
                   ))}
                 </ul>
 
-                {filters.map((section) => (
-                  <FilterSection section={section} />
+                {filters.map((section, id) => (
+                  <FilterSection key={id} section={section} />
                 ))}
               </form>
 

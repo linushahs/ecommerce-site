@@ -1,5 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import BasketToggle from "../basket/BasketToggle";
+import Button from "../common/Button";
+import Badge from "../common/Badge";
+import { Basket } from "../basket";
+import { Overlay } from "../common";
 
 const menuVariants = {
   default:
@@ -8,15 +13,15 @@ const menuVariants = {
     "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500",
 };
 
-const menus = ["home", "products"];
+const menus = ["home", "shop"];
 
 function Navbar() {
   return (
-    <nav className="bg-[#eee] dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-gray-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b-2 border-gray-200 dark:border-gray-600">
+      <div className="container flex flex-wrap items-center justify-between py-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="text-black self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            <Image src="/images/logo.svg" alt="logo" width={140} height={50}/>
+            <Image src="/images/logo.svg" alt="logo" width={140} height={50} />
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:items-center rtl:space-x-reverse">
@@ -34,20 +39,27 @@ function Navbar() {
           </Link>
 
           {/* cart button --------------  */}
-          <Link href="/cart">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="16"
-              width="18"
-              viewBox="0 0 576 512"
-              className="w-6 h-6 text-gray-600"
-            >
-              <path
-                d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
-                fill="currentColor"
-              />
-            </svg>
-          </Link>
+          <Basket>
+            <BasketToggle>
+              <Badge count={2}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="16"
+                  width="18"
+                  viewBox="0 0 576 512"
+                  className="w-6 h-6 text-gray-600"
+                >
+                  <path
+                    d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </Badge>
+            </BasketToggle>
+          </Basket>
+
+          {/* navbar menu: bars for mobile screen ------------------ */}
+          {/* --------------------------------------------------- */}
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
@@ -65,9 +77,9 @@ function Navbar() {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>

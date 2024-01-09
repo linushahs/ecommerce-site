@@ -47,5 +47,8 @@ const config: Config = {
     },
   },
   plugins: [require("@tailwindcss/forms")],
+  corePlugins: {
+    container: false
+  }
 };
 export default config;
