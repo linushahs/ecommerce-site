@@ -5,6 +5,9 @@ import { basketOfProduct } from "@/constants";
 import { Button } from "../common";
 import { BasketContentProps } from "./interface";
 import { twMerge } from "tailwind-merge";
+import { CHECKOUT_STEP_1 } from "@/constants/routes";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
 
 const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   // const { isOpenModal, onOpenModal, onCloseModal } = useModal();
@@ -12,19 +15,21 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   //   basket: state.basket,
   //   user: state.auth
   // }));
-  // const router = useRouter();
+  const products = useAppSelector((state) => state.basket);
+  const router = useRouter();
   // const { pathname } = useLocation();
   // const dispatch = useDispatch();
   // const didMount = useDidMount();
 
-  // const onCheckOut = () => {
-  //   if ((basket.length !== 0 && user)) {
-  //     document.body.classList.remove('is-basket-open');
-  //     history.push(CHECKOUT_STEP_1);
-  //   } else {
-  //     onOpenModal();
-  //   }
-  // };
+  const onCheckOut = () => {
+    // if ((basket.length !== 0 && user)) {
+    // document.body.classList.remove('is-basket-open');
+    onClose(); //close the basket
+    router.push(CHECKOUT_STEP_1);
+    // } else {
+    //   onOpenModal();
+    // }
+  };
 
   // const onSignInClick = () => {
   //   onCloseModal();
@@ -97,13 +102,13 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             </Button>
           </div>
         </div>
-        {basketOfProduct.length <= 0 && (
+        {products.length <= 0 && (
           <div className="basket-empty">
             <h5 className="basket-empty-msg">Your basket is empty</h5>
           </div>
         )}
-        <div className="flex flex-col gap-3">
-          {basketOfProduct.map((product, i) => (
+        <div className="flex flex-col-reverse gap-3">
+          {products.map((product, i) => (
             <BasketItem key={product.id} product={product} />
           ))}
         </div>
@@ -120,7 +125,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
         </div>
         <Button
           // disabled={basket.length === 0 || pathname === "/checkout"}
-          // onClick={onCheckOut}
+          onClick={onCheckOut}
           type="button"
         >
           Check Out

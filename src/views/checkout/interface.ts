@@ -1,4 +1,4 @@
-import { Product } from "@/components/basket/interface";
+import { Product } from "@/components/products/interface";
 
 interface OrderSummaryProps {
   basket: Product[];
