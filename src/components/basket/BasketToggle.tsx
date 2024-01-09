@@ -1,4 +1,6 @@
-import React, { ReactNode } from "react";
+"use client";
+
+import React from "react";
 import { Button } from "../common";
 import { BasketToggleProps } from "./interface";
 

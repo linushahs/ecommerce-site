@@ -1,21 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import BasketToggle from "../basket/BasketToggle";
-import Button from "../common/Button";
-import Badge from "../common/Badge";
 import { Basket } from "../basket";
-import { Overlay } from "../common";
+import BasketToggle from "../basket/BasketToggle";
+import Badge from "../common/Badge";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 
 const menuVariants = {
   default:
     "capitalize block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700",
   active:
-    "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500",
+    "capitalize block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500",
 };
 
-const menus = ["home", "shop"];
+const menus = [
+  { title: "home", path: "/" },
+  { title: "shop", path: "/shop" },
+];
 
 function Navbar() {
+  const params = usePathname();
+
   return (
     <nav className="bg-gray-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b-2 border-gray-200 dark:border-gray-600">
       <div className="container flex flex-wrap items-center justify-between py-4">
@@ -90,14 +96,16 @@ function Navbar() {
           id="navbar-sticky"
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-200 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            {menus.map((menu) => (
-              <li key={menu}>
+            {menus.map(({ title, path }) => (
+              <li key={title}>
                 <Link
-                  href={menu === "home" ? "/" : `/${menu}`}
-                  className={menuVariants.default}
+                  href={path}
+                  className={
+                    params === path ? menuVariants.active : menuVariants.default
+                  }
                   aria-current="page"
                 >
-                  {menu}
+                  {title}
                 </Link>
               </li>
             ))}

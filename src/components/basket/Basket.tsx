@@ -1,7 +1,9 @@
-import React, { useState, ReactNode, ReactElement } from "react";
-import { BasketContentProps, BasketToggleProps } from "./interface";
-import Overlay, { OverlayProps } from "../common/Overlay";
+"use client";
+
+import React, { ReactElement, ReactNode, useState } from "react";
 import { BasketContent, BasketToggle } from ".";
+import Overlay from "../common/Overlay";
+import { BasketToggleProps } from "./interface";
 
 interface BasketProps {
   children: ReactNode;
