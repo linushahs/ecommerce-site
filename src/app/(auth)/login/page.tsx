@@ -1,7 +1,15 @@
 "use client";
-import React from "react";
+import { useLoginMutation } from "@/redux/api/authSlice.api";
+import React, { useEffect } from "react";
 
 function LoginPage() {
+  const [login, { data, isLoading }] = useLoginMutation();
+
+  useEffect(() => {
+    login({ email: "sun@gmail.com", password: "asadasd123" });
+  }, []);
+
+  console.log(data);
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">

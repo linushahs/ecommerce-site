@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layout/Footer";
-import store from "@/redux/store";
+import { store } from "@/redux/store";
 import Navbar from "components/layout/Navbar";
 import { Inter } from "next/font/google";
 import { Provider } from "react-redux";

@@ -20,8 +20,6 @@ const Basket: React.FC<BasketProps> = ({ children }) => {
     ReactElement<BasketToggleProps>
   ];
 
-  console.log(isOpen);
-
   return (
     <div>
       <Overlay isOpen={isOpen} onClose={handleToggle} />
