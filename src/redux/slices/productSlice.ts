@@ -2,15 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { rootDomain } from "../../apis/info";
 import { AppDispatch } from "../store";
+import { Product } from "@/components/products/interface";
+import { basketOfProduct } from "@/constants";
 
-// Define the initial state
-interface ProductState {
-  products: any[]; // Update the type according to your data structure
-}
 
-const initialState: ProductState = {
-  products: [],
-};
+const initialState: Product[] = basketOfProduct;
 
 // Create a slice
 const productSlice = createSlice({
@@ -18,7 +14,7 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     storeProducts(state, action: PayloadAction<any[]>) {
-      state.products = action.payload;
+      state = action.payload;
     },
   },
 });

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
 import { toast } from "sonner";
+import { VIEW_PRODUCT } from "@/constants/routes";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { imageUrl, id, name, price } = product;
@@ -39,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     >
       <div
         className="flex items-center justify-center "
-        onClick={() => router.push("/products/1")}
+        onClick={() => router.push(`/product/${id}`)}
       >
         <Image
           src={imageUrl}

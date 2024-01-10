@@ -12,6 +12,7 @@ const basketSlice = createSlice({
         setBasketItems: (state, action: PayloadAction<Product[]>) => {
             return action.payload;
         },
+
         addToBasket: (state, action: PayloadAction<Product>) => {
             if (state.some((product) => product.id === action.payload.id)) {
                 return state;
@@ -48,8 +49,7 @@ export const {
     addToBasket,
     removeFromBasket,
     clearBasket,
-    addQtyItem,
-    minusQtyItem,
+    addQtyItem, minusQtyItem,
 } = basketSlice.actions;
 
 // Export Reducer

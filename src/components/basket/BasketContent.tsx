@@ -1,14 +1,13 @@
 "use client";
 
 import { BasketItem } from "@/components/basket";
-import { basketOfProduct } from "@/constants";
+import { CHECKOUT_STEP_1 } from "@/constants/routes";
+import { clearBasket } from "@/redux/slices/basketSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useRouter } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 import { Button } from "../common";
 import { BasketContentProps } from "./interface";
-import { twMerge } from "tailwind-merge";
-import { CHECKOUT_STEP_1 } from "@/constants/routes";
-import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { clearBasket } from "@/redux/slices/basketSlice";
 
 const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   // const { isOpenModal, onOpenModal, onCloseModal } = useModal();
@@ -110,7 +109,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
           </div>
         )}
         <div className="flex flex-col gap-3">
-          {products.map((product, i) => (
+          {products.map((product) => (
             <BasketItem key={product.id} product={product} />
           ))}
         </div>

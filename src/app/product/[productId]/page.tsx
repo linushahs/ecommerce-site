@@ -5,19 +5,25 @@ import { productData } from "@/constants";
 import Image from "next/image";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-// import { Lightbox } from "./Lightbox";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { addToBasket } from "@/redux/slices/basketSlice";
+import { useParams } from "next/navigation";
 
 export default function ProductPage() {
-  const [currentProductImage, setCurrentProductImage] = useState(0);
-  const [lightbox, setLightbox] = useState(false);
+  const params = useParams();
+  const dispatch = useAppDispatch();
 
-  //   const handleAddToCart = () => {
-  //     setCartProductQuantity((prevState) => prevState + productQuantity);
-  //     setProductQuantity(0);
-  //   };
+  console.log(params);
+  const products = useAppSelector((state) => state.product);
+  const productItem = products.filter((p) => p.id === params.productId)[0];
+  const [currentProductImage, setCurrentProductImage] = useState(0);
+
+  const handleAddToCart = () => {
+    dispatch(addToBasket(productItem));
+  };
 
   return (
-    <main className="mt-[var(--navbar-height)]">
+    <main className="mt-[var(--navbar-height)] mb-12">
       <div className="container flex gap-12">
         <div className="w-[40%] flex flex-col gap-4">
           <Image
@@ -50,25 +56,23 @@ export default function ProductPage() {
         {/* product description -----------------------------  */}
         <div className="flex-1 py-15 mt-6">
           <p className="uppercase tracking-wide text-orange-500">
-            Sneaker Company
+            {productItem.brand}{" "}
           </p>
-          <h1 className="font-bold text-[36px]">
-            Fall Limited Edition Sneakers
-          </h1>
+          <h1 className="font-bold text-[36px]">{productItem.name}</h1>
           <p className="fw-400  text-base text-gray-500">
-            These low-profile sneakers are your perfect casual wear companion.
-            Featuring a durable rubber outer sole, they&apos;ll withstand
-            everything the weather can offer.
+            {productItem.description}
           </p>
           <div className="my-4">
             <div className="flex items-center mb-2 gap-4 ">
-              <span className="font-medium  text-lg">$125.00</span>
+              <span className="font-medium  text-lg">{productItem.price}</span>
               <span className=" font-medium text-base text-orange-500">
                 50%
               </span>
             </div>
 
-            <span className="font-medium text-base line-through">$250.00</span>
+            <span className="font-medium text-base line-through">
+              {productItem.price}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -78,7 +82,7 @@ export default function ProductPage() {
               <PlusIcon className="w-7 h-7 cursor-pointer" />
             </div>
             <button
-              //   onClick={handleAddToCart}
+              onClick={handleAddToCart}
               className=" flex font-medium text-base items-center justify-center cursor-pointer py-2 px-4 rounded-md bg-primary text-white shadow-md gap-2"
             >
               <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg">
