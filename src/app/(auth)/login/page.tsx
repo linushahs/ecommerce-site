@@ -1,15 +1,40 @@
 "use client";
+
 import { useLoginMutation } from "@/redux/api/authSlice.api";
-import React, { useEffect } from "react";
+import { LoginFormInputs, loginSchema } from "@/schemas/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { twMerge } from "tailwind-merge";
 
 function LoginPage() {
-  const [login, { data, isLoading }] = useLoginMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  useEffect(() => {
-    login({ email: "sun@gmail.com", password: "asadasd123" });
-  }, []);
+  const [login, { data, error, isError, isLoading }] = useLoginMutation();
 
-  console.log(data);
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    try {
+      console.log(data);
+      // Perform login mutation
+      await login(data);
+      // Handle successful login
+    } catch (error) {
+      // Handle login error
+      console.log(error);
+    }
+  };
+
+  if (isError) {
+    toast.error(error?.detail || "");
+  }
+
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -20,60 +45,75 @@ function LoginPage() {
                 Sign in to your account
               </h1>
               {/* form begins  */}
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={handleSubmit(onSubmit)}
+              >
                 {/* email box */}
                 <div>
                   <label
-                    typeof="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    htmlFor="email"
+                    className="block mb-2 font-medium text-gray-900 dark:text-white"
                   >
                     Your email
                   </label>
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    type="text"
+                    {...register("email", { required: true })}
+                    className={twMerge(
+                      "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 ",
+                      errors.email &&
+                        "border-red-500 focus:ring-red-500 focus:border-0"
+                    )}
                     placeholder="name@company.com"
-                    required
                   />
+                  {errors.email && (
+                    <span className="text-sm  text-red-500">
+                      {errors.email.message}
+                    </span>
+                  )}
                 </div>
                 {/* password box */}
                 <div>
                   <label
-                    typeof="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    htmlFor="password"
+                    className="block mb-2 font-medium text-gray-900 dark:text-white"
                   >
                     Password
                   </label>
                   <input
                     type="password"
-                    name="password"
-                    id="password"
+                    {...register("password", { required: true })}
                     placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
+                    className={twMerge(
+                      "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-0 ",
+                      errors.password &&
+                        "border-red-500 focus:ring-red-500 focus:border-0"
+                    )}
                   />
+                  {errors.password && (
+                    <span className="text-sm  text-red-500">
+                      {errors.password.message}
+                    </span>
+                  )}
                 </div>
                 {/* remember me:- checkbox and forgot password  */}
+                {/* ------------------------------------- */}
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-start">
-                    <div className="flex items-center h-5">
+                    <label
+                      htmlFor="remember"
+                      className="text-gray-500 dark:text-gray-300"
+                    >
                       <input
                         id="remember"
                         aria-describedby="remember"
                         type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                        className="w-4 h-4 mr-2 border border-gray-300 rounded bg-gray-50 focus:ring-1 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       />
-                    </div>
-                    <div className="ml-3 text-sm">
-                      <label
-                        typeof="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
-                        Remember me
-                      </label>
-                    </div>
+                      Remember me
+                    </label>
                   </div>
                   <a
                     href="#"
@@ -82,7 +122,9 @@ function LoginPage() {
                     Forgot password?
                   </a>
                 </div>
-                {/* sign in and submit */}
+
+                {/* sign in and submit ------------------*/}
+                {/* ------------------------------------- */}
                 <button
                   type="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

@@ -1,6 +1,15 @@
-import React from "react";
+"use client";
+
+import { useRegisterMutation } from "@/redux/api/authSlice.api";
+import React, { useEffect } from "react";
 
 function SignupPage() {
+  const [register, { isLoading }] = useRegisterMutation();
+
+  useEffect(() => {
+    register({ fullName: "Asd", email: "Asd", password: "adsdasdasd" });
+  }, []);
+
   return (
     <div className="mt-[40px]">
       <section className="bg-gray-50 dark:bg-gray-900">
