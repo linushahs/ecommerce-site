@@ -1,5 +1,4 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { CheckIcon } from "@heroicons/react/24/solid";
 import { twMerge } from "tailwind-merge";
 
 const StepTracker = ({ current }: { current: number }) => {

@@ -1,9 +1,11 @@
 "use client";
 
+import { FORGOT_PASSWORD } from "@/constants/routes";
 import { useLoginMutation } from "@/redux/api/authSlice.api";
 import { LoginFormInputs, loginSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
@@ -115,12 +117,12 @@ function LoginPage() {
                       Remember me
                     </label>
                   </div>
-                  <a
-                    href="#"
+                  <Link
+                    href={FORGOT_PASSWORD}
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
 
                 {/* sign in and submit ------------------*/}
