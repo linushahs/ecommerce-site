@@ -21,11 +21,7 @@ import ShippingTotal from "../../../views/checkout/components/ShippingTotal";
 //       isDone: shipping.isDone || false,
 //     }};
 
-const ShippingDetails: React.FC<ShippingDetailsProps> = ({
-  profile,
-  shipping,
-  subtotal,
-}) => {
+const ShippingDetails = () => {
   const router = useRouter();
 
   const {
@@ -50,7 +46,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           <ShippingForm />
           <br />
           {/*  ---- TOTAL --------- */}
-          <ShippingTotal subtotal={subtotal} />
+          <ShippingTotal subtotal={300} />
           <br />
           {/*  ----- NEXT/PREV BUTTONS --------- */}
           <div className="flex items-center justify-between">

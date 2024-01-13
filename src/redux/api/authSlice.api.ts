@@ -2,6 +2,8 @@
 import { BASE_API_URL } from '@/constants/api.constants'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
+import { LoginFormInputs, RegisterFormInputs } from '@/schemas/auth.schema'
+import { LoginAuthResponse, RegisterAuthResponse } from '../interface'
 
 // Define a service using a base URL and expected endpoints
 export const authApi = createApi({
@@ -18,14 +20,14 @@ export const authApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        login: builder.mutation({
+        login: builder.mutation<LoginAuthResponse, LoginFormInputs>({
             query: (body) => ({
                 url: "/auth/login/",
                 method: "POST",
                 body
             })
         }),
-        register: builder.mutation({
+        register: builder.mutation<RegisterAuthResponse, RegisterFormInputs>({
             query: (body) => ({
                 url: "/auth/",
                 method: "POST",

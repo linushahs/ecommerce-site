@@ -19,7 +19,8 @@ function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const [login, { data, error, isError, isLoading }] = useLoginMutation();
+  const [login, { data: loginResponse, error, isError, isLoading }] =
+    useLoginMutation();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
@@ -34,7 +35,8 @@ function LoginPage() {
   };
 
   if (isError) {
-    toast.error(error?.detail || "");
+    console.log(error);
+    toast.error((error as any).detail || "");
   }
 
   return (

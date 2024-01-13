@@ -8,7 +8,7 @@ const ProductGrid: React.FC = () => {
     <div className="lg:col-span-4">
       <main className="grid gap-4 grid-cols-4 ">
         {basketOfProduct.map((data) => (
-          <ProductCard product={data} />
+          <ProductCard key={data.id} product={data} />
         ))}
       </main>
     </div>

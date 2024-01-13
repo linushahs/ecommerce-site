@@ -8,10 +8,10 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import Stepper from "./Stepper";
+import Stepper from "@/components/common/Stepper";
 import { VERIFY } from "@/constants/routes";
 
-function page() {
+function ForgotPasswordPage() {
   const {
     register,
     handleSubmit,
@@ -20,7 +20,8 @@ function page() {
     resolver: zodResolver(loginSchema),
   });
 
-  const [login, { data, error, isError, isLoading }] = useLoginMutation();
+  const [login, { data: loginResponse, error, isError, isLoading }] =
+    useLoginMutation();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
@@ -34,15 +35,11 @@ function page() {
     }
   };
 
-  if (isError) {
-    toast.error(error?.detail || "");
-  }
-
   return (
-    <section>
+    <section className="py-10 bg-gray-50">
       <Stepper current={1} />
 
-      <div className="bg-gray-50 py-8 dark:bg-gray-900">
+      <div className=" py-8 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -50,8 +47,8 @@ function page() {
                 Forgot Password?
               </h1>
               <span className="text-[14px] text-gray-400">
-                No problem, click on 'forgot password' and we'll guide you
-                through the process of resetting it
+                No problem, click on &apos;forgot password&apos; and we&apos;ll
+                guide you through the process of resetting it
               </span>
               {/* form begins  */}
               <form
@@ -101,4 +98,4 @@ function page() {
   );
 }
 
-export default page;
+export default ForgotPasswordPage;

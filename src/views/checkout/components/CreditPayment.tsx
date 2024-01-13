@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable no-else-return */
 import { CustomInput } from "@/components/form";
 import { CPaymentProps } from "@/components/form/interface";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const CreditPayment: FC<CPaymentProps> = ({ register }) => {
+const CreditPayment: FC<CPaymentProps> = ({ register, errors }) => {
   const [values, setValues] = useState({ type: "credit" });
   const collapseContainerRef = useRef<HTMLDivElement>(null);
   const cardInputRef = useRef<HTMLInputElement>(null);
@@ -31,7 +29,7 @@ const CreditPayment: FC<CPaymentProps> = ({ register }) => {
 
   useEffect(() => {
     toggleCollapse();
-  }, [values.type]);
+  }, []);
 
   const onCreditModeChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -116,6 +114,7 @@ const CreditPayment: FC<CPaymentProps> = ({ register }) => {
                   placeholder="Jane Doe"
                   ref={cardInputRef}
                   register={register}
+                  errors={errors}
                 />
               </div>
               <div className="checkout-field">
@@ -126,6 +125,7 @@ const CreditPayment: FC<CPaymentProps> = ({ register }) => {
                   label="Card Number*"
                   register={register}
                   placeholder="Enter your card number"
+                  errors={errors}
                 />
               </div>
             </div>
@@ -137,6 +137,7 @@ const CreditPayment: FC<CPaymentProps> = ({ register }) => {
                   label="Expiry Date*"
                   register={register}
                   placeholder="Enter your expiry date"
+                  errors={errors}
                 />
               </div>
               <div className="checkout-field">
@@ -147,6 +148,7 @@ const CreditPayment: FC<CPaymentProps> = ({ register }) => {
                   maxLength={4}
                   label="CCV*"
                   placeholder="****"
+                  errors={errors}
                 />
               </div>
             </div>

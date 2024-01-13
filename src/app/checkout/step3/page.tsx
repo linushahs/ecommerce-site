@@ -7,10 +7,8 @@ import {
   StepTracker,
   Total,
 } from "@/views/checkout/components";
-import { PaymentProps } from "@/views/checkout/interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { FC } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 // const initPaymentValues = {
@@ -23,10 +21,15 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 //   },
 // };
 
-const Payment: FC<PaymentProps> = ({ shipping, payment, subtotal }) => {
+const Payment = () => {
   const router = useRouter();
 
-  const { register, handleSubmit, watch } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(paymentFormSchema),
   });
 
@@ -52,7 +55,7 @@ const Payment: FC<PaymentProps> = ({ shipping, payment, subtotal }) => {
     <div className="checkout mb-8">
       <StepTracker current={3} />
       <form className="checkout-step-3" onSubmit={handleSubmit(onSubmit)}>
-        <CreditPayment register={register} />
+        <CreditPayment register={register} errors={errors} />
         <PayPalPayment />
 
         <Total isInternational={false} subtotal={2000} />

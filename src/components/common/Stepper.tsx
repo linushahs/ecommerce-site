@@ -1,9 +1,7 @@
-import { FORGOT_PASSWORD } from "@/constants/routes";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { CheckIcon } from "@heroicons/react/24/solid";
 import { twMerge } from "tailwind-merge";
 
-const StepTracker = ({ current }: { current: number }) => {
+const Stepper = ({ current }: { current: number }) => {
   return (
     <div className="relative flex justify-center mt-[var(--navbar-height)] top-4 mb-8 z-10 w-1/2 mx-auto">
       <ul className="flex justify-between items-center">
@@ -30,4 +28,4 @@ const StepTracker = ({ current }: { current: number }) => {
   );
 };
 
-export default StepTracker;
+export default Stepper;

@@ -11,7 +11,7 @@
 
 @layer base {
   :root {
-    --navbar-height: 100px;
+    --navbar-height: 50px;
   }
 }
 
@@ -27,4 +27,9 @@
   .container {
     @apply max-w-screen-xl mx-auto;
   }
+}
+
+/* input: number style -----------  */
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
 }

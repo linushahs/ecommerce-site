@@ -7,15 +7,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { BasketItem } from "components/basket";
 import { useRouter } from "next/navigation";
-import { FC } from "react";
 
 import Button from "@/components/common/Button";
-import { basketOfProduct } from "@/constants";
-import { StepTracker } from "@/views/checkout/components";
-import { OrderSummaryProps } from "views/checkout/interface";
 import { useAppSelector } from "@/redux/store";
+import { StepTracker } from "@/views/checkout/components";
 
-const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
+const OrderSummary = () => {
   const router = useRouter();
   const onClickPrevious = () => router.push("/");
   const onClickNext = () => router.push(CHECKOUT_STEP_2);
@@ -39,7 +36,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ basket, subtotal }) => {
         <br />
         <div className="text-right">
           <p className="font-medium">Subtotal:</p>
-          <h2 className="my-2 font-bold">{subtotal || 200}</h2>
+          <h2 className="my-2 font-bold">{200}</h2>
         </div>
         <br />
         <div className="flex items-center justify-between">

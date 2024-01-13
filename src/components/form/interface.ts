@@ -1,6 +1,6 @@
 import { PaymentProps } from "@/views/checkout/interface";
 import { InputHTMLAttributes } from "react";
-import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -21,16 +21,17 @@ interface CustomMobileInputProps<
     setValue: UseFormSetValue<TFieldValues>;
 }
 
-interface CustomInputProps<TFieldValues extends FieldValues = FieldValues>
-    extends InputHTMLAttributes<HTMLInputElement> {
+interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     name: string;
-    register: UseFormRegister<TFieldValues>;
+    register: UseFormRegister<any>;
     required?: boolean;
+    errors: FieldErrors
 }
 
 interface CPaymentProps {
     register: UseFormRegister<any>;
+    errors: FieldErrors;
 }
 
 interface CTotalProps {

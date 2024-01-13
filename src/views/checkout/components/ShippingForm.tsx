@@ -6,7 +6,12 @@ import { useForm } from "react-hook-form";
 const checkoutFieldset = "flex gap-4 items-center mt-6";
 
 const ShippingForm = () => {
-  const { register, control, setValue } = useForm();
+  const {
+    register,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm();
   // const { values } = useFormState({ control });
   // const isInternational = useWatch({
   //   control,
@@ -23,12 +28,14 @@ const ShippingForm = () => {
             label="Full Name*"
             placeholder="Enter your full name"
             register={register}
+            errors={errors}
           />
           <CustomInput
             name="email"
             label="Email Address*"
             placeholder="Enter your email address"
             register={register}
+            errors={errors}
           />
         </div>
         <div className={checkoutFieldset}>
@@ -37,6 +44,7 @@ const ShippingForm = () => {
             label="Shipping Address*"
             placeholder="Enter full shipping address"
             register={register}
+            errors={errors}
           />
           <CustomMobileInput setValue={setValue} />
         </div>

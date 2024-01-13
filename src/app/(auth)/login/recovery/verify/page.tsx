@@ -1,18 +1,20 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Stepper from "../forgot-password/Stepper";
+import React, { useState, useEffect, useRef, ChangeEvent } from "react";
+import Stepper from "@/components/common/Stepper";
 
-function page() {
+function VerifyPage() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60); // Timer in seconds
+  const inputRefs = useRef<HTMLInputElement>(null);
+
   const otpLength = 6;
 
-  const handleChange = (e, index) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
 
     if (e.target.value !== "" && index < otpLength - 1) {
-      document.getElementById(`otp-input-${index + 1}`).focus();
+      inputRefs.current && (inputRefs.current as any).focus();
     }
 
     setOtp(newOtp);
@@ -28,10 +30,10 @@ function page() {
   }, []);
 
   return (
-    <section>
+    <section className="py-10 bg-gray-50 ">
       <Stepper current={2} />
-      <div className="py-6 flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 rounded shadow-md w-[450px]">
+      <div className="py-6 flex items-center justify-center ">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[450px]">
           <h2 className="text-2xl font-bold mb-4">OTP Verification</h2>
           <p className="text-gray-400 mb-4">
             To continue, please enter the 6-digit code in the email address we
@@ -42,11 +44,12 @@ function page() {
             {Array.from({ length: otpLength }, (_, index) => (
               <input
                 key={index}
-                type="text"
+                type="number"
                 id={`otp-input-${index}`}
+                ref={inputRefs}
                 value={otp[index]}
                 onChange={(e) => handleChange(e, index)}
-                maxLength="1"
+                maxLength={1}
                 className="w-12 h-12 text-3xl border-2 border-gray-300 rounded-md text-center"
               />
             ))}
@@ -63,7 +66,6 @@ function page() {
               {timer > 0 ? `Expires in 00:${timer}` : "Expired"}
             </div>
 
-            {/* {timer === 0 && ( */}
             <div>
               <button
                 onClick={() => {
@@ -75,7 +77,6 @@ function page() {
                 Re-send Code
               </button>
             </div>
-            {/* )} */}
           </div>
         </div>
       </div>
@@ -83,4 +84,4 @@ function page() {
   );
 }
 
-export default page;
+export default VerifyPage;

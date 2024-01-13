@@ -1,13 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { LoginAuthResponse } from "../interface";
 
-interface AuthState {
-  otp_verified: boolean,
-  email: string,
-  accessToken: string,
-  refreshToken: string
-}
 
-const initialState: AuthState = {
+const initialState: LoginAuthResponse = {
   otp_verified: false,
   email: "",
   accessToken: "",
@@ -18,7 +13,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (_, action: PayloadAction<AuthState>) => {
+    setCredentials: (_, action: PayloadAction<LoginAuthResponse>) => {
       return action.payload;
     }
   },

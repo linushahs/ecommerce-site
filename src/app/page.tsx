@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="h-full mb-8">
-      <div className="container flex justify-between w-full mt-[var(--navbar-height)] bg-slate-50 rounded-lg overflow-hidden">
+      <div className="container flex justify-between w-full mt-[calc(var(--navbar-height)+50px)] bg-slate-50 rounded-lg overflow-hidden">
         <div className="flex items-start flex-col justify-center p-14 ">
           <h1 className=" text-7xl mb-4 w-[80%]">
             <strong>See</strong>
