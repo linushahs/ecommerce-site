@@ -1,10 +1,13 @@
 "use client";
 
+import { Button } from "@/components/common";
 import Stepper from "@/components/common/Stepper";
 import { CustomInput } from "@/components/form";
+import { VERIFY } from "@/constants/routes";
 import { useRequestPwResetMutation } from "@/redux/api/authSlice.api";
 import { ForgotPwInput, forgotPwSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,16 +19,18 @@ function ForgotPasswordPage() {
   } = useForm<ForgotPwInput>({
     resolver: zodResolver(forgotPwSchema),
   });
+  const router = useRouter();
 
   const [reqPwResetMutation, { data, error, isError, isLoading }] =
     useRequestPwResetMutation();
 
   const onSubmit: SubmitHandler<ForgotPwInput> = async (data) => {
     try {
-      console.log(data);
-      // Perform login mutation
-      await reqPwResetMutation(data);
+      await reqPwResetMutation(data).unwrap();
+
       // Handle successful login
+      toast.success("OTP Sent to registered email");
+      router.push(VERIFY);
     } catch (error) {
       // Handle login error
       console.log(error);
@@ -65,12 +70,11 @@ function ForgotPasswordPage() {
                   placeholder="name@gmail.com"
                 />
                 {/* Submit  */}
-                <button
-                  type="submit"
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  Help Recover my Account
-                </button>
+                <Button variant="form" type="submit" isLoading={isLoading}>
+                Help Recover my Account
+              </Button>
+                
+                
               </form>
             </div>
           </div>

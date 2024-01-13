@@ -1,14 +1,16 @@
 "use client";
 
+import { Button } from "@/components/common";
+import { CustomInput } from "@/components/form";
 import { FORGOT_PASSWORD } from "@/constants/routes";
 import { useLoginMutation } from "@/redux/api/authSlice.api";
+import { setCredentials } from "@/redux/slices/authSlice";
 import { LoginFormInputs, loginSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { twMerge } from "tailwind-merge";
 
 function LoginPage() {
   const {
@@ -18,18 +20,18 @@ function LoginPage() {
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
   });
+  const router = useRouter();
 
-  const [login, { data: loginResponse, error, isError, isLoading }] =
+  const [login, {  error, isError, isLoading }] =
     useLoginMutation();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
-      console.log(data);
-      // Perform login mutation
-      await login(data);
-      // Handle successful login
+      const res = await login(data).unwrap();
+      setCredentials(res);
+      toast.success("You are succesfully logged in.");
+      router.push("/shop");
     } catch (error) {
-      // Handle login error
       console.log(error);
     }
   };
@@ -53,53 +55,22 @@ function LoginPage() {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 {/* email box */}
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 font-medium text-gray-900 dark:text-white"
-                  >
-                    Your email
-                  </label>
-                  <input
-                    type="text"
-                    {...register("email", { required: true })}
-                    className={twMerge(
-                      "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 ",
-                      errors.email &&
-                        "border-red-500 focus:ring-red-500 focus:border-0"
-                    )}
-                    placeholder="name@company.com"
-                  />
-                  {errors.email && (
-                    <span className="text-sm  text-red-500">
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
+                <CustomInput
+                  name="email"
+                  register={register}
+                  errors={errors}
+                  label="Email"
+                  placeholder="name@gmail.com"
+                />
                 {/* password box */}
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 font-medium text-gray-900 dark:text-white"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    {...register("password", { required: true })}
-                    placeholder="••••••••"
-                    className={twMerge(
-                      "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-0 ",
-                      errors.password &&
-                        "border-red-500 focus:ring-red-500 focus:border-0"
-                    )}
-                  />
-                  {errors.password && (
-                    <span className="text-sm  text-red-500">
-                      {errors.password.message}
-                    </span>
-                  )}
-                </div>
+                <CustomInput
+                  type="password"
+                  name="password"
+                  register={register}
+                  errors={errors}
+                  label="Password"
+                  placeholder="**********"
+                />
                 {/* remember me:- checkbox and forgot password  */}
                 {/* ------------------------------------- */}
 
@@ -107,13 +78,13 @@ function LoginPage() {
                   <div className="flex items-start">
                     <label
                       htmlFor="remember"
-                      className="text-gray-500 dark:text-gray-300"
+                      className="text-gray-500 dark:text-gray-300 flex items-center gap-2"
                     >
                       <input
                         id="remember"
                         aria-describedby="remember"
                         type="checkbox"
-                        className="w-4 h-4 mr-2 border border-gray-300 rounded bg-gray-50 focus:ring-1 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-1 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       />
                       Remember me
                     </label>
@@ -128,16 +99,13 @@ function LoginPage() {
 
                 {/* sign in and submit ------------------*/}
                 {/* ------------------------------------- */}
-                <button
-                  type="submit"
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
+                <Button type="submit" variant="form" isLoading={isLoading}>
                   Sign in
-                </button>
+                </Button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <a
-                    href="/signup"
+                    href="/register"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Sign up

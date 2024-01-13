@@ -10,5 +10,18 @@ type RegisterAuthResponse = {
     email: string
 }
 
+type AuthState = {
+    id: string | undefined,
+    email: string | undefined,
+    access: string | undefined,
+    refresh: string | undefined,
+    otp_verified: boolean
+}
 
-export type { LoginAuthResponse, RegisterAuthResponse }
+type ValidateOTPInputs = {
+    id: string;
+    otp: number;
+}
+
+
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs }

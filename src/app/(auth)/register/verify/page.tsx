@@ -1,9 +1,8 @@
-"use client";
-
 import OTPVerification from "@/views/auth/OTPVerification";
+import React from "react";
 
-function VerifyPage() {
+function RVerifyPage() {
   return <OTPVerification />;
 }
 
-export default VerifyPage;
+export default RVerifyPage;

@@ -1,13 +1,14 @@
 "use client";
 
+import { Button } from "@/components/common";
 import { CustomInput } from "@/components/form";
 import { useRegisterMutation } from "@/redux/api/authSlice.api";
+import { setCredentials } from "@/redux/slices/authSlice";
 import { RegisterFormInputs, signupSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { twMerge } from "tailwind-merge";
 
 function SignupPage() {
   const {
@@ -17,29 +18,27 @@ function SignupPage() {
   } = useForm<RegisterFormInputs>({
     resolver: zodResolver(signupSchema),
   });
+  const router = useRouter();
 
-  const [signUpMutation, { data: signupResponse, error, isError, isLoading }] =
-    useRegisterMutation();
+  const [signUpMutation, { error, isError, isLoading }] = useRegisterMutation();
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     try {
-      console.log(data);
-      // Perform login mutation
-      await signUpMutation(data);
-      // Handle successful login
+      const res = await signUpMutation(data).unwrap();
+      setCredentials(res);
+      toast.success("Email is registered successfully.");
+      router.push("/register/verify");
     } catch (error) {
-      // Handle login error
       console.log(error);
     }
   };
 
   if (isError) {
-    console.log(error);
-    toast.error((error as any).detail || "");
+    toast.error((error as any).data.detail || "");
   }
 
   return (
-    <section className="pt-[var(--navbar-height)] bg-gray-50 dark:bg-gray-900">
+    <section className="pt-8 bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -54,7 +53,7 @@ function SignupPage() {
             >
               {/* full name box */}
               <CustomInput
-                name="fullName"
+                name="full_name"
                 register={register}
                 errors={errors}
                 label="Full Name"
@@ -87,12 +86,9 @@ function SignupPage() {
                 placeholder="***********"
               />
               {/* submit and other procedure  */}
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
+              <Button variant="form" type="submit" isLoading={isLoading}>
                 Sign up
-              </button>
+              </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account ?{" "}
                 <a

@@ -3,7 +3,7 @@ import { BASE_API_URL } from '@/constants/api.constants'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { LoginFormInputs, RegisterFormInputs } from '@/schemas/auth.schema'
-import { LoginAuthResponse, RegisterAuthResponse } from '../interface'
+import { LoginAuthResponse, RegisterAuthResponse, ValidateOTPInputs } from '../interface'
 
 // Define a service using a base URL and expected endpoints
 export const authApi = createApi({
@@ -12,7 +12,7 @@ export const authApi = createApi({
         baseUrl: BASE_API_URL,
         prepareHeaders: (headers, { getState }) => {
             // By default, if we have a token in the store, let's use that for authenticated requests
-            const token = (getState() as RootState).auth.accessToken
+            const token = (getState() as RootState).auth.access
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }
@@ -34,7 +34,7 @@ export const authApi = createApi({
                 body
             })
         }),
-        validateOtp: builder.mutation({
+        validateOtp: builder.mutation<LoginAuthResponse, ValidateOTPInputs>({
             query: (body) => ({
                 url: "/auth/validate-otp/",
                 method: "POST",
