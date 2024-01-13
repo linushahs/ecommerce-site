@@ -35,8 +35,7 @@ function LoginPage() {
   };
 
   if (isError) {
-    console.log(error);
-    toast.error((error as any).detail || "");
+    toast.error((error as any).data.detail || "");
   }
 
   return (

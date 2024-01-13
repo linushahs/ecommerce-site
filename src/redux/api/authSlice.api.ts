@@ -47,10 +47,17 @@ export const authApi = createApi({
                 method: "POST",
                 body
             })
+        }),
+        requestPwReset: builder.mutation({
+            query: (body) => ({
+                url: "/auth/request-password-reset/",
+                method: "POST",
+                body
+            })
         })
     }),
 })
 
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export const { useLoginMutation, useRegisterMutation, useValidateOtpMutation, useGenerateOtpMutation } = authApi
+export const { useLoginMutation, useRegisterMutation, useValidateOtpMutation, useGenerateOtpMutation, useRequestPwResetMutation } = authApi

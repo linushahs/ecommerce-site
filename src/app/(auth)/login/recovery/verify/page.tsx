@@ -1,11 +1,20 @@
 "use client";
-import React, { useState, useEffect, useRef, ChangeEvent } from "react";
+
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import Stepper from "@/components/common/Stepper";
 
 function VerifyPage() {
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [timer, setTimer] = useState(60); // Timer in seconds
-  const inputRefs = useRef<HTMLInputElement>(null);
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const [timer, setTimer] = useState<number>(60); // Timer in seconds
+  const inputRefs = useRef<HTMLInputElement[] | null[]>(
+    Array.from({ length: 6 }, () => null)
+  );
 
   const otpLength = 6;
 
@@ -13,11 +22,24 @@ function VerifyPage() {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
 
-    if (e.target.value !== "" && index < otpLength - 1) {
-      inputRefs.current && (inputRefs.current as any).focus();
+    if (e.target.value.length >= 1 && index < otpLength - 1) {
+      inputRefs.current[index + 1]?.focus();
     }
 
     setOtp(newOtp);
+  };
+
+  const handleRemoveInput = (
+    e: KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (
+      (e.target as HTMLInputElement).value === "" &&
+      index > 0 &&
+      (e.code === "Backspace" || e.key === "Backspace")
+    ) {
+      inputRefs.current[index - 1]?.focus();
+    }
   };
 
   useEffect(() => {
@@ -30,7 +52,7 @@ function VerifyPage() {
   }, []);
 
   return (
-    <section className="py-10 bg-gray-50 ">
+    <section className="pt-2 pb-8 bg-gray-50 ">
       <Stepper current={2} />
       <div className="py-6 flex items-center justify-center ">
         <div className="bg-white p-8 rounded-lg shadow-md w-[450px]">
@@ -44,11 +66,12 @@ function VerifyPage() {
             {Array.from({ length: otpLength }, (_, index) => (
               <input
                 key={index}
-                type="number"
+                type="text" // Use type="text" to allow numeric characters only
                 id={`otp-input-${index}`}
-                ref={inputRefs}
+                ref={(el) => ((inputRefs.current[index] as any) = el)}
                 value={otp[index]}
                 onChange={(e) => handleChange(e, index)}
+                onKeyDown={(e) => handleRemoveInput(e, index)}
                 maxLength={1}
                 className="w-12 h-12 text-3xl border-2 border-gray-300 rounded-md text-center"
               />

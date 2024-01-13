@@ -1,33 +1,30 @@
 "use client";
-import React from "react";
 
-import { useLoginMutation } from "@/redux/api/authSlice.api";
-import { LoginFormInputs, loginSchema } from "@/schemas/auth.schema";
+import Stepper from "@/components/common/Stepper";
+import { CustomInput } from "@/components/form";
+import { useRequestPwResetMutation } from "@/redux/api/authSlice.api";
+import { ForgotPwInput, forgotPwSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { twMerge } from "tailwind-merge";
-import Stepper from "@/components/common/Stepper";
-import { VERIFY } from "@/constants/routes";
 
 function ForgotPasswordPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<ForgotPwInput>({
+    resolver: zodResolver(forgotPwSchema),
   });
 
-  const [login, { data: loginResponse, error, isError, isLoading }] =
-    useLoginMutation();
+  const [reqPwResetMutation, { data, error, isError, isLoading }] =
+    useRequestPwResetMutation();
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<ForgotPwInput> = async (data) => {
     try {
       console.log(data);
       // Perform login mutation
-      await login(data);
+      await reqPwResetMutation(data);
       // Handle successful login
     } catch (error) {
       // Handle login error
@@ -35,8 +32,12 @@ function ForgotPasswordPage() {
     }
   };
 
+  if (isError) {
+    toast.error((error as any).data.detail || "");
+  }
+
   return (
-    <section className="py-10 bg-gray-50">
+    <section className="pt-2 pb-8 bg-gray-50">
       <Stepper current={1} />
 
       <div className=" py-8 dark:bg-gray-900">
@@ -56,39 +57,20 @@ function ForgotPasswordPage() {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 {/* email box */}
-                <div className="mb-5">
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 font-medium text-gray-900 dark:text-white"
-                  >
-                    Your email
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    {...register("email", { required: true })}
-                    className={twMerge(
-                      "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 ",
-                      errors.email &&
-                        "border-red-500 focus:ring-red-500 focus:border-0"
-                    )}
-                    placeholder="name@company.com"
-                  />
-                  {errors.email && (
-                    <span className="text-sm  text-red-500">
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
+                <CustomInput
+                  name="email"
+                  register={register}
+                  errors={errors}
+                  label="Email"
+                  placeholder="name@gmail.com"
+                />
                 {/* Submit  */}
-                <Link href={VERIFY}>
-                  <button
-                    type="submit"
-                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
-                    Help Recover my Account
-                  </button>
-                </Link>
+                <button
+                  type="submit"
+                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Help Recover my Account
+                </button>
               </form>
             </div>
           </div>
