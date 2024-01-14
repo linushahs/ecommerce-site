@@ -3,6 +3,7 @@
 import { Button } from "@/components/common";
 import Stepper from "@/components/common/Stepper";
 import { CustomInput } from "@/components/form";
+import { FORGOTPW_SUCCESS } from "@/constants";
 import { VERIFY } from "@/constants/routes";
 import { useRequestPwResetMutation } from "@/redux/api/authSlice.api";
 import { ForgotPwInput, forgotPwSchema } from "@/schemas/auth.schema";
@@ -29,7 +30,7 @@ function ForgotPasswordPage() {
       await reqPwResetMutation(data).unwrap();
 
       // Handle successful login
-      toast.success("OTP Sent to registered email");
+      toast.success(FORGOTPW_SUCCESS);
       router.push(VERIFY);
     } catch (error) {
       // Handle login error
@@ -71,10 +72,8 @@ function ForgotPasswordPage() {
                 />
                 {/* Submit  */}
                 <Button variant="form" type="submit" isLoading={isLoading}>
-                Help Recover my Account
-              </Button>
-                
-                
+                  Help Recover my Account
+                </Button>
               </form>
             </div>
           </div>

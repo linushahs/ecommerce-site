@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/common";
 import { CustomInput } from "@/components/form";
+import { REGISTER_SUCCESS } from "@/constants";
 import { useRegisterMutation } from "@/redux/api/authSlice.api";
 import { setCredentials } from "@/redux/slices/authSlice";
 import { RegisterFormInputs, signupSchema } from "@/schemas/auth.schema";
@@ -26,7 +27,7 @@ function SignupPage() {
     try {
       const res = await signUpMutation(data).unwrap();
       setCredentials(res);
-      toast.success("Email is registered successfully.");
+      toast.success(REGISTER_SUCCESS);
       router.push("/register/verify");
     } catch (error) {
       console.log(error);

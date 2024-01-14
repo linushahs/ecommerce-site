@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/common";
 import { CustomInput } from "@/components/form";
+import { LOGIN_SUCESS } from "@/constants";
 import { FORGOT_PASSWORD } from "@/constants/routes";
 import { useLoginMutation } from "@/redux/api/authSlice.api";
 import { setCredentials } from "@/redux/slices/authSlice";
@@ -22,14 +23,13 @@ function LoginPage() {
   });
   const router = useRouter();
 
-  const [login, {  error, isError, isLoading }] =
-    useLoginMutation();
+  const [login, { error, isError, isLoading }] = useLoginMutation();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       const res = await login(data).unwrap();
       setCredentials(res);
-      toast.success("You are succesfully logged in.");
+      toast.success(LOGIN_SUCESS);
       router.push("/shop");
     } catch (error) {
       console.log(error);

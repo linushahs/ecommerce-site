@@ -1,10 +1,15 @@
 import { Product } from "@/components/products/interface";
+import { IFootMenu } from "./interface";
 
-interface IFootMenu {
-  id: number;
-  title: string;
-  menu: { id: number, link: string, path: string }[]
-}
+/*
+  Authentication toast messages
+  (Incl. error, success, warning, ...)
+*/
+export const LOGIN_SUCESS = "You are successfully logged in."
+export const REGISTER_SUCCESS = "Your email is registered successfully."
+export const FORGOTPW_SUCCESS = "OTP Sent to registered email"
+
+
 
 const productData = [
   {
@@ -85,7 +90,6 @@ const sortOptions = [
 
 const basketOfProduct: Product[] = [
   {
-
     id: "1",
     name: "Product 1",
     brand: "Brand A",
