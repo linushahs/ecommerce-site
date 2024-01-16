@@ -23,5 +23,17 @@ type ValidateOTPInputs = {
     otp: number;
 }
 
+type ProfileState = {
+    fullname: string;
+    email: string;
+    address: string | null;
+    mobile: {
+        value: string;
+    } | null;
+    dateJoined: string | null;
+    avatar: string;
+    banner: string;
+}
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs }
+
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, ProfileState }

@@ -2,12 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../styles/_colors.css";
-@import "../styles/_sizes.css";
-
-/* Checkout style  */
-@import "../styles/_basket.css";
-@import "../styles/_checkout.css";
+/* Importing plain css from styles folder 
+===================================== */
+@import "../styles/_styles.css";
 
 @layer base {
   :root {

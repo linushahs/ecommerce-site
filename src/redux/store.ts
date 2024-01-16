@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer, productReducer, basketReducer } from "./slices";
+import { authReducer, productReducer, basketReducer, profileReducer } from "./slices";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { authApi } from "./api/authSlice.api";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -9,6 +9,7 @@ export const store = configureStore({
     auth: authReducer,
     product: productReducer,
     basket: basketReducer,
+    profile: profileReducer,
     [authApi.reducerPath]: authApi.reducer
   },
 

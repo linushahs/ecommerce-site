@@ -1,5 +1,6 @@
 "use client";
 
+import UserAvatar from "@/views/account/components/UserAvatar";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -44,6 +45,9 @@ function Navbar() {
 
           {/* cart button --------------  */}
           <ShoppingCart />
+
+          {/* user avatar icon --------------  */}
+          <UserAvatar />
 
           {/* navbar menu: bars for mobile screen ------------------ */}
           {/* --------------------------------------------------- */}

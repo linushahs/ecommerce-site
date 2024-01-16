@@ -1,0 +1,60 @@
+.edit-user {
+  width: 600px;
+  height: auto;
+  padding: var(--m-size);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-user.mobile {
+  width: 100%;
+  padding: 0;
+}
+
+.edit-user .user-profile-banner-wrapper,
+.edit-user .user-profile-avatar-wrapper {
+  overflow: visible;
+}
+
+.edit-user-details {
+  width: 60%;
+}
+
+.edit-user-images {
+  width: 40%;
+}
+
+.edit-button {
+  padding: var(--s-size);
+  position: absolute;
+  bottom: -10px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none !important;
+  background: var(--black) !important;
+  color: var(--white);
+}
+
+.edit-avatar-button {
+  right: 0;
+}
+
+.edit-banner-button {
+  right: 2rem;
+}
+
+.edit-user-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-user-action.mobile button {
+  width: 50%;
+}
