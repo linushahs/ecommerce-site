@@ -11,8 +11,9 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/common/Button";
 import { useAppSelector } from "@/redux/store";
 import { StepTracker } from "@/views/checkout/components";
+import withAuth from "@/components/hoc/withAuth";
 
-const OrderSummary = () => {
+const OrderSummaryPage = () => {
   const router = useRouter();
   const onClickPrevious = () => router.push("/");
   const onClickNext = () => router.push(CHECKOUT_STEP_2);
@@ -40,7 +41,7 @@ const OrderSummary = () => {
         </div>
         <br />
         <div className="flex items-center justify-between">
-          <Button variant="muted" onClick={onClickPrevious} type="button">
+          <Button variant="borderNone" onClick={onClickPrevious} type="button">
             <BuildingStorefrontIcon className="w-6 h-6" />
             Continue Shopping
           </Button>
@@ -54,4 +55,4 @@ const OrderSummary = () => {
   );
 };
 
-export default OrderSummary;
+export default withAuth(OrderSummaryPage);

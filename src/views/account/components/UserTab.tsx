@@ -20,7 +20,6 @@ const UserTab: React.FC<UserTabProps> = ({ children }: UserTabProps) => {
       <div className="user-tab-nav">
         <ul className="user-tab-menu">
           {React.Children.map(children, (child, index) => {
-            console.log(child);
             const { "data-label": label, "data-index": tabIndex } =
               child.props as TabProps;
 

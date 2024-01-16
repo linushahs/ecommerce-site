@@ -1,4 +1,6 @@
 import { ACCOUNT } from "@/constants/routes";
+import { logout } from "@/redux/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
   ArrowRightStartOnRectangleIcon,
   UserIcon,
@@ -8,12 +10,11 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const UserAvatar = () => {
-  // const { profile, isAuthenticating } = useSelector((state) => ({
-  //   profile: state.profile,
-  //   isAuthenticating: state.app.isAuthenticating
-  // }));
+  const { profile } = useAppSelector((state) => ({
+    profile: state.profile,
+  }));
   const userNav = useRef<HTMLDivElement>(null);
-  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const toggleDropdown = (e: any) => {
     const closest = e.target.closest("div.user-nav");
@@ -53,15 +54,13 @@ const UserAvatar = () => {
       tabIndex={0}
     >
       <h5 className="text-overflow-ellipsis">
-        {/* {profile.fullname && profile.fullname.split(" ")[0]} */}
-        Sunil Shah
+        {profile.fullname && profile.fullname.split(" ")[0]}
       </h5>
       <div className="user-nav-img-wrapper">
         <Image alt="profile avatar" className="user-nav-img" src={""} />
       </div>
 
       <div className="user-nav-sub">
-        {/* {profile.role !== "ADMIN" && ( */}
         <Link
           href={ACCOUNT}
           className="user-nav-sub-link border-b border-gray-100"
@@ -69,8 +68,12 @@ const UserAvatar = () => {
           View Account
           <UserIcon className="w-5 h-5" />
         </Link>
-        {/* )} */}
-        <h6 className="user-nav-sub-link m-0 flex" role="presentation">
+
+        <h6
+          className="user-nav-sub-link m-0 flex"
+          role="presentation"
+          onClick={() => dispatch(logout())}
+        >
           Sign Out
           <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
         </h6>

@@ -6,6 +6,7 @@ import { LOGIN_SUCESS } from "@/constants";
 import { FORGOT_PASSWORD } from "@/constants/routes";
 import { useLoginMutation } from "@/redux/api/authSlice.api";
 import { setCredentials } from "@/redux/slices/authSlice";
+import { useAppDispatch } from "@/redux/store";
 import { LoginFormInputs, loginSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -22,13 +23,16 @@ function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const [login, { error, isError, isLoading }] = useLoginMutation();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       const res = await login(data).unwrap();
-      setCredentials(res);
+
+      //store the response in state
+      dispatch(setCredentials(res));
       toast.success(LOGIN_SUCESS);
       router.push("/shop");
     } catch (error) {
@@ -61,6 +65,7 @@ function LoginPage() {
                   errors={errors}
                   label="Email"
                   placeholder="name@gmail.com"
+                  value="suniltraveler2004@gmail.com"
                 />
                 {/* password box */}
                 <CustomInput
@@ -70,6 +75,7 @@ function LoginPage() {
                   errors={errors}
                   label="Password"
                   placeholder="**********"
+                  value="sunil123"
                 />
                 {/* remember me:- checkbox and forgot password  */}
                 {/* ------------------------------------- */}

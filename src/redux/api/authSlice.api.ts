@@ -1,8 +1,7 @@
 // Need to use the React-specific entry point to allow generating React hooks
 import { BASE_API_URL } from '@/constants/api.constants'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RootState } from '../store'
 import { LoginFormInputs, RegisterFormInputs } from '@/schemas/auth.schema'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { LoginAuthResponse, RegisterAuthResponse, ValidateOTPInputs } from '../interface'
 
 // Define a service using a base URL and expected endpoints
@@ -10,14 +9,6 @@ export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_API_URL,
-        prepareHeaders: (headers, { getState }) => {
-            // By default, if we have a token in the store, let's use that for authenticated requests
-            const token = (getState() as RootState).auth.access
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        },
     }),
     endpoints: (builder) => ({
         login: builder.mutation<LoginAuthResponse, LoginFormInputs>({

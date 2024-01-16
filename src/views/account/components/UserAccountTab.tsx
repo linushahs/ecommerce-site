@@ -1,16 +1,24 @@
 import { Button } from "@/components/common";
 import { ACCOUNT_EDIT } from "@/constants/routes";
-import { useAppSelector } from "@/redux/store";
+import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const UserProfile: React.FC = () => {
-  const profile = useAppSelector((state) => state.profile);
+  const { data: profile, isLoading, error, isError } = useGetUserProfileQuery();
   const router = useRouter();
 
   const handleEditAccount = (): void => {
     router.push(ACCOUNT_EDIT);
   };
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isError) {
+    console.log(error);
+  }
 
   return (
     <div className="user-profile">
@@ -20,7 +28,7 @@ const UserProfile: React.FC = () => {
             <Image
               alt="Banner"
               className="user-profile-banner-img"
-              src={profile.banner}
+              src={""}
               width={100}
               height={100}
               loading="lazy"
@@ -30,7 +38,7 @@ const UserProfile: React.FC = () => {
             <Image
               alt="Avatar"
               className="user-profile-img"
-              src={profile.avatar}
+              src={profile?.profile_picture || ""}
               width={80}
               height={80}
             />
@@ -45,24 +53,24 @@ const UserProfile: React.FC = () => {
           </Button>
         </div>
         <div className="user-profile-details mt-16 px-4 pb-6">
-          <h2 className="user-profile-name">{profile.fullname}</h2>
+          <h2 className="user-profile-name">{profile?.full_name}</h2>
           <span>Email</span>
-          <h5>{profile.email}</h5>
+          <h5>{profile?.email}</h5>
           <span>Address</span>
-          {profile.address ? (
-            <h5>{profile.address}</h5>
+          {profile?.address_city ? (
+            <h5>{profile?.address_city}</h5>
           ) : (
             <h5 className="text-subtle text-italic">Address not set</h5>
           )}
           <span>Mobile</span>
-          {profile.mobile ? (
-            <h5>{profile.mobile.value}</h5>
+          {profile?.phone_number ? (
+            <h5>{profile?.phone_number}</h5>
           ) : (
             <h5 className="text-subtle text-italic">Mobile not set</h5>
           )}
           <span>Date Joined</span>
-          {profile.dateJoined ? (
-            <h5>{profile.dateJoined}</h5>
+          {profile?.date_joined ? (
+            <h5>{profile?.date_joined}</h5>
           ) : (
             <h5 className="text-subtle text-italic">Not available</h5>
           )}

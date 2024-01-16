@@ -36,4 +36,23 @@ type ProfileState = {
 }
 
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, ProfileState }
+interface UserProfile {
+    id: string;
+    email: string;
+    date_joined: string;
+    address_country: string;
+    address_state: string;
+    address_city: string;
+    address_street1: string;
+    address_street2: string;
+    bio: string;
+    occupation: string;
+    date_of_birth: string;
+    gender: string;
+    full_name: string;
+    phone_number: string;
+    profile_picture: string;
+}
+
+
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, ProfileState, UserProfile }
