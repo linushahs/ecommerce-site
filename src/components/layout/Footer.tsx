@@ -2,7 +2,7 @@
 
 import { FormEvent } from "react";
 import { footMenu } from "@/constants";
-import SocialIcons from "../utils/SocialIcons";
+import SocialIcons from "../common/SocialIcons";
 import Image from "next/image";
 
 const Footer = () => {

@@ -22,7 +22,7 @@ function ForgotPasswordPage() {
   });
   const router = useRouter();
 
-  const [reqPwResetMutation, { data, error, isError, isLoading }] =
+  const [reqPwResetMutation, { error, isError, isLoading }] =
     useRequestPwResetMutation();
 
   const onSubmit: SubmitHandler<ForgotPwInput> = async (data) => {

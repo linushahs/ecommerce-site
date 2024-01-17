@@ -1,8 +1,8 @@
 type LoginAuthResponse = {
     otp_verified: boolean,
     email: string,
-    accessToken: string,
-    refreshToken: string
+    access: string,
+    refresh: string
 }
 
 type RegisterAuthResponse = {

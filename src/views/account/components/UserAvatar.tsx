@@ -1,4 +1,7 @@
+"use client";
+
 import { ACCOUNT } from "@/constants/routes";
+import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
 import { logout } from "@/redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
@@ -10,9 +13,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const UserAvatar = () => {
-  const { profile } = useAppSelector((state) => ({
-    profile: state.profile,
-  }));
+  const { data: profile, isLoading } = useGetUserProfileQuery();
   const userNav = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
@@ -38,13 +39,10 @@ const UserAvatar = () => {
     userNav.current?.classList.toggle("user-sub-open");
   };
 
-  // return isAuthenticating ? (
-  //   <div className="user-nav">
-  //     <span>Signing Out</span>
-  //     &nbsp;
-  //     <LoadingOutlined />
-  //   </div>
-  // ) : (
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div
       className="user-nav"
@@ -54,10 +52,16 @@ const UserAvatar = () => {
       tabIndex={0}
     >
       <h5 className="text-overflow-ellipsis">
-        {profile.fullname && profile.fullname.split(" ")[0]}
+        {profile?.full_name && profile?.full_name.split(" ")[0]}
       </h5>
       <div className="user-nav-img-wrapper">
-        <Image alt="profile avatar" className="user-nav-img" src={""} />
+        <Image
+          alt="profile avatar"
+          className="user-nav-img"
+          src={profile?.profile_picture || ""}
+          width={60}
+          height={60}
+        />
       </div>
 
       <div className="user-nav-sub">

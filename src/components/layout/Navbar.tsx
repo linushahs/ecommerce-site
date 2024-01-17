@@ -1,11 +1,11 @@
 "use client";
 
+import { useAppSelector } from "@/redux/store";
 import UserAvatar from "@/views/account/components/UserAvatar";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ShoppingCart from "../basket/ShoppingCart";
-import { useAppSelector } from "@/redux/store";
 
 const menuVariants = {
   default:
@@ -31,7 +31,7 @@ function Navbar() {
             <Image src="/images/logo.svg" alt="logo" width={140} height={50} />
           </span>
         </a>
-        <div className="flex md:order-2 space-x-3 md:items-center rtl:space-x-reverse">
+        <div className="flex md:order-2 gap-3 md:items-center rtl:space-x-reverse">
           {/* cart button --------------  */}
           <ShoppingCart />
 
@@ -42,7 +42,7 @@ function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="block ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Login
               </Link>
@@ -54,7 +54,6 @@ function Navbar() {
               </Link>
             </>
           )}
-
           {/* navbar menu: bars for mobile screen ------------------ */}
           {/* --------------------------------------------------- */}
           <button

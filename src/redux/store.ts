@@ -1,24 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore } from 'redux-persist';
 import { authApi } from "./api/authSlice.api";
 import profileApi from "./api/profileSlice.api";
 import { authReducer, basketReducer, productReducer, profileReducer } from "./slices";
 
-const authPersistConfig = {
-  key: 'auth',
-  storage: storage,
-  whitelist: ['access', 'refresh'],
-};
-
-const authPersitReducer = persistReducer<ReturnType<typeof authReducer>>(authPersistConfig, authReducer);
-
 export const store = configureStore({
   reducer: {
-    auth: authPersitReducer,
+    auth: authReducer,
     product: productReducer,
     basket: basketReducer,
     profile: profileReducer,

@@ -1,5 +1,8 @@
+"use client";
+
 import { Button } from "@/components/common";
 import { ACCOUNT_EDIT } from "@/constants/routes";
+import { displayDate } from "@/lib/helpers";
 import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,6 +22,8 @@ const UserProfile: React.FC = () => {
   if (isError) {
     console.log(error);
   }
+
+  console.log(profile);
 
   return (
     <div className="user-profile">
@@ -70,7 +75,7 @@ const UserProfile: React.FC = () => {
           )}
           <span>Date Joined</span>
           {profile?.date_joined ? (
-            <h5>{profile?.date_joined}</h5>
+            <h5>{displayDate(profile?.date_joined)}</h5>
           ) : (
             <h5 className="text-subtle text-italic">Not available</h5>
           )}

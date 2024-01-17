@@ -21,12 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <Navbar />
+          {/* <PersistGate loading={null} persistor={persistor}> */}
+          <Navbar />
 
-            {children}
-            <Footer />
-          </PersistGate>
+          {children}
+          <Footer />
+          {/* </PersistGate> */}
         </Provider>
 
         <Toaster richColors />
