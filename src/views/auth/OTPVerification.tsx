@@ -1,13 +1,14 @@
 "use client";
 
 import { Button, Stepper } from "@/components/common";
+import { LOGIN } from "@/constants/routes";
 import { useValidateOtpMutation } from "@/redux/api/authSlice.api";
 import { setCredentials } from "@/redux/slices/authSlice";
 import { useAppSelector } from "@/redux/store";
 import { OTPFormInput, otpSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
@@ -18,7 +19,7 @@ function OTPVerification() {
     Array.from({ length: 6 }, () => null)
   );
   const router = useRouter();
-  const authCredentials = useAppSelector((state) => state.auth);
+  const userID = useAppSelector((state) => state.auth.id);
 
   const {
     handleSubmit,
@@ -28,6 +29,13 @@ function OTPVerification() {
     resolver: zodResolver(otpSchema),
     defaultValues: { otp },
   });
+
+  //Redirect back to previous page if there is no user id
+  useEffect(() => {
+    if (!userID) {
+      router.back();
+    }
+  }, [userID]);
 
   const [validateOTPMutation, { error, isError, isLoading }] =
     useValidateOtpMutation();
@@ -57,9 +65,11 @@ function OTPVerification() {
   };
 
   const onSubmit: SubmitHandler<OTPFormInput> = async (data) => {
+    if (!userID) return;
+
     const i_otp = parseInt(data.otp.join(""));
     const inputs = {
-      id: "aa50d599-e99f-435d-9a0e-185ed1dc3a18",
+      id: userID,
       otp: i_otp,
     };
 
@@ -67,7 +77,7 @@ function OTPVerification() {
       const res = await validateOTPMutation(inputs).unwrap();
       setCredentials(res);
       toast.success("OTP is verified");
-      router.push("/new-password");
+      router.push(LOGIN);
     } catch (error) {
       console.log(error);
     }

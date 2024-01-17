@@ -1,3 +1,5 @@
+"use client";
+
 import { Spinner } from "@/components/common";
 import { lazy, Suspense } from "react";
 import UserTab from "../components/UserTab";
@@ -7,7 +9,7 @@ const UserWishListTab = lazy(() => import("../components/UserWishListTab"));
 const UserOrdersTab = lazy(() => import("../components/UserOrdersTab"));
 
 const Loader = () => (
-  <div className="loader" style={{ minHeight: "80vh" }}>
+  <div className="cloader" style={{ minHeight: "60vh" }}>
     <Spinner />
     <h6>Loading ... </h6>
   </div>

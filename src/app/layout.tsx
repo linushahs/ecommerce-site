@@ -1,14 +1,12 @@
 "use client";
 
+import { Toaster } from "@/components/common/Toaster";
 import Footer from "@/components/layout/Footer";
-import { persistor, store } from "@/redux/store";
+import { store } from "@/redux/store";
 import Navbar from "components/layout/Navbar";
 import { Inter } from "next/font/google";
 import { Provider } from "react-redux";
-import "../styles/_basket.css";
 import "./globals.css";
-import { Toaster } from "@/components/common/Toaster";
-import { PersistGate } from "redux-persist/integration/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +22,7 @@ export default function RootLayout({
           {/* <PersistGate loading={null} persistor={persistor}> */}
           <Navbar />
 
-          {children}
+          <main className="min-h-screen">{children}</main>
           <Footer />
           {/* </PersistGate> */}
         </Provider>

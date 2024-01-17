@@ -1,11 +1,13 @@
 "use client";
 
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import UserAvatar from "@/views/account/components/UserAvatar";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ShoppingCart from "../basket/ShoppingCart";
+import { useEffect } from "react";
+import { initializeAuthTokens } from "@/redux/slices/authSlice";
 
 const menuVariants = {
   default:
@@ -22,14 +24,17 @@ const menus = [
 function Navbar() {
   const params = usePathname();
   const isAuthenticated = useAppSelector((state) => state.auth.access);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(initializeAuthTokens());
+  }, [dispatch]);
 
   return (
     <nav className="bg-gray-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b-2 border-gray-200 dark:border-gray-600">
       <div className="container flex flex-wrap items-center justify-between py-4">
-        <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <span className="text-black self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            <Image src="/images/logo.svg" alt="logo" width={140} height={50} />
-          </span>
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Image src="/images/logo.svg" alt="logo" width={140} height={50} />
         </a>
         <div className="flex md:order-2 gap-3 md:items-center rtl:space-x-reverse">
           {/* cart button --------------  */}

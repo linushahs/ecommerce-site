@@ -21,6 +21,10 @@ function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "suniltraveler2004@gmail.com",
+      password: "sunil123",
+    },
   });
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -65,7 +69,6 @@ function LoginPage() {
                   errors={errors}
                   label="Email"
                   placeholder="name@gmail.com"
-                  value="suniltraveler2004@gmail.com"
                 />
                 {/* password box */}
                 <CustomInput
@@ -75,7 +78,6 @@ function LoginPage() {
                   errors={errors}
                   label="Password"
                   placeholder="**********"
-                  value="sunil123"
                 />
                 {/* remember me:- checkbox and forgot password  */}
                 {/* ------------------------------------- */}

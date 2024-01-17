@@ -1,13 +1,12 @@
-import React from "react";
-import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
-import { ShoppingBagIcon as ShoppingBagIconSolid } from "@heroicons/react/20/solid";
-import Image from "next/image";
-import { ProductCardProps } from "./interface";
-import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { ShoppingBagIcon as ShoppingBagIconSolid } from "@heroicons/react/20/solid";
+import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React from "react";
 import { toast } from "sonner";
-import { VIEW_PRODUCT } from "@/constants/routes";
+import { ProductCardProps } from "./interface";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { imageUrl, id, name, price } = product;
@@ -38,16 +37,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       key={id}
       className="w-full p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden"
     >
-      <div
-        className="flex items-center justify-center "
-        onClick={() => router.push(`/product/${id}`)}
-      >
+      <div className="w-full" onClick={() => router.push(`/product/${id}`)}>
         <Image
           src={imageUrl}
           alt="product thumbnail"
           width={300}
           height={220}
-          className="w-full aspect-[6/5] object-cover rounded-lg"
+          className="w-full aspect-[6/5] object-cover rounded-lg bg-gray-200"
         />
       </div>
 

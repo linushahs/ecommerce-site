@@ -10,11 +10,10 @@ export const ACCOUNT = "/account";
 export const ACCOUNT_EDIT = "/account/edit";
 
 // auth routes
-export const SIGNIN = "/signin";
-export const SIGNOUT = "/signout";
-export const SIGNUP = "/signup";
+export const LOGIN = "/login";
+export const SIGNUP = "/register";
 export const FORGOT_PASSWORD = "/login/recovery/forgot-password";
-export const VERIFY = "/login/recovery/verify";
+export const VERIFY = "/verify";
 export const NEW_PASSWORD = "/login/recovery/new-password";
 
 //checkout routes

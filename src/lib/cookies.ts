@@ -21,15 +21,19 @@ const getAuthCookie = (name: string) => {
     return Buffer.from(cookie, 'base64').toString('ascii');
 };
 
-const getValidAuthTokens = (name: "access" | "refresh") => {
+type AuthAttr = "access" | "refresh" | "id";
+
+const getValidAuthTokens = (name: AuthAttr) => {
     const access = getAuthCookie('access_token');
     const refresh = getAuthCookie('refresh_token');
+    const id = getAuthCookie("id");
 
-    const now = new Date();
-    const accessTokenDate = new Date(access || 0);
-    const refreshTokenDate = new Date(refresh || 0);
+    // const now = new Date();
+    // const accessTokenDate = new Date(access || 0);
+    // const refreshTokenDate = new Date(refresh || 0);
 
     const tokens = {
+        id,
         access,
         refresh
     };

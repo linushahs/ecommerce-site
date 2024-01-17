@@ -3,7 +3,7 @@
 import { ACCOUNT } from "@/constants/routes";
 import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
 import { logout } from "@/redux/slices/authSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import {
   ArrowRightStartOnRectangleIcon,
   UserIcon,
@@ -73,14 +73,13 @@ const UserAvatar = () => {
           <UserIcon className="w-5 h-5" />
         </Link>
 
-        <h6
+        <div
           className="user-nav-sub-link m-0 flex"
-          role="presentation"
           onClick={() => dispatch(logout())}
         >
           Sign Out
           <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
-        </h6>
+        </div>
       </div>
     </div>
   );

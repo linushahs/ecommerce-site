@@ -35,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={isLoading}
       {...props}
     >
-      {isLoading && <Spinner className="w-5 h-5 animate-spin" />}
+      {isLoading && <Spinner className="w-5 h-5 animate-spin text-white" />}
       {props.children}
     </button>
   );

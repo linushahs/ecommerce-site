@@ -1,4 +1,4 @@
-import { getValidAuthTokens } from "@/lib/cookies";
+import { useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -6,7 +6,7 @@ const withAuth = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const AuthenticatedComponent: React.FC<P> = (props) => {
-    const isAuthenticated = getValidAuthTokens("access");
+    const isAuthenticated = useAppSelector((state) => state.auth.access);
     const router = useRouter();
 
     useEffect(() => {

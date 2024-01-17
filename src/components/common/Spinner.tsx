@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 interface SpinnerProps extends React.AllHTMLAttributes<SVGElement> {
   className?: string;
 }
@@ -9,7 +11,7 @@ function Spinner({ className, ...props }: SpinnerProps) {
       height="16"
       width="16"
       viewBox="0 0 512 512"
-      className={className}
+      className={twMerge("w-7 h-7 animate-spin text-gray-600", className)}
       {...props}
     >
       <path
