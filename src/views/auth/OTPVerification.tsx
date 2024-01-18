@@ -15,9 +15,14 @@ import { twMerge } from "tailwind-merge";
 interface OTPVerificationProps {
   next_route: string;
   userID: string | undefined;
+  showStepper?: boolean;
 }
 
-function OTPVerification({ next_route, userID }: OTPVerificationProps) {
+function OTPVerification({
+  next_route,
+  userID,
+  showStepper = true,
+}: OTPVerificationProps) {
   //Redirect back to previous page if there is no user id
   useEffect(() => {
     if (!userID) {
@@ -93,7 +98,7 @@ function OTPVerification({ next_route, userID }: OTPVerificationProps) {
 
   return (
     <section className="pt-2 pb-8 bg-gray-50">
-      <Stepper current={2} />
+      {showStepper && <Stepper current={2} />}
       <div className="py-6 flex items-center justify-center ">
         <div className="bg-white p-8 rounded-lg shadow-md w-[450px]">
           <h2 className="text-2xl font-bold mb-4">OTP Verification</h2>

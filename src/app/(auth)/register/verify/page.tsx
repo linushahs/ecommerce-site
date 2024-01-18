@@ -7,7 +7,9 @@ import OTPVerification from "@/views/auth/OTPVerification";
 function VerifyPage() {
   const userID = useAppSelector((state) => state.auth.id);
 
-  return <OTPVerification next_route={LOGIN} userID={userID} />;
+  return (
+    <OTPVerification next_route={LOGIN} userID={userID} showStepper={false} />
+  );
 }
 
 export default VerifyPage;
