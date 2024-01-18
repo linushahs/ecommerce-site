@@ -2,11 +2,31 @@
 
 import { Button, Stepper } from "@/components/common";
 import { CustomInput } from "@/components/form";
+import { NEWPW_SUCCESS } from "@/constants";
+import { LOGIN } from "@/constants/routes";
+import { useResetPasswordMutation } from "@/redux/api/authSlice.api";
+import { setCredentials } from "@/redux/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { NewPwInputs, newPwSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-const page = () => {
+const NewPasswordPage = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const otpId = useAppSelector((state) => state.auth.otp_id);
+
+  //If otp_id is not in the state
+  // Take user back to the previous page
+  useEffect(() => {
+    if (!otpId) {
+      router.back();
+    }
+  }, [otpId]);
+
   const {
     register,
     handleSubmit,
@@ -15,12 +35,26 @@ const page = () => {
     resolver: zodResolver(newPwSchema),
   });
 
+  const [resetPwMutation, { error, isError, isLoading }] =
+    useResetPasswordMutation();
+
   const onSubmit: SubmitHandler<NewPwInputs> = async (data) => {
+    if (!otpId) {
+      return;
+    }
+
+    let inputs = {
+      password: data.password,
+      otp_id: otpId,
+    };
+
+    console.log(inputs);
+
     try {
-      const res = await signUpMutation(data).unwrap();
-      setCredentials(res);
-      toast.success(REGISTER_SUCCESS);
-      router.push("/register/verify");
+      const res = await resetPwMutation(inputs).unwrap();
+      dispatch(setCredentials(res));
+      toast.success(NEWPW_SUCCESS);
+      router.push(LOGIN);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +104,7 @@ const page = () => {
                 />
 
                 {/* sign in and submit */}
-                <Button type="submit" variant="form">
+                <Button type="submit" variant="form" isLoading={isLoading}>
                   Confirm Password Reset
                 </Button>
               </form>
@@ -82,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default NewPasswordPage;

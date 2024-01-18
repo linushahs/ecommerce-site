@@ -15,12 +15,19 @@ type AuthState = {
     email: string | undefined,
     access: string | undefined,
     refresh: string | undefined,
-    otp_verified: boolean
+    otp_verified: boolean,
+    user_id: string | undefined,
+    otp_id: number | undefined
 }
 
 type ValidateOTPInputs = {
     id: string;
     otp: number;
+}
+
+type ResetPasswordInputs = {
+    password: string,
+    otp_id: number
 }
 
 type ProfileState = {
@@ -55,4 +62,4 @@ interface UserProfile {
 }
 
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, ProfileState, UserProfile }
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, ProfileState, UserProfile, ResetPasswordInputs }

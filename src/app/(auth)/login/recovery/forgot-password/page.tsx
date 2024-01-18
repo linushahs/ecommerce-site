@@ -4,8 +4,10 @@ import { Button } from "@/components/common";
 import Stepper from "@/components/common/Stepper";
 import { CustomInput } from "@/components/form";
 import { FORGOTPW_SUCCESS } from "@/constants";
-import { VERIFY } from "@/constants/routes";
+import { FORGOTPW_VERIFY } from "@/constants/routes";
 import { useRequestPwResetMutation } from "@/redux/api/authSlice.api";
+import { setCredentials } from "@/redux/slices/authSlice";
+import { useAppDispatch } from "@/redux/store";
 import { ForgotPwInput, forgotPwSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -19,19 +21,25 @@ function ForgotPasswordPage() {
     formState: { errors },
   } = useForm<ForgotPwInput>({
     resolver: zodResolver(forgotPwSchema),
+    defaultValues: {
+      email: "suniltraveler2004@gmail.com",
+    },
   });
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const [reqPwResetMutation, { error, isError, isLoading }] =
     useRequestPwResetMutation();
 
   const onSubmit: SubmitHandler<ForgotPwInput> = async (data) => {
     try {
-      await reqPwResetMutation(data).unwrap();
-
+      const res = await reqPwResetMutation(data).unwrap();
+      console.log(res);
+      //store user_id in credentials
+      dispatch(setCredentials(res));
       // Handle successful login
       toast.success(FORGOTPW_SUCCESS);
-      router.push(VERIFY);
+      router.push(FORGOTPW_VERIFY);
     } catch (error) {
       // Handle login error
       console.log(error);

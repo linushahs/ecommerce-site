@@ -13,7 +13,8 @@ export const ACCOUNT_EDIT = "/account/edit";
 export const LOGIN = "/login";
 export const SIGNUP = "/register";
 export const FORGOT_PASSWORD = "/login/recovery/forgot-password";
-export const VERIFY = "/verify";
+export const FORGOTPW_VERIFY = "/login/recovery/verify";
+export const REGISTER_VERIFY = "/register/verify";
 export const NEW_PASSWORD = "/login/recovery/new-password";
 
 //checkout routes

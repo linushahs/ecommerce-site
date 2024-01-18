@@ -7,8 +7,9 @@ import { IFootMenu } from "./interface";
 */
 export const LOGIN_SUCESS = "You are successfully logged in."
 export const REGISTER_SUCCESS = "Your email is registered successfully."
-export const FORGOTPW_SUCCESS = "OTP Sent to registered email"
-
+export const FORGOTPW_SUCCESS = "OTP Sent to registered email."
+export const NEWPW_SUCCESS = "Your password has been changed."
+export const OTPVERIFY_SUCCESS = "OTP is verified."
 
 
 const productData = [

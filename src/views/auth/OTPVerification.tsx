@@ -1,10 +1,9 @@
 "use client";
 
 import { Button, Stepper } from "@/components/common";
-import { LOGIN } from "@/constants/routes";
 import { useValidateOtpMutation } from "@/redux/api/authSlice.api";
 import { setCredentials } from "@/redux/slices/authSlice";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import { OTPFormInput, otpSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -13,13 +12,25 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-function OTPVerification() {
+interface OTPVerificationProps {
+  next_route: string;
+  userID: string | undefined;
+}
+
+function OTPVerification({ next_route, userID }: OTPVerificationProps) {
+  //Redirect back to previous page if there is no user id
+  useEffect(() => {
+    if (!userID) {
+      router.back();
+    }
+  }, [userID]);
+
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<HTMLInputElement[] | null[]>(
     Array.from({ length: 6 }, () => null)
   );
   const router = useRouter();
-  const userID = useAppSelector((state) => state.auth.id);
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
@@ -29,13 +40,6 @@ function OTPVerification() {
     resolver: zodResolver(otpSchema),
     defaultValues: { otp },
   });
-
-  //Redirect back to previous page if there is no user id
-  useEffect(() => {
-    if (!userID) {
-      router.back();
-    }
-  }, [userID]);
 
   const [validateOTPMutation, { error, isError, isLoading }] =
     useValidateOtpMutation();
@@ -75,9 +79,9 @@ function OTPVerification() {
 
     try {
       const res = await validateOTPMutation(inputs).unwrap();
-      setCredentials(res);
+      dispatch(setCredentials(res));
       toast.success("OTP is verified");
-      router.push(LOGIN);
+      router.push(next_route);
     } catch (error) {
       console.log(error);
     }
