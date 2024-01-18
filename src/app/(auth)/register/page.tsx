@@ -3,7 +3,7 @@
 import { Button } from "@/components/common";
 import { CustomInput } from "@/components/form";
 import { REGISTER_SUCCESS } from "@/constants";
-import { VERIFY } from "@/constants/routes";
+import { REGISTER_VERIFY } from "@/constants/routes";
 import { useRegisterMutation } from "@/redux/api/authSlice.api";
 import { setCredentials } from "@/redux/slices/authSlice";
 import { RegisterFormInputs, signupSchema } from "@/schemas/auth.schema";
@@ -29,7 +29,7 @@ function SignupPage() {
       const res = await signUpMutation(data).unwrap();
       setCredentials(res);
       toast.success(REGISTER_SUCCESS);
-      router.push(VERIFY);
+      router.push(REGISTER_VERIFY);
     } catch (error) {
       console.log(error);
     }

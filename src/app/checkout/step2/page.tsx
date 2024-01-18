@@ -58,7 +58,7 @@ const ShippingDetails = () => {
               <ArrowLeftIcon className="w-5 h-5" />
               Go Back
             </Button>
-            <Button type="submit">
+            <Button variant="default" type="submit">
               Next Step
               <ArrowRightIcon className="w-5 h-5" />
             </Button>

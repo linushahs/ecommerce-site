@@ -45,7 +45,9 @@ function LoginPage() {
   };
 
   if (isError) {
-    toast.error((error as any).data.detail || "");
+    error &&
+      (error as any).data &&
+      toast.error((error as any).data.detail || "");
   }
 
   return (

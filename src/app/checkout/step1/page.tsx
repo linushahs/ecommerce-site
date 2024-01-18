@@ -41,7 +41,7 @@ const OrderSummaryPage = () => {
         </div>
         <br />
         <div className="flex items-center justify-between">
-          <Button variant="borderNone" onClick={onClickPrevious} type="button">
+          <Button variant="muted" onClick={onClickPrevious} type="button">
             <BuildingStorefrontIcon className="w-6 h-6" />
             Continue Shopping
           </Button>

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 //local component style ------------
 // ---------------------------------
-const checkoutFieldset = "flex gap-4 items-center mt-6";
+const checkoutFieldset = "flex gap-4 items-center mt-6 *:flex-1";
 
 const ShippingForm = () => {
   const {
