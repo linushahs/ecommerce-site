@@ -1,32 +1,29 @@
-import {
-  ArrowLeftOutlined,
-  CheckOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
-import { CustomInput, CustomMobileInput } from "@/components/form";
-import { ACCOUNT } from "@/constants/routes";
-import { Field, useFormikContext } from "formik";
-import PropType from "prop-types";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { Button, Spinner } from "@/components/common";
-import { CheckIcon } from "@heroicons/react/20/solid";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { CustomInput } from "@/components/form";
+import { UserProfileInputs } from "@/schemas/profile.schema";
 import { useRouter } from "next/navigation";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-const EditForm = ({ isLoading, authProvider }) => {
-  const router = useRouter();
+interface EditFormProps {
+  isLoading: boolean;
+  register: UseFormRegister<UserProfileInputs>;
+  errors: FieldErrors;
+}
 
+const EditForm: React.FC<EditFormProps> = ({ isLoading, register, errors }) => {
   return (
-    <div className="user-profile-details">
+    <div className="user-profile-details mt-16 flex flex-col gap-6">
       <CustomInput
+        register={register}
+        errors={errors}
         disabled={isLoading}
-        name="fullname"
+        name="full_name"
         type="text"
         label="* Full Name"
         placeholder="Enter your full name"
       />
       <CustomInput
+        register={register}
+        errors={errors}
         disabled={true}
         name="email"
         type="email"
@@ -34,47 +31,22 @@ const EditForm = ({ isLoading, authProvider }) => {
         placeholder="test@example.com"
       />
       <CustomInput
+        register={register}
+        errors={errors}
         disabled={isLoading}
-        name="address"
+        name="address_city"
         type="text"
         label="Address (Will be used for checkout)"
         placeholder="#245 Brgy. Maligalig, Arayat Pampanga, Philippines"
       />
-      <CustomMobileInput
-        defaultValue={values.mobile}
-        name="mobile"
-        disabled={isLoading}
+      {/* <CustomMobileInput
+        // disabled={isLoading}
+        placeholder="981230912"
         label="Mobile Number (Will be used for checkout)"
-      />
+      /> */}
       <br />
-      <div className="edit-user-action">
-        <Button
-          variant="muted"
-          disabled={isLoading}
-          onClick={() => router.push(ACCOUNT)}
-          type="button"
-        >
-          <ArrowLeftIcon className="w-6 h-6" />
-          &nbsp; Back to Profile
-        </Button>
-        <button
-          className="button w-100-mobile"
-          disabled={isLoading}
-          onClick={submitForm}
-          type="button"
-        >
-          {isLoading ? <Spinner /> : <CheckIcon className="w-5 h-5" />}
-          &nbsp;
-          {isLoading ? "Updating Profile" : "Update Profile"}
-        </button>
-      </div>
     </div>
   );
-};
-
-EditForm.propTypes = {
-  isLoading: PropType.bool.isRequired,
-  authProvider: PropType.string.isRequired,
 };
 
 export default EditForm;

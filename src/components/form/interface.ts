@@ -18,7 +18,7 @@ interface CustomMobileInputProps<
         country: string;
         value: string;
     };
-    setValue: UseFormSetValue<TFieldValues>;
+    setValue?: UseFormSetValue<TFieldValues>;
 }
 
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {

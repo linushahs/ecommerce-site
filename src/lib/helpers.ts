@@ -6,3 +6,15 @@ export function displayDate(inputDate: string): string {
     return formattedDate;
 }
 
+export const convertImageToBase64 = async (file: File): Promise<string | undefined> => {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const base64String = reader.result as string;
+            resolve(base64String);
+        };
+
+        reader.readAsDataURL(file);
+    });
+};

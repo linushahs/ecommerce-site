@@ -16,36 +16,36 @@ const baseQueryWithReauth: BaseQueryFn<
     unknown,
     FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-    let result = await baseQuery(args, api, extraOptions)
-    if (result.error && result.error.status === 401) {
+    let result;
 
-        const { data } = await baseQuery({
-            url: '/token/refresh/',
-            method: 'POST',
-            body: { refresh: getValidAuthTokens('refresh') },
+    const { data } = await baseQuery({
+        url: '/token/refresh/',
+        method: 'POST',
+        body: { refresh: getValidAuthTokens('refresh') },
 
-        }, api, extraOptions)
+    }, api, extraOptions)
 
-        if (data) {
-            const token = (data as any).access;
-            // store the new token
-            api.dispatch(setCredentials(data))
-            setCookie("access_token", token);
+    if (data) {
+        const token = (data as any).access;
+        // store the new token
+        api.dispatch(setCredentials(data))
+        setCookie("access_token", token);
 
-            //set headers with new access token
-            const updatedHeaders = {
-                'Authorization': `Bearer ${token}`,
-            };
+        //set headers with new access token
+        const updatedHeaders = {
+            'Authorization': `Bearer ${token}`,
+        };
 
-            result = await baseQuery(
-                { ...args as FetchArgs, headers: updatedHeaders },
-                api,
-                extraOptions
-            );
-        } else {
-            api.dispatch(logout())
-        }
+        result = await baseQuery(
+            { ...args as FetchArgs, headers: updatedHeaders },
+            api,
+            extraOptions
+        );
+    } else {
+        api.dispatch(logout())
+        result = await baseQuery(args, api, extraOptions);
     }
+
     return result
 }
 
@@ -68,20 +68,32 @@ export const profileApi = createApi({
                     dispatch(setProfileLoading(false));
                 } catch (err) {
                     // `onError` side-effect
-                    toast.error('Error fetching posts!')
+                    toast.error('Error fetching profile!')
                 }
             }
         }),
-        updateUserProfile: builder.mutation<UserProfileResponse, UserProfileResponse>({
-            query: (body) => ({
-                url: `/user/${body.id}/`,
+        updateUserProfile: builder.mutation<UserProfileResponse, { id: string, body: FormData }>({
+            query: ({ id, body }) => ({
+                url: `/user/${id}/`,
                 method: "PATCH",
-                body
-            })
+                body,
+                formData: true
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled
+                    // `onSuccess` side-effect
+                    dispatch(setProfile(data));
+                    toast.success('Successfully updated');
+                } catch (err) {
+                    console.error(err);
+                    toast.error('Error updating profile!')
+                }
+            }
         })
     }),
 });
 
-export const { useGetUserProfileQuery } = profileApi;
+export const { useGetUserProfileQuery, useUpdateUserProfileMutation } = profileApi;
 
 export default profileApi;

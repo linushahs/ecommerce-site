@@ -30,8 +30,6 @@ type ResetPasswordInputs = {
     id: string
 }
 
-
-
 interface UserProfileResponse {
     id: string;
     email: string;
@@ -47,7 +45,7 @@ interface UserProfileResponse {
     gender: string;
     full_name: string;
     phone_number: string;
-    profile_picture: string;
+    profile_picture: File | string;
 }
 
 

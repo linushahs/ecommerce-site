@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 
-type ImageFileType = {
+export type ImageFileType = {
   file: File;
   url: string;
   id: string;
@@ -42,8 +42,6 @@ const useFileHandler = (initState: ImageStateType): FileHandlerReturnType => {
     event: ChangeEvent<HTMLInputElement>,
     { name, type }: { name: string; type: string }
   ): void => {
-    console.log(type, event);
-
     const val = event.target.value;
     const img = event.target.files?.[0];
     const size = img?.size ? img.size / 1024 / 1024 : 0;
