@@ -1,28 +1,23 @@
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProfileState } from "../interface";
+import { UserProfileResponse } from "../interface";
 
-const initialState: ProfileState = {
-    fullname: "Sunil Shah",
-    email: "sunil2004@gmail.com",
-    address: "Kathmandu",
-    mobile: { value: "9102812123" },
-    dateJoined: null,
-    avatar: "",
-    banner: "",
-};
+type UserProfileState = { data: Partial<UserProfileResponse>, loading: boolean };
+let initialState: Partial<UserProfileState> = {}
 
 const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setProfile: (state, action: PayloadAction<ProfileState>) => {
-            return { ...state, ...action.payload };
+        setProfile: (state, action: PayloadAction<UserProfileResponse>) => {
+            return { ...state, data: { ...action.payload } };
         },
-        clearProfile: () => initialState,
+        setProfileLoading: (state, action: PayloadAction<boolean>) => {
+            return { ...state, loading: action.payload }
+        },
+        clearProfile: () => { },
     },
 });
 
-export const { setProfile, clearProfile } = profileSlice.actions;
+export const { setProfile, clearProfile, setProfileLoading } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -5,7 +5,7 @@ import { useAppSelector } from "@/redux/store";
 import OTPVerification from "@/views/auth/OTPVerification";
 
 function VerifyPage() {
-  const userID = useAppSelector((state) => state.auth.user_id);
+  const userID = useAppSelector((state) => state.auth.id);
 
   return <OTPVerification next_route={NEW_PASSWORD} userID={userID} />;
 }

@@ -3,6 +3,7 @@
 import { ACCOUNT } from "@/constants/routes";
 import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
 import { logout } from "@/redux/slices/authSlice";
+import { setProfile } from "@/redux/slices/profileSlice";
 import { useAppDispatch } from "@/redux/store";
 import {
   ArrowRightStartOnRectangleIcon,
@@ -28,16 +29,21 @@ const UserAvatar = () => {
       console.log(err);
     }
   };
+  const onClickNav = () => {
+    userNav.current?.classList.toggle("user-sub-open");
+  };
+
+  useEffect(() => {
+    if (profile) {
+      dispatch(setProfile(profile));
+    }
+  }, [profile, dispatch]);
 
   useEffect(() => {
     document.addEventListener("click", toggleDropdown);
 
     return () => document.removeEventListener("click", toggleDropdown);
   }, []);
-
-  const onClickNav = () => {
-    userNav.current?.classList.toggle("user-sub-open");
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;

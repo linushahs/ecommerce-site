@@ -3,27 +3,21 @@
 import { Button } from "@/components/common";
 import { ACCOUNT_EDIT } from "@/constants/routes";
 import { displayDate } from "@/lib/helpers";
-import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
+import { useAppSelector } from "@/redux/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const UserProfile: React.FC = () => {
-  const { data: profile, isLoading, error, isError } = useGetUserProfileQuery();
+  const { data: profile, loading } = useAppSelector((state) => state.profile);
   const router = useRouter();
 
   const handleEditAccount = (): void => {
     router.push(ACCOUNT_EDIT);
   };
 
-  if (isLoading) {
+  if (loading) {
     return <h1>Loading...</h1>;
   }
-
-  if (isError) {
-    console.log(error);
-  }
-
-  console.log(profile);
 
   return (
     <div className="user-profile">

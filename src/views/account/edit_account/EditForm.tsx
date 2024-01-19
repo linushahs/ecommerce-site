@@ -1,42 +1,44 @@
-import { ArrowLeftOutlined, CheckOutlined, LoadingOutlined } from '@ant-design/icons';
-import { CustomInput, CustomMobileInput } from '@/components/formik';
-import { ACCOUNT } from '@/constants/routes';
-import { Field, useFormikContext } from 'formik';
-import PropType from 'prop-types';
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import {
+  ArrowLeftOutlined,
+  CheckOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import { CustomInput, CustomMobileInput } from "@/components/form";
+import { ACCOUNT } from "@/constants/routes";
+import { Field, useFormikContext } from "formik";
+import PropType from "prop-types";
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { Button, Spinner } from "@/components/common";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 const EditForm = ({ isLoading, authProvider }) => {
-  const history = useHistory();
-  const { values, submitForm } = useFormikContext();
+  const router = useRouter();
 
   return (
     <div className="user-profile-details">
-      <Field
+      <CustomInput
         disabled={isLoading}
         name="fullname"
         type="text"
         label="* Full Name"
         placeholder="Enter your full name"
-        component={CustomInput}
-        style={{ textTransform: 'capitalize' }}
       />
-      <Field
-        disabled={authProvider !== 'password' || isLoading}
+      <CustomInput
+        disabled={true}
         name="email"
         type="email"
         label="* Email Address"
         placeholder="test@example.com"
-        component={CustomInput}
       />
-      <Field
+      <CustomInput
         disabled={isLoading}
         name="address"
         type="text"
         label="Address (Will be used for checkout)"
         placeholder="#245 Brgy. Maligalig, Arayat Pampanga, Philippines"
-        component={CustomInput}
-        style={{ textTransform: 'capitalize' }}
       />
       <CustomMobileInput
         defaultValue={values.mobile}
@@ -46,25 +48,24 @@ const EditForm = ({ isLoading, authProvider }) => {
       />
       <br />
       <div className="edit-user-action">
-        <button
-          className="button button-muted w-100-mobile"
+        <Button
+          variant="muted"
           disabled={isLoading}
-          onClick={() => history.push(ACCOUNT)}
+          onClick={() => router.push(ACCOUNT)}
           type="button"
         >
-          <ArrowLeftOutlined />
-          &nbsp;
-          Back to Profile
-        </button>
+          <ArrowLeftIcon className="w-6 h-6" />
+          &nbsp; Back to Profile
+        </Button>
         <button
           className="button w-100-mobile"
           disabled={isLoading}
           onClick={submitForm}
           type="button"
         >
-          {isLoading ? <LoadingOutlined /> : <CheckOutlined />}
-                    &nbsp;
-          {isLoading ? 'Updating Profile' : 'Update Profile'}
+          {isLoading ? <Spinner /> : <CheckIcon className="w-5 h-5" />}
+          &nbsp;
+          {isLoading ? "Updating Profile" : "Update Profile"}
         </button>
       </div>
     </div>
@@ -73,7 +74,7 @@ const EditForm = ({ isLoading, authProvider }) => {
 
 EditForm.propTypes = {
   isLoading: PropType.bool.isRequired,
-  authProvider: PropType.string.isRequired
+  authProvider: PropType.string.isRequired,
 };
 
 export default EditForm;

@@ -1,5 +1,6 @@
 import React from "react";
 import PhoneInput, { CountryData } from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { CustomMobileInputProps } from "./interface";
 
 const CustomMobileInput: React.FC<CustomMobileInputProps> = ({
@@ -21,9 +22,17 @@ const CustomMobileInput: React.FC<CustomMobileInputProps> = ({
 
   return (
     <div className="flex-1">
+      <label
+        htmlFor={"phoneNumber"}
+        className="block mb-2 font-medium text-gray-900 dark:text-white"
+      >
+        {label}
+      </label>
       <PhoneInput
         country="np"
-        inputClass="w-full py-2 px-3 border border-[var(--border-color-focus)] rounded mt-1"
+        containerClass="rounded-md min-h-full"
+        inputClass="sm:!text-sm bg-gray-50 border border-gray-300 text-gray-900 !rounded-lg focus:outline-none focus:ring-primary-600 !w-full !h-full !py-[11.3px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500"
+        dropdownClass="!rounded-lg"
         placeholder={placeholder}
         value={""}
         specialLabel="Mobile number"

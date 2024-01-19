@@ -1,9 +1,11 @@
 import { BASE_API_URL } from '@/constants/api.constants';
 import { getValidAuthTokens } from '@/lib/cookies';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UserProfile } from '../interface';
+import { UserProfileResponse } from '../interface';
 import { logout, setCredentials } from '../slices/authSlice';
 import { setCookie } from 'cookies-next';
+import { setProfile, setProfileLoading } from '../slices/profileSlice';
+import { toast } from 'sonner';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_API_URL,
@@ -51,13 +53,32 @@ export const profileApi = createApi({
     reducerPath: 'profileApi',
     baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
-        getUserProfile: builder.query<UserProfile, void>({
+        getUserProfile: builder.query<UserProfileResponse, void>({
             query: () => ({
                 url: '/user/me/',
                 method: 'GET',
-
             }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                // `onStart` side-effect
+                dispatch(setProfileLoading(true));
+                try {
+                    const { data } = await queryFulfilled
+                    // `onSuccess` side-effect
+                    dispatch(setProfile(data));
+                    dispatch(setProfileLoading(false));
+                } catch (err) {
+                    // `onError` side-effect
+                    toast.error('Error fetching posts!')
+                }
+            }
         }),
+        updateUserProfile: builder.mutation<UserProfileResponse, UserProfileResponse>({
+            query: (body) => ({
+                url: `/user/${body.id}/`,
+                method: "PATCH",
+                body
+            })
+        })
     }),
 });
 

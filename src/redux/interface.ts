@@ -16,7 +16,6 @@ type AuthState = {
     access: string | undefined,
     refresh: string | undefined,
     otp_verified: boolean,
-    user_id: string | undefined,
     otp_id: number | undefined
 }
 
@@ -27,23 +26,13 @@ type ValidateOTPInputs = {
 
 type ResetPasswordInputs = {
     password: string,
-    otp_id: number
-}
-
-type ProfileState = {
-    fullname: string;
-    email: string;
-    address: string | null;
-    mobile: {
-        value: string;
-    } | null;
-    dateJoined: string | null;
-    avatar: string;
-    banner: string;
+    otp_id: number,
+    id: string
 }
 
 
-interface UserProfile {
+
+interface UserProfileResponse {
     id: string;
     email: string;
     date_joined: string;
@@ -62,4 +51,4 @@ interface UserProfile {
 }
 
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, ProfileState, UserProfile, ResetPasswordInputs }
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs }

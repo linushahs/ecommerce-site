@@ -17,15 +17,15 @@ import { toast } from "sonner";
 const NewPasswordPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const otpId = useAppSelector((state) => state.auth.otp_id);
+  const { otp_id: otpId, id } = useAppSelector((state) => state.auth);
 
   //If otp_id is not in the state
   // Take user back to the previous page
   useEffect(() => {
-    if (!otpId) {
+    if (!otpId || !id) {
       router.back();
     }
-  }, [otpId]);
+  }, [otpId, id]);
 
   const {
     register,
@@ -39,16 +39,15 @@ const NewPasswordPage = () => {
     useResetPasswordMutation();
 
   const onSubmit: SubmitHandler<NewPwInputs> = async (data) => {
-    if (!otpId) {
+    if (!otpId || !id) {
       return;
     }
 
     let inputs = {
       password: data.password,
       otp_id: otpId,
+      id,
     };
-
-    console.log(inputs);
 
     try {
       const res = await resetPwMutation(inputs).unwrap();
