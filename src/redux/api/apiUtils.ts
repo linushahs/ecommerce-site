@@ -76,4 +76,18 @@ const handleApiMutation = async<T>(dispatch: any,
     }
 };
 
-export { handleApiMutation, handleApiQuery };
+const showToastMessages = async (
+    queryFulfilled: Promise<{ data: any }>,
+    errorMessage: string,
+    successMessage?: string,
+) => {
+    try {
+        await queryFulfilled;
+        successMessage && toast.success(successMessage || "Operation successful");
+    } catch (err) {
+        console.error(err);
+        toast.error(errorMessage || "Error performing operation");
+    }
+};
+
+export { handleApiMutation, handleApiQuery, showToastMessages };

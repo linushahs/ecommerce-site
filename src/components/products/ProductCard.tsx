@@ -1,8 +1,12 @@
+import {
+  useAddProductToWishlistMutation,
+  useRemoveProductFromWishlistMutation,
+} from "@/redux/api/productSlice.api";
 import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
-  ShoppingBagIcon as SShoppingBagIcon,
   HeartIcon as SHeartIcon,
+  ShoppingBagIcon as SShoppingBagIcon,
 } from "@heroicons/react/20/solid";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -10,8 +14,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { ProductCardProps } from "./interface";
-import { useAddProductToWishlistMutation } from "@/redux/api/productSlice.api";
-import { getValidAuthTokens } from "@/lib/cookies";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { cover_image, slug, title, price, is_in_wishlist } = product;
@@ -20,8 +22,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const products = useAppSelector((state) => state.basket);
   const isAddedToBasket = products.some((p) => p.slug === product.slug);
 
-  const [addToWishlistMn, { isError }] = useAddProductToWishlistMutation();
-  const accessToken = getValidAuthTokens("access") as string;
+  const [addToWishlistMn] = useAddProductToWishlistMutation();
+  const [removeFromWishlistMn] = useRemoveProductFromWishlistMutation();
 
   const handleRemoveBasket = () => {
     dispatch(removeFromBasket(product.slug));
@@ -59,11 +61,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="w-full flex justify-between items-end transition duration-500">
           <button className="">
             {is_in_wishlist ? (
-              <SHeartIcon className="w-6 h-6" />
+              <SHeartIcon
+                className="w-6 h-6"
+                onClick={() => removeFromWishlistMn(slug)}
+              />
             ) : (
               <HeartIcon
                 className="w-6 h-6"
-                onClick={() => addToWishlistMn({ slug, token: accessToken })}
+                onClick={() => addToWishlistMn(slug)}
               />
             )}
           </button>

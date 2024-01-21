@@ -1,8 +1,9 @@
 
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { setProfile } from '../slices/profileSlice';
-import { baseQueryWithReauth, handleApiMutation, handleApiQuery } from './apiUtils';
-import { UserProfileResponse } from './interface';
+import { baseQueryWithReauth, handleApiMutation, handleApiQuery, showToastMessages } from './apiUtils';
+import { AllProductsResponse, UserProfileResponse } from './interface';
+import { Product } from '../slices/interface';
 
 
 export const profileApi = createApi({
@@ -28,10 +29,20 @@ export const profileApi = createApi({
             onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
                 handleApiMutation(dispatch, queryFulfilled, setProfile, "Successfully updated", "Error updating profile!");
             }
-        })
+        }),
+
+        getUserWishlist: builder.query<Product[], void>({
+            query: () => ({
+                url: '/user/wishlist/',
+                method: 'GET',
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                showToastMessages(queryFulfilled, "Error fetching user wishlist!");
+            }
+        }),
     }),
 });
 
 
-export const { useGetUserProfileQuery, useUpdateUserProfileMutation } = profileApi;
+export const { useGetUserProfileQuery, useUpdateUserProfileMutation, useGetUserWishlistQuery } = profileApi;
 

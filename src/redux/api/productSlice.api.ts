@@ -1,8 +1,8 @@
 
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { toast } from "sonner";
+import { PathString } from "react-hook-form";
 import { storeProducts, storeSingleProduct } from "../slices/productSlice";
-import { baseQueryWithReauth, handleApiQuery } from "./apiUtils";
+import { baseQueryWithReauth, handleApiQuery, showToastMessages } from "./apiUtils";
 import { AllProductsResponse, ProductDetailsResponse } from "./interface";
 
 export const productApi = createApi({
@@ -33,29 +33,37 @@ export const productApi = createApi({
                 handleApiQuery(dispatch, queryFulfilled, storeSingleProduct, "Error fetching product details!");
             }
         }),
-        addProductToWishlist: builder.mutation<void, Record<string, string>>({
-            query: ({ slug, token }) => ({
+        addProductToWishlist: builder.mutation<void, PathString>({
+            query: (slug) => ({
                 url: `/product/${slug}/add-to-wishlist/`,
                 method: 'POST',
 
             }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    toast.success("Product is added to wishlisht.")
-
-                } catch (err) {
-                    console.error(err);
-                    toast.error("Error adding product to wishlist!")
-                }
+                showToastMessages(queryFulfilled, "Product is added to wishlisht.", "Error adding product to wishlist!");
             },
 
             invalidatesTags: (result, error, id) => {
-                return [{ type: 'Product', id: id.slug }]
+                return [{ type: 'Product', id }]
+            },
+        }),
+
+        removeProductFromWishlist: builder.mutation<void, PathString>({
+            query: (slug) => ({
+                url: `/product/${slug}/remove-from-wishlist/`,
+                method: 'POST',
+
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                showToastMessages(queryFulfilled, "Product is removed from wishlist.", "Error removing product from wishlist!");
+            },
+
+            invalidatesTags: (result, error, id) => {
+                return [{ type: 'Product', id }]
             },
 
         }),
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useAddProductToWishlistMutation } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useAddProductToWishlistMutation, useRemoveProductFromWishlistMutation } = productApi;
