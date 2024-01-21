@@ -2,8 +2,10 @@ import { Button, Spinner } from "@/components/common";
 import { ACCOUNT } from "@/constants/routes";
 import { useFileHandler } from "@/hooks";
 import { ImageFileType } from "@/hooks/useFilehandler";
-import { useUpdateUserProfileMutation } from "@/redux/api/profileSlice.api";
-import { useAppSelector } from "@/redux/store";
+import {
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
+} from "@/redux/api/profileSlice.api";
 import { UserProfileInputs, userProfileSchema } from "@/schemas/profile.schema";
 import {
   ArrowLeftIcon,
@@ -20,10 +22,7 @@ import EditForm from "./EditForm";
 const EditProfile: React.FC = () => {
   const router = useRouter();
 
-  const { profile, loading } = useAppSelector((state) => ({
-    profile: state.profile.data,
-    loading: state.profile.loading,
-  }));
+  const { data: profile, isLoading } = useGetUserProfileQuery();
 
   const { imageFile, isFileLoading, onFileChange } = useFileHandler({
     avatar: null,
@@ -55,11 +54,13 @@ const EditProfile: React.FC = () => {
     const fieldsChanged = Object.keys(data).some((key) => {
       const Ikey = key as keyof UserProfileInputs;
 
-      return profile[Ikey] !== undefined && profile[Ikey] !== data[Ikey];
+      return (
+        profile && profile[Ikey] !== undefined && profile[Ikey] !== data[Ikey]
+      );
     });
 
     if (fieldsChanged || Boolean(imageFile.avatar)) {
-      if (data.email === profile.email) {
+      if (data.email === profile?.email) {
         updateUserProfile(data);
       }
     }
@@ -76,11 +77,15 @@ const EditProfile: React.FC = () => {
 
       profilePic && formData.append("profile_picture", profilePic);
 
-      updateUserProfileMn({ id: profile.id || "", body: formData });
+      updateUserProfileMn({ id: profile?.id || "", body: formData });
     } catch (err) {
       console.error(err);
     }
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="edit-user mt-[var(--navbar-height)] mb-12 rounded-md ">
@@ -130,7 +135,7 @@ const EditProfile: React.FC = () => {
               className="user-profile-img"
               src={
                 (imageFile.avatar as ImageFileType)?.url ||
-                (profile.profile_picture as string) ||
+                (profile?.profile_picture as string) ||
                 ""
               }
               width={100}
@@ -160,7 +165,7 @@ const EditProfile: React.FC = () => {
           </div>
         </div>
         <EditForm
-          isLoading={loading || false}
+          isLoading={isLoading || false}
           register={register}
           errors={errors}
         />
@@ -168,7 +173,7 @@ const EditProfile: React.FC = () => {
         <div className="edit-user-action">
           <Button
             variant="muted"
-            disabled={loading}
+            disabled={isLoading}
             onClick={() => router.push(ACCOUNT)}
             type="button"
           >

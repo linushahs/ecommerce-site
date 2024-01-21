@@ -9,14 +9,14 @@ import { toast } from "sonner";
 import { ProductCardProps } from "./interface";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { imageUrl, id, name, price } = product;
+  const { cover_image, slug, title, price } = product;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.basket);
-  const isAddedToBasket = products.some((p) => p.id === product.id);
+  const isAddedToBasket = products.some((p) => p.slug === product.slug);
 
   const handleRemoveBasket = () => {
-    dispatch(removeFromBasket(product.id));
+    dispatch(removeFromBasket(product.slug));
 
     toast.error("Product has been removed", {
       action: {
@@ -33,13 +33,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div
-      key={id}
-      className="w-full p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden"
-    >
-      <div className="w-full" onClick={() => router.push(`/product/${id}`)}>
+    <div className="w-full p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden">
+      <div className="w-full" onClick={() => router.push(`/product/${slug}`)}>
         <Image
-          src={imageUrl}
+          src={cover_image || ""}
           alt="product thumbnail"
           width={300}
           height={220}
@@ -49,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       <div className="w-full p-6">
         <div className="text-lg pb-2 font-medium text-center">
-          <p className="!capitalize">{name}</p>
+          <p className="!capitalize">{title}</p>
         </div>
         <div className="w-full flex justify-between items-end transition duration-500">
           <button className="">

@@ -18,11 +18,6 @@ const withAuth = <P extends object>(
       }
     }, [isAuthenticated, router]);
 
-    if (!isAuthenticated) {
-      // You can show a loading spinner or some other UI while checking authentication
-      return <div>Loading...</div>;
-    }
-
     // Render the wrapped component if the user is authenticated
     return <WrappedComponent {...props} />;
   };

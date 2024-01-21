@@ -28,6 +28,7 @@ const UserAvatar = () => {
       console.log(err);
     }
   };
+
   const onClickNav = () => {
     userNav.current?.classList.toggle("user-sub-open");
   };
