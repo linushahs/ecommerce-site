@@ -1,19 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetAllProductResponse } from "../api/interface";
-import { ProductDetails } from "./interface";
+import { AllProductsResponse, ProductDetailsResponse } from "../api/interface";
 
-type ProductState = Partial<GetAllProductResponse & { singleProduct: ProductDetails }>;
+type ProductState = Partial<AllProductsResponse & ProductDetailsResponse>;
 const initialState: ProductState = {};
 
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    storeProducts(state, action: PayloadAction<GetAllProductResponse>) {
+    storeProducts(state, action: PayloadAction<AllProductsResponse>) {
       return { ...state, products: [...action.payload.results] }
     },
-    storeSingleProduct(state, action: PayloadAction<ProductDetails>) {
-      return { ...state, singleProduct: { ...action.payload } };
+    storeSingleProduct(state, action: PayloadAction<ProductDetailsResponse>) {
+      return { ...state, product: { ...action.payload.product }, related_products: { ...action.payload.related_products } };
     },
   },
 });

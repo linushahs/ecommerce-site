@@ -1,4 +1,4 @@
-import { Product } from "../slices/interface";
+import { Product, ProductDetails } from "../slices/interface";
 
 type LoginAuthResponse = {
     otp_verified: boolean,
@@ -50,7 +50,7 @@ interface UserProfileResponse {
     profile_picture: File | string;
 }
 
-interface GetAllProductResponse {
+interface AllProductsResponse {
     pagination: {
         count: number;
         next: number
@@ -63,5 +63,10 @@ interface GetAllProductResponse {
     results: Product[]
 }
 
+interface ProductDetailsResponse {
+    product: ProductDetails,
+    related_products: Product[]
+}
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs, GetAllProductResponse }
+
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs, AllProductsResponse, ProductDetailsResponse }

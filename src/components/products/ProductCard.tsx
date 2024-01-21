@@ -1,19 +1,27 @@
 import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { ShoppingBagIcon as ShoppingBagIconSolid } from "@heroicons/react/20/solid";
+import {
+  ShoppingBagIcon as SShoppingBagIcon,
+  HeartIcon as SHeartIcon,
+} from "@heroicons/react/20/solid";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { ProductCardProps } from "./interface";
+import { useAddProductToWishlistMutation } from "@/redux/api/productSlice.api";
+import { getValidAuthTokens } from "@/lib/cookies";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { cover_image, slug, title, price } = product;
+  const { cover_image, slug, title, price, is_in_wishlist } = product;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.basket);
   const isAddedToBasket = products.some((p) => p.slug === product.slug);
+
+  const [addToWishlistMn, { isError }] = useAddProductToWishlistMutation();
+  const accessToken = getValidAuthTokens("access") as string;
 
   const handleRemoveBasket = () => {
     dispatch(removeFromBasket(product.slug));
@@ -50,7 +58,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div className="w-full flex justify-between items-end transition duration-500">
           <button className="">
-            <HeartIcon className="w-6 h-6" />
+            {is_in_wishlist ? (
+              <SHeartIcon className="w-6 h-6" />
+            ) : (
+              <HeartIcon
+                className="w-6 h-6"
+                onClick={() => addToWishlistMn({ slug, token: accessToken })}
+              />
+            )}
           </button>
 
           <div className="flex flex-col items-center">
@@ -61,7 +76,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
           <button>
             {isAddedToBasket ? (
-              <ShoppingBagIconSolid
+              <SShoppingBagIcon
                 className="w-6 h-6"
                 onClick={handleRemoveBasket}
               />
