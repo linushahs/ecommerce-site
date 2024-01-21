@@ -3,7 +3,6 @@
 import { ACCOUNT } from "@/constants/routes";
 import { useGetUserProfileQuery } from "@/redux/api/profileSlice.api";
 import { logout } from "@/redux/slices/authSlice";
-import { setProfile } from "@/redux/slices/profileSlice";
 import { useAppDispatch } from "@/redux/store";
 import {
   ArrowRightStartOnRectangleIcon,
@@ -34,12 +33,6 @@ const UserAvatar = () => {
   };
 
   useEffect(() => {
-    if (profile) {
-      dispatch(setProfile(profile));
-    }
-  }, [profile, dispatch]);
-
-  useEffect(() => {
     document.addEventListener("click", toggleDropdown);
 
     return () => document.removeEventListener("click", toggleDropdown);
@@ -64,7 +57,7 @@ const UserAvatar = () => {
         <Image
           alt="profile avatar"
           className="user-nav-img"
-          src={profile?.profile_picture || ""}
+          src={(profile?.profile_picture as string) || ""}
           width={60}
           height={60}
         />

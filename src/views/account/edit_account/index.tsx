@@ -36,16 +36,20 @@ const EditProfile: React.FC = () => {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<UserProfileInputs>({
     resolver: zodResolver(userProfileSchema),
-    defaultValues: {
-      full_name: profile.full_name || "",
-      email: profile.email || "",
-      address_city: profile.address_city || "",
-      phone_number: profile.phone_number || "",
-    },
   });
+
+  useEffect(() => {
+    if (profile) {
+      setValue("full_name", profile.full_name || "");
+      setValue("email", profile.email || "");
+      setValue("address_city", profile.address_city || "");
+      setValue("phone_number", profile.phone_number || "");
+    }
+  }, [profile, setValue]);
 
   const onSubmit: SubmitHandler<UserProfileInputs> = (data) => {
     const fieldsChanged = Object.keys(data).some((key) => {
@@ -63,7 +67,7 @@ const EditProfile: React.FC = () => {
 
   const updateUserProfile = async (data: UserProfileInputs) => {
     try {
-      const profilePic = (imageFile?.avatar as ImageFileType).file;
+      const profilePic = (imageFile?.avatar as ImageFileType)?.file;
 
       const formData = new FormData();
       Object.entries({ ...data }).forEach(([key, value]) => {
@@ -85,7 +89,7 @@ const EditProfile: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="user-profile-banner">
           <div className="user-profile-banner-wrapper">
-            <div className="bg-gray-100 w-full h-[160px] rounded-lg mt-4"></div>
+            <div className="bg-gray-100 w-full h-[160px] rounded-md mt-4"></div>
             {/* <Image
             alt="Banner"
             className="user-profile-banner-img bg-gray-100"

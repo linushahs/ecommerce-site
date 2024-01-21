@@ -1,5 +1,3 @@
-"use client";
-
 import Button from "@/components/common/Button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";

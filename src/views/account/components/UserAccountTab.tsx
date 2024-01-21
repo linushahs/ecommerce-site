@@ -15,7 +15,7 @@ const UserProfile: React.FC = () => {
     router.push(ACCOUNT_EDIT);
   };
 
-  if (loading) {
+  if (loading || profile === undefined) {
     return <h1>Loading...</h1>;
   }
 
@@ -37,7 +37,7 @@ const UserProfile: React.FC = () => {
             <Image
               alt="Avatar"
               className="user-profile-img"
-              src={profile?.profile_picture || ""}
+              src={(profile?.profile_picture as string) || ""}
               width={80}
               height={80}
             />

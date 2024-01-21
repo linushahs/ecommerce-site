@@ -1,7 +1,7 @@
 import { BASE_API_URL } from '@/constants/api.constants'
 import { LoginFormInputs, RegisterFormInputs } from '@/schemas/auth.schema'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { LoginAuthResponse, RegisterAuthResponse, ResetPasswordInputs, ValidateOTPInputs } from '../interface'
+import { LoginAuthResponse, RegisterAuthResponse, ResetPasswordInputs, ValidateOTPInputs } from './interface'
 
 // Define a service using a base URL and expected endpoints
 export const authApi = createApi({
