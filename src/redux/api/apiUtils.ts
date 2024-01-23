@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { logout, setCredentials } from "../slices/authSlice";
 import { setCookie } from "cookies-next";
 
-const baseQuery = fetchBaseQuery({
+export const baseQuery = fetchBaseQuery({
     baseUrl: BASE_API_URL,
 });
 

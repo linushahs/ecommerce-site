@@ -30,14 +30,16 @@ interface ProductFeature {
 }
 
 interface Product {
+    id: number;
     title: string
     slug: string
     cover_image: string
     price: number
     categories: Category[]
-    is_in_wishlist: any
+    is_in_wishlist: boolean | null
     is_featured: boolean
     is_recommended: boolean
+    is_in_cart: boolean | null;
 }
 
 interface Category {

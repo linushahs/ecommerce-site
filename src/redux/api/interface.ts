@@ -1,3 +1,4 @@
+import { BasketProduct } from "@/components/basket/interface";
 import { Product, ProductDetails } from "../slices/interface";
 
 type LoginAuthResponse = {
@@ -68,5 +69,26 @@ interface ProductDetailsResponse {
     related_products: Product[]
 }
 
+interface CartDetailsResponse {
+    id: number,
+    products: BasketProduct[],
+    cart_total: number,
+    cart_discount: number,
+    discounted_cart_total: number
+}
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs, AllProductsResponse, ProductDetailsResponse }
+interface CartRequestBody {
+    product_id: number;
+    quantity: number;
+    selectedSize: string;
+    selectedColor: string;
+}
+
+interface CategoryResponse {
+    name: string;
+    slug: string;
+    products: Product[]
+}
+
+
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs, CartDetailsResponse, AllProductsResponse, ProductDetailsResponse, CartRequestBody, CategoryResponse }

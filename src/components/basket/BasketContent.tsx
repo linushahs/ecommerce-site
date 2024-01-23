@@ -2,34 +2,20 @@
 
 import { BasketItem } from "@/components/basket";
 import { CHECKOUT_STEP_1 } from "@/constants/routes";
-import { clearBasket } from "@/redux/slices/basketSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { useRouter } from "next/navigation";
+import { useGetCartDetailsQuery } from "@/redux/api/cartSlice.api";
+import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../common";
 import { BasketContentProps } from "./interface";
 
 const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
-  // const { isOpenModal, onOpenModal, onCloseModal } = useModal();
-  // const { basket, user } = useSelector((state) => ({
-  //   basket: state.basket,
-  //   user: state.auth
-  // }));
-  const products = useAppSelector((state) => state.basket);
-  const dispatch = useAppDispatch();
+  const { data: cartDetails, isLoading } = useGetCartDetailsQuery();
   const router = useRouter();
-  // const { pathname } = useLocation();
-  // const dispatch = useDispatch();
-  // const didMount = useDidMount();
+  const params = usePathname();
 
   const onCheckOut = () => {
-    // if ((basket.length !== 0 && user)) {
-    // document.body.classList.remove('is-basket-open');
-    onClose(); //close the basket
+    onClose();
     router.push(CHECKOUT_STEP_1);
-    // } else {
-    //   onOpenModal();
-    // }
   };
 
   // const onSignInClick = () => {
@@ -39,10 +25,15 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   // };
 
   const onClearBasket = () => {
-    if (products.length !== 0) {
-      dispatch(clearBasket());
+    if (cartDetails?.products.length !== 0) {
+      // clear cart
     }
   };
+
+  const products = cartDetails?.products;
+  const totalNoOfProducts = products?.length;
+
+  console.log(products, totalNoOfProducts);
 
   {
     /* <Modal
@@ -78,7 +69,10 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
           <h3 className="basket-header-title">
             My Basket &nbsp;
             <span className="text-sm font-medium">
-              ({` ${products.length} ${products.length > 1 ? "items" : "item"}`}
+              (
+              {` ${totalNoOfProducts} ${
+                totalNoOfProducts && totalNoOfProducts > 1 ? "items" : "item"
+              }`}
               )
             </span>
           </h3>
@@ -95,7 +89,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             <Button
               variant="borderGray"
               className="border-0"
-              disabled={products.length === 0}
+              disabled={totalNoOfProducts === 0}
               onClick={onClearBasket}
               type="button"
             >
@@ -103,13 +97,13 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             </Button>
           </div>
         </div>
-        {products.length <= 0 && (
+        {totalNoOfProducts && totalNoOfProducts <= 0 && (
           <div className="basket-empty">
             <h5 className="basket-empty-msg">Your basket is empty</h5>
           </div>
         )}
         <div className="flex flex-col gap-3">
-          {products.map((product) => (
+          {products?.map((product) => (
             <BasketItem key={product.id} product={product} />
           ))}
         </div>
@@ -117,15 +111,10 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
       <div className="basket-checkout">
         <div className="basket-total">
           <p className="basket-total-title">Subtotal Amount:</p>
-          <h2 className="basket-total-amount">
-            {/* {calculateTotal(
-              basket.map((product) => product.price * product.quantity)
-            )} */}
-            500
-          </h2>
+          <h2 className="basket-total-amount">{cartDetails?.cart_total}</h2>
         </div>
         <Button
-          // disabled={basket.length === 0 || pathname === "/checkout"}
+          disabled={totalNoOfProducts === 0 || params === "/checkout"}
           onClick={onCheckOut}
           type="button"
         >

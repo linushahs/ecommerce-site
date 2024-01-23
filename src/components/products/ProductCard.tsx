@@ -1,9 +1,11 @@
 import {
+  useAddToCartMutation,
+  useRemoveFromCartMutation,
+} from "@/redux/api/cartSlice.api";
+import {
   useAddProductToWishlistMutation,
   useRemoveProductFromWishlistMutation,
 } from "@/redux/api/productSlice.api";
-import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
   HeartIcon as SHeartIcon,
   ShoppingBagIcon as SShoppingBagIcon,
@@ -12,35 +14,22 @@ import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { toast } from "sonner";
 import { ProductCardProps } from "./interface";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { cover_image, slug, title, price, is_in_wishlist } = product;
+  const { id, cover_image, slug, title, price, is_in_wishlist, is_in_cart } =
+    product;
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.basket);
-  const isAddedToBasket = products.some((p) => p.slug === product.slug);
 
+  // Wishlist: add and remove
+  // ---------------------------
   const [addToWishlistMn] = useAddProductToWishlistMutation();
   const [removeFromWishlistMn] = useRemoveProductFromWishlistMutation();
 
-  const handleRemoveBasket = () => {
-    dispatch(removeFromBasket(product.slug));
-
-    toast.error("Product has been removed", {
-      action: {
-        label: "Undo",
-        onClick: () => dispatch(addToBasket(product)),
-      },
-    });
-  };
-
-  const handleAddToBasket = () => {
-    dispatch(addToBasket(product));
-
-    toast.success("Product has been added");
-  };
+  // Cart: add, update and remove
+  // ----------------------------
+  const [addToCartMn] = useAddToCartMutation();
+  const [removeFromCartMn] = useRemoveFromCartMutation();
 
   return (
     <div className="w-full p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden">
@@ -80,15 +69,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-[17px] font-bold">{price}</span>
           </div>
           <button>
-            {isAddedToBasket ? (
+            {is_in_cart ? (
               <SShoppingBagIcon
                 className="w-6 h-6"
-                onClick={handleRemoveBasket}
+                onClick={() => removeFromCartMn({ product_id: id })}
               />
             ) : (
               <ShoppingBagIcon
                 className="w-6 h-6"
-                onClick={handleAddToBasket}
+                onClick={() =>
+                  addToCartMn({
+                    product_id: id,
+                    quantity: 1,
+                    selectedSize: "",
+                    selectedColor: "",
+                  })
+                }
               />
             )}
           </button>

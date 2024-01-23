@@ -1,49 +1,45 @@
+import { useRemoveFromCartMutation } from "@/redux/api/cartSlice.api";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { BasketItemProps } from "./interface";
 import BasketItemControl from "./BasketItemControl";
-import { removeFromBasket } from "@/redux/slices/basketSlice";
-import { useAppDispatch } from "@/redux/store";
+import { BasketItemProps } from "./interface";
 
-const BasketItem: React.FC<BasketItemProps> = ({
-  product,
-  wishlist = false,
-}) => {
+const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
   const {
-    name,
-    imageUrl,
+    title,
+    cover_image,
     id,
-    quantity,
-    selectedSize,
-    selectedColor,
-    availableColors,
+    slug,
     price,
+    quantity,
+    selectedColor,
+    selectedSize,
   } = product;
 
-  const dispatch = useAppDispatch();
+  const [removeFromCartMn] = useRemoveFromCartMutation();
 
   return (
     <div className=" border border-gray-300 pr-4 rounded-md transition-transform ease-in duration-200 transform hover:scale-[1.02] flex gap-2 overflow-hidden">
-      {!wishlist && <BasketItemControl product={product} />}
+      {<BasketItemControl product={product} />}
 
       <div className="flex flex-1 items-center py-1.5">
         <div className="w-28 h-28 mr-2 relative">
           <Image
-            alt={name}
+            alt={title}
             className="w-full h-full object-contain"
-            src={imageUrl}
+            src={cover_image}
             width={300}
             height={200}
           />
         </div>
         <div className="flex-1">
           <Link
-            href={`/product/${id}`}
+            href={`/product/${slug}`}
             onClick={() => document.body.classList.remove("is-basket-open")}
           >
             <h4 className="underline mb-4 w-36 whitespace-nowrap overflow-hidden text-ellipsis relative font-semibold text-lg">
-              {name}
+              {title}
             </h4>
           </Link>
           <div className="grid grid-cols-3">
@@ -75,7 +71,7 @@ const BasketItem: React.FC<BasketItemProps> = ({
         </div>
 
         <button
-          onClick={() => dispatch(removeFromBasket(product.id))}
+          onClick={() => removeFromCartMn({ product_id: id })}
           className="self-center "
           type="button"
         >

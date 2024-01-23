@@ -1,3 +1,4 @@
+import { CategoryResponse } from "@/redux/api/interface";
 import { Product } from "@/redux/slices/interface";
 
 interface SubCategoryProps {
@@ -5,16 +6,11 @@ interface SubCategoryProps {
   href: string;
 }
 
-interface OptionProps {
-  value: string;
-  label: string;
-  checked: boolean;
-}
 
 interface SectionProps {
-  id: string;
+  id?: string;
   name: string;
-  options: OptionProps[];
+  options: CategoryResponse[];
 }
 
 interface MobileFilterProps {
@@ -40,7 +36,7 @@ export type {
   SectionProps,
   SubCategoryProps,
   MobileFilterProps,
-  OptionProps,
+
   SortMenuProps,
   ProductCardProps
 };

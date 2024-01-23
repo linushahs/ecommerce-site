@@ -1,6 +1,8 @@
 "use client";
 
 import { filters, sortOptions, subCategories } from "@/constants/";
+import { useGetCategoriesQuery } from "@/redux/api/categorySlice.api";
+import { CategoryResponse } from "@/redux/api/interface";
 import { FunnelIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
 import {
   MobileFilterDialog,
@@ -12,6 +14,8 @@ import { useState } from "react";
 
 export default function Example() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const { data: categories } = useGetCategoriesQuery();
 
   return (
     <section className="bg-white">
@@ -69,9 +73,11 @@ export default function Example() {
                   ))}
                 </ul>
 
-                {filters.map((section, id) => (
-                  <FilterSection key={id} section={section} />
-                ))}
+                {categories && (
+                  <FilterSection
+                    section={{ name: "category", options: categories }}
+                  />
+                )}
               </form>
 
               {/* Product grid */}

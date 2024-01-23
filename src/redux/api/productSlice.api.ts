@@ -1,6 +1,5 @@
 
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { PathString } from "react-hook-form";
 import { storeProducts, storeSingleProduct } from "../slices/productSlice";
 import { baseQueryWithReauth, handleApiQuery, showToastMessages } from "./apiUtils";
 import { AllProductsResponse, ProductDetailsResponse } from "./interface";
@@ -33,7 +32,7 @@ export const productApi = createApi({
                 handleApiQuery(dispatch, queryFulfilled, storeSingleProduct, "Error fetching product details!");
             }
         }),
-        addProductToWishlist: builder.mutation<void, PathString>({
+        addProductToWishlist: builder.mutation<void, string>({
             query: (slug) => ({
                 url: `/product/${slug}/add-to-wishlist/`,
                 method: 'POST',
@@ -48,7 +47,7 @@ export const productApi = createApi({
             },
         }),
 
-        removeProductFromWishlist: builder.mutation<void, PathString>({
+        removeProductFromWishlist: builder.mutation<void, string>({
             query: (slug) => ({
                 url: `/product/${slug}/remove-from-wishlist/`,
                 method: 'POST',
