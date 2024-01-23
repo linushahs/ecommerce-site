@@ -2,7 +2,7 @@ import { getValidAuthTokens, setAuthCookie } from "@/lib/cookies";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { deleteCookie } from "cookies-next";
 import { authApi } from "../api/authSlice.api";
-import { AuthState } from "../interface";
+import { AuthState } from "../api/interface";
 
 const initialState: Partial<AuthState> = {};
 

@@ -1,6 +1,13 @@
+import {
+  useAddProductToWishlistMutation,
+  useRemoveProductFromWishlistMutation,
+} from "@/redux/api/productSlice.api";
 import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { ShoppingBagIcon as ShoppingBagIconSolid } from "@heroicons/react/20/solid";
+import {
+  HeartIcon as SHeartIcon,
+  ShoppingBagIcon as SShoppingBagIcon,
+} from "@heroicons/react/20/solid";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,14 +16,17 @@ import { toast } from "sonner";
 import { ProductCardProps } from "./interface";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { imageUrl, id, name, price } = product;
+  const { cover_image, slug, title, price, is_in_wishlist } = product;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.basket);
-  const isAddedToBasket = products.some((p) => p.id === product.id);
+  const isAddedToBasket = products.some((p) => p.slug === product.slug);
+
+  const [addToWishlistMn] = useAddProductToWishlistMutation();
+  const [removeFromWishlistMn] = useRemoveProductFromWishlistMutation();
 
   const handleRemoveBasket = () => {
-    dispatch(removeFromBasket(product.id));
+    dispatch(removeFromBasket(product.slug));
 
     toast.error("Product has been removed", {
       action: {
@@ -33,13 +43,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div
-      key={id}
-      className="w-full p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden"
-    >
-      <div className="w-full" onClick={() => router.push(`/product/${id}`)}>
+    <div className="w-full p-1 border-2 border-gray-200 transition-transform transform hover:shadow-lg relative items-center rounded-lg flex flex-col justify-center overflow-hidden">
+      <div className="w-full" onClick={() => router.push(`/product/${slug}`)}>
         <Image
-          src={imageUrl}
+          src={cover_image || ""}
           alt="product thumbnail"
           width={300}
           height={220}
@@ -49,11 +56,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       <div className="w-full p-6">
         <div className="text-lg pb-2 font-medium text-center">
-          <p className="!capitalize">{name}</p>
+          <p className="!capitalize">{title}</p>
         </div>
         <div className="w-full flex justify-between items-end transition duration-500">
           <button className="">
-            <HeartIcon className="w-6 h-6" />
+            {is_in_wishlist ? (
+              <SHeartIcon
+                className="w-6 h-6"
+                onClick={() => removeFromWishlistMn(slug)}
+              />
+            ) : (
+              <HeartIcon
+                className="w-6 h-6"
+                onClick={() => addToWishlistMn(slug)}
+              />
+            )}
           </button>
 
           <div className="flex flex-col items-center">
@@ -64,7 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
           <button>
             {isAddedToBasket ? (
-              <ShoppingBagIconSolid
+              <SShoppingBagIcon
                 className="w-6 h-6"
                 onClick={handleRemoveBasket}
               />

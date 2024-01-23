@@ -1,3 +1,4 @@
+import { Product } from "@/redux/slices/interface";
 
 interface SubCategoryProps {
   name: string;
@@ -31,26 +32,6 @@ interface SortMenuProps {
   sortOptions: SortOption[];
 }
 
-interface Product {
-  id: string;
-  name: string;
-  brand: string;
-  price: number;
-  quantity: number;
-  maxQuantity: number;
-  description: string;
-  keywords: string[];
-  selectedSize: string;
-  selectedColor: string;
-  imageCollection: string[];
-  sizes: number[];
-  image: string;
-  imageUrl: string;
-  isFeatured: boolean;
-  isRecommended: boolean;
-  availableColors: string[];
-}
-
 interface ProductCardProps {
   product: Product;
 }
@@ -61,6 +42,5 @@ export type {
   MobileFilterProps,
   OptionProps,
   SortMenuProps,
-  Product,
   ProductCardProps
 };

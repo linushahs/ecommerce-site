@@ -51,8 +51,8 @@ const useFileHandler = (initState: ImageStateType): FileHandlerReturnType => {
     if (!regex.exec(val)) {
       toast.error("File type must be JPEG or PNG");
       setFileLoading(false);
-    } else if (size > 0.5) {
-      toast.error("File size exceeded 500kb, consider optimizing your image");
+    } else if (size > 2) {
+      toast.error("File size exceeded 2mb, consider optimizing your image");
       setFileLoading(false);
     } else if (type === "multiple") {
       Array.from(event.target.files || []).forEach((file) => {

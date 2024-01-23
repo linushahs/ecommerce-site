@@ -6,7 +6,10 @@ import BasketItemControl from "./BasketItemControl";
 import { removeFromBasket } from "@/redux/slices/basketSlice";
 import { useAppDispatch } from "@/redux/store";
 
-const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
+const BasketItem: React.FC<BasketItemProps> = ({
+  product,
+  wishlist = false,
+}) => {
   const {
     name,
     imageUrl,
@@ -22,7 +25,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
 
   return (
     <div className=" border border-gray-300 pr-4 rounded-md transition-transform ease-in duration-200 transform hover:scale-[1.02] flex gap-2 overflow-hidden">
-      <BasketItemControl product={product} />
+      {!wishlist && <BasketItemControl product={product} />}
 
       <div className="flex flex-1 items-center py-1.5">
         <div className="w-28 h-28 mr-2 relative">
@@ -56,7 +59,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
               <span className="text-gray-500 text-sm">Color</span>
               <div
                 style={{
-                  backgroundColor: selectedColor || availableColors[0],
+                  backgroundColor: selectedColor,
                   width: "15px",
                   height: "15px",
                   borderRadius: "50%",
@@ -70,6 +73,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
             Rs. {(price * quantity).toFixed(2)}
           </h4>
         </div>
+
         <button
           onClick={() => dispatch(removeFromBasket(product.id))}
           className="self-center "

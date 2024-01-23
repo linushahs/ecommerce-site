@@ -1,37 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { rootDomain } from "../../apis/info";
-import { AppDispatch } from "../store";
-import { Product } from "@/components/products/interface";
-import { basketOfProduct } from "@/constants";
+import { AllProductsResponse, ProductDetailsResponse } from "../api/interface";
 
+type ProductState = Partial<AllProductsResponse & ProductDetailsResponse>;
+const initialState: ProductState = {};
 
-const initialState: Product[] = basketOfProduct;
-
-// Create a slice
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    storeProducts(state, action: PayloadAction<any[]>) {
-      state = action.payload;
+    storeProducts(state, action: PayloadAction<AllProductsResponse>) {
+      return { ...state, products: [...action.payload.results] }
+    },
+    storeSingleProduct(state, action: PayloadAction<ProductDetailsResponse>) {
+      return { ...state, product: { ...action.payload.product }, related_products: { ...action.payload.related_products } };
     },
   },
 });
 
-// Export the actions
-export const { storeProducts } = productSlice.actions;
 
-// Create an async thunk for fetching all products
-export const fetchAllProducts = async (dispatch: AppDispatch) => {
-  try {
-    const res = await axios.get(`${rootDomain}/api/product`);
-    dispatch(storeProducts(res.data.results));
-  } catch (err) {
-    // Handle error if needed
-    console.error(err);
-  }
-};
+export const { storeProducts, storeSingleProduct } = productSlice.actions;
 
-// Export the reducer
 export default productSlice.reducer;

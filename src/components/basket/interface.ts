@@ -1,5 +1,5 @@
+import { Product } from "@/redux/slices/interface";
 import { ReactNode } from "react";
-import { Product } from "../products/interface";
 
 interface BasketItemProps {
   product: Product;

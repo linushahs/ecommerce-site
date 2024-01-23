@@ -1,26 +1,35 @@
 "use client";
 
-import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { productData } from "@/constants";
+import { ProductDetailsResponse } from "@/redux/api/interface";
+import { useGetProductDetailsQuery } from "@/redux/api/productSlice.api";
+import { addToBasket } from "@/redux/slices/basketSlice";
+import { useAppDispatch } from "@/redux/store";
+import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { addToBasket } from "@/redux/slices/basketSlice";
-import { useParams } from "next/navigation";
 
 export default function ProductPage() {
   const params = useParams();
   const dispatch = useAppDispatch();
 
-  console.log(params);
-  const products = useAppSelector((state) => state.product);
-  const productItem = products.filter((p) => p.id === params.productId)[0];
+  const { data, isLoading } = useGetProductDetailsQuery(
+    params.productId as string
+  );
   const [currentProductImage, setCurrentProductImage] = useState(0);
 
   const handleAddToCart = () => {
-    dispatch(addToBasket(productItem));
+    dispatch(addToBasket(productDetails));
   };
+
+  console.log(data?.product);
+  let productDetails = (data as ProductDetailsResponse)?.product;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <main className="mt-[var(--navbar-height)] mb-12">
@@ -56,22 +65,26 @@ export default function ProductPage() {
         {/* product description -----------------------------  */}
         <div className="flex-1 py-15 mt-6">
           <p className="uppercase tracking-wide text-orange-500">
-            {productItem.brand}{" "}
+            {productDetails?.brand?.name}
           </p>
-          <h1 className="font-bold text-[36px]">{productItem.name}</h1>
+          <h1 className="font-bold capitalize text-[36px]">
+            {productDetails?.title}
+          </h1>
           <p className="fw-400  text-base text-gray-500">
-            {productItem.description}
+            {productDetails?.description}
           </p>
           <div className="my-4">
             <div className="flex items-center mb-2 gap-4 ">
-              <span className="font-medium  text-lg">{productItem.price}</span>
+              <span className="font-medium  text-lg">
+                {productDetails?.price}
+              </span>
               <span className=" font-medium text-base text-orange-500">
                 50%
               </span>
             </div>
 
             <span className="font-medium text-base line-through">
-              {productItem.price}
+              {productDetails?.price}
             </span>
           </div>
 
