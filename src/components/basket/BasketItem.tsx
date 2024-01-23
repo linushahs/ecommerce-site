@@ -1,4 +1,4 @@
-import { useRemoveFromCartMutation } from "@/redux/api/cartSlice.api";
+import { useRemoveFromCartMutation } from "@/redux/api/productSlice.api";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";

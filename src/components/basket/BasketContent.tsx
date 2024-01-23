@@ -2,7 +2,10 @@
 
 import { BasketItem } from "@/components/basket";
 import { CHECKOUT_STEP_1 } from "@/constants/routes";
-import { useGetCartDetailsQuery } from "@/redux/api/cartSlice.api";
+import {
+  useClearCartMutation,
+  useGetCartDetailsQuery,
+} from "@/redux/api/productSlice.api";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../common";
@@ -10,6 +13,7 @@ import { BasketContentProps } from "./interface";
 
 const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   const { data: cartDetails, isLoading } = useGetCartDetailsQuery();
+  const [clearCartMn] = useClearCartMutation();
   const router = useRouter();
   const params = usePathname();
 
@@ -26,14 +30,12 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
 
   const onClearBasket = () => {
     if (cartDetails?.products.length !== 0) {
-      // clear cart
+      clearCartMn();
     }
   };
 
   const products = cartDetails?.products;
   const totalNoOfProducts = products?.length;
-
-  console.log(products, totalNoOfProducts);
 
   {
     /* <Modal
@@ -97,7 +99,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
             </Button>
           </div>
         </div>
-        {totalNoOfProducts && totalNoOfProducts <= 0 && (
+        {!totalNoOfProducts && (
           <div className="basket-empty">
             <h5 className="basket-empty-msg">Your basket is empty</h5>
           </div>

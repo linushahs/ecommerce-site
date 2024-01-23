@@ -1,7 +1,7 @@
 import {
   useAddToCartMutation,
   useRemoveFromCartMutation,
-} from "@/redux/api/cartSlice.api";
+} from "@/redux/api/productSlice.api";
 import {
   useAddProductToWishlistMutation,
   useRemoveProductFromWishlistMutation,
@@ -19,6 +19,7 @@ import { ProductCardProps } from "./interface";
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { id, cover_image, slug, title, price, is_in_wishlist, is_in_cart } =
     product;
+
   const router = useRouter();
 
   // Wishlist: add and remove

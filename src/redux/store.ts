@@ -2,10 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { persistStore } from 'redux-persist';
-import { authApi, profileApi, productApi } from "./api/";
+import { authApi, productApi, profileApi, categoryApi } from "./api/";
 import { authReducer, basketReducer, productReducer, profileReducer } from "./slices";
-import { cartApi } from "./api/cartSlice.api";
-import { categoryApi } from "./api/categorySlice.api";
 
 export const store = configureStore({
   reducer: {
@@ -16,12 +14,11 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
-    [cartApi.reducerPath]: cartApi.reducer,
     [categoryApi.reducerPath]: categoryApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(authApi.middleware, profileApi.middleware, productApi.middleware, cartApi.middleware, categoryApi.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(authApi.middleware, profileApi.middleware, productApi.middleware, categoryApi.middleware),
 
   devTools: true,
 });

@@ -1,9 +1,9 @@
 
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { Product } from '../slices/interface';
 import { setProfile } from '../slices/profileSlice';
 import { baseQueryWithReauth, handleApiMutation, handleApiQuery, showToastMessages } from './apiUtils';
-import { AllProductsResponse, UserProfileResponse } from './interface';
-import { Product } from '../slices/interface';
+import { UserProfileResponse } from './interface';
 
 
 export const profileApi = createApi({
