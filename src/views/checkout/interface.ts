@@ -1,7 +1,8 @@
-import { Product } from "@/components/products/interface";
+import { BasketProduct } from "@/components/basket/interface";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 interface OrderSummaryProps {
-  basket: Product[];
+  basket: BasketProduct[];
   subtotal: number;
 }
 
@@ -32,6 +33,11 @@ interface ShippingDetailsProps {
   };
 }
 
+interface ShippingFormProps {
+  register: UseFormRegister<any>;
+  errors: FieldErrors;
+}
+
 interface ShippingTotalProps {
   subtotal: number;
 }
@@ -51,4 +57,5 @@ interface PaymentProps {
   subtotal: number;
 }
 
-export type { OrderSummaryProps, ShippingDetailsProps, Profile, Mobile, ShippingTotalProps, PaymentProps };
+export type { Mobile, OrderSummaryProps, PaymentProps, Profile, ShippingDetailsProps, ShippingFormProps, ShippingTotalProps };
+

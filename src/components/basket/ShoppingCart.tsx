@@ -1,15 +1,14 @@
-import React from "react";
+import { useGetCartDetailsQuery } from "@/redux/api/cartSlice.api";
 import { Basket, BasketToggle } from ".";
 import { Badge } from "../common";
-import { useAppSelector } from "@/redux/store";
 
 const ShoppingCart = () => {
-  const products = useAppSelector((state) => state.basket);
+  const { data: cartDetails } = useGetCartDetailsQuery();
 
   return (
     <Basket>
       <BasketToggle>
-        <Badge count={products.length}>
+        <Badge count={cartDetails?.products?.length || 0}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="16"

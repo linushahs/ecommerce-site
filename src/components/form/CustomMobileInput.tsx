@@ -29,7 +29,7 @@ const CustomMobileInput: React.FC<CustomMobileInputProps> = ({
       </label>
       <PhoneInput
         country="np"
-        containerClass="rounded-md min-h-full"
+        containerClass="rounded-md"
         inputClass="sm:!text-sm bg-gray-50 border border-gray-300 text-gray-900 !rounded-lg focus:outline-none focus:ring-primary-600 !w-full !h-full !py-[11.3px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500"
         dropdownClass="!rounded-lg"
         placeholder={placeholder}

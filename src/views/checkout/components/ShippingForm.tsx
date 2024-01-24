@@ -1,17 +1,12 @@
 import { Checkbox, CustomInput, CustomMobileInput } from "@/components/form";
 import { useForm } from "react-hook-form";
+import { ShippingFormProps } from "../interface";
 
 //local component style ------------
 // ---------------------------------
-const checkoutFieldset = "flex gap-4 items-center mt-6 *:flex-1";
+const checkoutFieldset = "flex gap-4 mt-6 *:flex-1";
 
-const ShippingForm = () => {
-  const {
-    register,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm();
+const ShippingForm: React.FC<ShippingFormProps> = ({ register, errors }) => {
   // const { values } = useFormState({ control });
   // const isInternational = useWatch({
   //   control,
@@ -46,7 +41,7 @@ const ShippingForm = () => {
             register={register}
             errors={errors}
           />
-          <CustomMobileInput setValue={setValue} />
+          <CustomMobileInput />
         </div>
         <div className={checkoutFieldset}>
           <div className="w-full ">

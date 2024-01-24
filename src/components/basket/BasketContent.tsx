@@ -5,7 +5,7 @@ import { CHECKOUT_STEP_1 } from "@/constants/routes";
 import {
   useClearCartMutation,
   useGetCartDetailsQuery,
-} from "@/redux/api/productSlice.api";
+} from "@/redux/api/cartSlice.api";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../common";
@@ -36,6 +36,8 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
 
   const products = cartDetails?.products;
   const totalNoOfProducts = products?.length;
+
+  console.log(cartDetails);
 
   {
     /* <Modal
@@ -106,7 +108,7 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
         )}
         <div className="flex flex-col gap-3">
           {products?.map((product) => (
-            <BasketItem key={product.id} product={product} />
+            <BasketItem key={product.product_details.id} product={product} />
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useRemoveFromCartMutation } from "@/redux/api/productSlice.api";
+import { useRemoveFromCartMutation } from "@/redux/api/cartSlice.api";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,16 +6,9 @@ import BasketItemControl from "./BasketItemControl";
 import { BasketItemProps } from "./interface";
 
 const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
-  const {
-    title,
-    cover_image,
-    id,
-    slug,
-    price,
-    quantity,
-    selectedColor,
-    selectedSize,
-  } = product;
+  const { title, cover_image, id, slug, price } = product.product_details;
+
+  const { quantity, selected_color, selected_size } = product;
 
   const [removeFromCartMn] = useRemoveFromCartMutation();
 
@@ -38,7 +31,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
             href={`/product/${slug}`}
             onClick={() => document.body.classList.remove("is-basket-open")}
           >
-            <h4 className="underline mb-4 w-36 whitespace-nowrap overflow-hidden text-ellipsis relative font-semibold text-lg">
+            <h4 className="underline mb-4 w-36 whitespace-nowrap overflow-hidden capitalize text-ellipsis relative font-semibold text-lg">
               {title}
             </h4>
           </Link>
@@ -49,13 +42,13 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
             </div>
             <div>
               <span className="text-gray-500 text-sm">Size</span>
-              <h5 className="my-0 text-sm font-semibold">{selectedSize}</h5>
+              <h5 className="my-0 text-sm font-semibold">{selected_size}</h5>
             </div>
             <div>
               <span className="text-gray-500 text-sm">Color</span>
               <div
                 style={{
-                  backgroundColor: selectedColor,
+                  backgroundColor: selected_color,
                   width: "15px",
                   height: "15px",
                   borderRadius: "50%",

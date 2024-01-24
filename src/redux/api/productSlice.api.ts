@@ -1,13 +1,9 @@
-
-import { createApi } from "@reduxjs/toolkit/query/react";
 import { storeProducts, storeSingleProduct } from "../slices/productSlice";
-import { baseQueryWithReauth, handleApiQuery, showToastMessages } from "./apiUtils";
-import { AllProductsResponse, CartDetailsResponse, CartRequestBody, ProductDetailsResponse } from "./interface";
+import { handleApiQuery, showToastMessages } from "./apiUtils";
+import { baseApi } from "./baseApi";
+import { AllProductsResponse, CategoryResponse, ProductDetailsResponse } from "./interface";
 
-export const productApi = createApi({
-    reducerPath: 'productApi',
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ['Product', 'Cart'],
+export const productApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllProducts: builder.query<AllProductsResponse, void>({
             providesTags: (res) =>
@@ -32,6 +28,16 @@ export const productApi = createApi({
                 handleApiQuery(dispatch, queryFulfilled, storeSingleProduct, "Error fetching product details!");
             }
         }),
+
+        getCategories: builder.query<CategoryResponse[], void>({
+            query: () => ({
+                url: '/category/',
+                method: 'GET',
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                showToastMessages(queryFulfilled, "Error fetching categories !");
+            }
+        }),
         addProductToWishlist: builder.mutation<void, string>({
             query: (slug) => ({
                 url: `/product/${slug}/add-to-wishlist/`,
@@ -43,7 +49,7 @@ export const productApi = createApi({
             },
 
             invalidatesTags: (result, error, id) => {
-                return [{ type: 'Product', id }]
+                return [{ type: 'Product', id }, 'Wishlist']
             },
         }),
 
@@ -58,67 +64,13 @@ export const productApi = createApi({
             },
 
             invalidatesTags: (result, error, id) => {
-                return [{ type: 'Product', id }]
+                return [{ type: 'Product', id }, 'Wishlist']
             },
 
         }),
 
-        getCartDetails: builder.query<CartDetailsResponse, void>({
-            providesTags: (result) => (result ? [{ type: 'Cart', id: 'DETAILS' }] : []),
-            query: () => ({
-                url: '/cart/details/',
-                method: 'GET',
-            }),
-            async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                showToastMessages(queryFulfilled, "Error fetching cart details!");
-            },
-        }),
-        addToCart: builder.mutation<void, CartRequestBody>({
-            query: (body) => ({
-                url: `/cart/add-product/`,
-                method: 'POST',
-                body,
-            }),
-            async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                showToastMessages(queryFulfilled, "Error adding item to the cart!", "Item added to the cart.");
-            },
-            invalidatesTags: [{ type: 'Cart', id: 'DETAILS' }, { type: 'Product', id: "LIST" }],
-        }),
-        removeFromCart: builder.mutation<void, Pick<CartRequestBody, "product_id">>({
-            query: (body) => ({
-                url: `/cart/remove-product/`,
-                method: 'POST',
-                body,
-            }),
-            async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                showToastMessages(queryFulfilled, "Error removing item from the cart!", "Item removed from the cart.");
-            },
-            invalidatesTags: [{ type: 'Cart', id: 'DETAILS' }, { type: 'Product', id: "LIST" }],
-        }),
 
-        updateCart: builder.mutation<void, CartRequestBody>({
-            query: (body) => ({
-                url: `/cart/update-product/`,
-                method: 'POST',
-                body,
-            }),
-            async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                showToastMessages(queryFulfilled, "Error updating item from the cart!");
-            },
-            invalidatesTags: [{ type: 'Cart', id: 'DETAILS' }, { type: 'Product', id: "LIST" }],
-        }),
-
-        clearCart: builder.mutation<void, void>({
-            query: () => ({
-                url: `/cart/clear/`,
-                method: 'POST',
-            }),
-            async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                showToastMessages(queryFulfilled, "Error clearing the cart!", "Items are cleared from the cart. ");
-            },
-            invalidatesTags: [{ type: 'Cart', id: 'DETAILS' }, { type: 'Product', id: "LIST" }],
-        })
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useAddProductToWishlistMutation, useRemoveProductFromWishlistMutation, useGetCartDetailsQuery, useAddToCartMutation, useRemoveFromCartMutation, useUpdateCartMutation, useClearCartMutation } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useAddProductToWishlistMutation, useRemoveProductFromWishlistMutation, useGetCategoriesQuery } = productApi;

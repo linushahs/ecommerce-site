@@ -12,13 +12,14 @@ import Button from "@/components/common/Button";
 import { useAppSelector } from "@/redux/store";
 import { StepTracker } from "@/views/checkout/components";
 import withAuth from "@/components/hoc/withAuth";
+import { useGetCartDetailsQuery } from "@/redux/api/cartSlice.api";
 
 const OrderSummaryPage = () => {
   const router = useRouter();
   const onClickPrevious = () => router.push("/");
   const onClickNext = () => router.push(CHECKOUT_STEP_2);
 
-  const products = useAppSelector((state) => state.basket);
+  const { data: cartDetails } = useGetCartDetailsQuery();
 
   return (
     <div className="w-full animation-slideUp mb-8">
@@ -30,14 +31,14 @@ const OrderSummaryPage = () => {
         </span>
         <br />
         <div className="flex flex-col gap-4">
-          {products.map((product) => (
-            <BasketItem key={product.id} product={product} />
+          {cartDetails?.products.map((product) => (
+            <BasketItem key={product.product_details.id} product={product} />
           ))}
         </div>
         <br />
         <div className="text-right">
           <p className="font-medium">Subtotal:</p>
-          <h2 className="my-2 font-bold">{200}</h2>
+          <h2 className="my-2 font-bold">{cartDetails?.cart_total}</h2>
         </div>
         <br />
         <div className="flex items-center justify-between">

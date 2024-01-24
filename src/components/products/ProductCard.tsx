@@ -1,7 +1,7 @@
 import {
   useAddToCartMutation,
   useRemoveFromCartMutation,
-} from "@/redux/api/productSlice.api";
+} from "@/redux/api/cartSlice.api";
 import {
   useAddProductToWishlistMutation,
   useRemoveProductFromWishlistMutation,
@@ -82,8 +82,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   addToCartMn({
                     product_id: id,
                     quantity: 1,
-                    selectedSize: "",
-                    selectedColor: "",
+                    selected_size: null,
+                    selected_color: null,
                   })
                 }
               />

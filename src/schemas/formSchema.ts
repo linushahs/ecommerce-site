@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 const shipmentFormSchema = z.object({
-    fullname: z.string({ required_error: 'Full name is required.' })
+    fullname: z.string().min(1, "Full name is required.")
         .min(8, { message: 'Full name must be at least 8 characters long.' })
         .max(60, { message: 'Full name must only be less than 60 characters.' }),
 
-    email: z.string({ required_error: "Email is required" }).email({ message: 'Email is not valid.' }),
+    email: z.string().min(1, "Email is required").email({ message: 'Email is not valid.' }),
 
-    address: z.string({ required_error: "Shipping address is required" }),
+    address: z.string().min(1, "Address is required."),
 
     mobile: z.object({
         country: z.string(),

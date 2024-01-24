@@ -80,8 +80,8 @@ interface CartDetailsResponse {
 interface CartRequestBody {
     product_id: number;
     quantity: number;
-    selectedSize: string;
-    selectedColor: string;
+    selected_size?: string | null;
+    selected_color?: string | null;
 }
 
 interface CategoryResponse {

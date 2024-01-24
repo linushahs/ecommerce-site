@@ -1,14 +1,13 @@
 "use client";
 
-import { filters, sortOptions, subCategories } from "@/constants/";
-import { useGetCategoriesQuery } from "@/redux/api/categorySlice.api";
-import { CategoryResponse } from "@/redux/api/interface";
+import { sortOptions, subCategories } from "@/constants/";
+import { useGetCategoriesQuery } from "@/redux/api/productSlice.api";
 import { FunnelIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
 import {
+  FilterSection,
   MobileFilterDialog,
   ProductGrid,
   SortMenu,
-  FilterSection,
 } from "components/products";
 import { useState } from "react";
 

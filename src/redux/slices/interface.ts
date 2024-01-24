@@ -13,6 +13,7 @@ interface ProductDetails {
     available_colors: string[]
     product_features: ProductFeature[]
     price: number
+    discounted_price: number,
     created_at: string
     updated_at: string
     is_in_wishlist: any

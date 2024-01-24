@@ -1,14 +1,12 @@
 
-import { createApi } from '@reduxjs/toolkit/query/react';
 import { Product } from '../slices/interface';
 import { setProfile } from '../slices/profileSlice';
-import { baseQueryWithReauth, handleApiMutation, handleApiQuery, showToastMessages } from './apiUtils';
+import { handleApiMutation, handleApiQuery, showToastMessages } from './apiUtils';
+import { baseApi } from './baseApi';
 import { UserProfileResponse } from './interface';
 
 
-export const profileApi = createApi({
-    reducerPath: 'profileApi',
-    baseQuery: baseQueryWithReauth,
+export const profileApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getUserProfile: builder.query<UserProfileResponse, void>({
             query: () => ({
@@ -32,6 +30,7 @@ export const profileApi = createApi({
         }),
 
         getUserWishlist: builder.query<Product[], void>({
+            providesTags: (_) => ['Wishlist'],
             query: () => ({
                 url: '/user/wishlist/',
                 method: 'GET',

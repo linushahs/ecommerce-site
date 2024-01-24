@@ -2,8 +2,11 @@
 
 import { productData } from "@/constants";
 import { ProductDetailsResponse } from "@/redux/api/interface";
-import { useGetProductDetailsQuery } from "@/redux/api/productSlice.api";
-import { addToBasket } from "@/redux/slices/basketSlice";
+import {
+  useAddToCartMutation,
+  useGetProductDetailsQuery,
+} from "@/redux/api/productSlice.api";
+
 import { useAppDispatch } from "@/redux/store";
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
@@ -13,19 +16,25 @@ import { twMerge } from "tailwind-merge";
 
 export default function ProductPage() {
   const params = useParams();
-  const dispatch = useAppDispatch();
 
   const { data, isLoading } = useGetProductDetailsQuery(
     params.productId as string
   );
+  const [addToCartMn] = useAddToCartMutation();
   const [currentProductImage, setCurrentProductImage] = useState(0);
-
-  const handleAddToCart = () => {
-    dispatch(addToBasket(productDetails));
-  };
 
   console.log(data?.product);
   let productDetails = (data as ProductDetailsResponse)?.product;
+
+  const handleAddToCart = () => {
+    const { id } = productDetails;
+    addToCartMn({
+      product_id: id,
+      quantity: 1,
+      selected_size: null,
+      selected_color: null,
+    });
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;

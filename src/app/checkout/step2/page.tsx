@@ -43,7 +43,7 @@ const ShippingDetails = () => {
       <div className="w-1/2 mx-auto">
         <h3 className="checkout-step-title">Shipping Details</h3>
         <form onSubmit={handleSubmit(onSubmitForm)}>
-          <ShippingForm />
+          <ShippingForm register={register} errors={errors}s/>
           <br />
           {/*  ---- TOTAL --------- */}
           <ShippingTotal subtotal={300} />
