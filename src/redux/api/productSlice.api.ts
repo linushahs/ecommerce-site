@@ -20,7 +20,7 @@ export const productApi = baseApi.injectEndpoints({
             }
         }),
         getProductDetails: builder.query<ProductDetailsResponse, string>({
-            query: (slug) => ({
+            query: (slug) => ({ 
                 url: `/product/${slug}/`,
                 method: 'GET',
             }),

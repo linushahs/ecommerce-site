@@ -29,26 +29,16 @@ function LoginPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const [login, { error, isError, isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
-      const res = await login(data).unwrap();
-
-      //store the response in state
-      dispatch(setCredentials(res));
-      toast.success(LOGIN_SUCESS);
+      await login(data);
       router.push("/shop");
     } catch (error) {
       console.log(error);
     }
   };
-
-  if (isError) {
-    error &&
-      (error as any).data &&
-      toast.error((error as any).data.detail || "");
-  }
 
   return (
     <div>
