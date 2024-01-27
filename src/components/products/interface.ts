@@ -26,6 +26,7 @@ interface SortOption {
 
 interface SortMenuProps {
   sortOptions: SortOption[];
+  pathname: string;
 }
 
 interface ProductCardProps {

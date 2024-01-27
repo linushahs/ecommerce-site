@@ -82,14 +82,11 @@ const filters = [
 ];
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "Trending", href: "query=trending", current: true },
+  { name: "Newest", href: "order=created_desc", current: false },
+  { name: "Price: Low to High", href: "order=price_asc", current: false },
+  { name: "Price: High to Low", href: "order=price_desc", current: false },
 ];
-
-
 
 const footMenu: IFootMenu[] = [
   {

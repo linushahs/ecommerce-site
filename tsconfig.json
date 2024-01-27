@@ -4,6 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "downlevelIteration": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -22,7 +23,7 @@
       "@/*": ["./src/*"],
       "components/*": ["./src/components/*"],
       "redux/*": ["./src/redux/*"],
-      "views/*": ["./src/views/*"],
+      "views/*": ["./src/views/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/components/common";
 import { handleEsewaPayment } from "@/lib/paymentUtils";
-import { CreditPayment, StepTracker, Total } from "@/views/checkout/components";
+import { StepTracker, Total } from "@/views/checkout/components";
 import Image from "next/image";
 
 const Payment = () => {

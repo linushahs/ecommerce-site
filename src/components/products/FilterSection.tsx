@@ -1,28 +1,38 @@
+"use client";
+
 import { Disclosure } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { SectionProps } from "./interface";
 import { CategoryResponse } from "@/redux/api/interface";
+import { useGetAllProductsQuery } from "@/redux/api/productSlice.api";
+import Link from "next/link";
 
 const FilterOption: React.FC<CategoryResponse & { id: number }> = ({
   id,
   name,
-}) => (
-  <div className="flex items-center">
-    <input
-      id={`${id}-${name}`}
-      name={`${id}[]`}
-      type="checkbox"
-      className="h-4 w-4 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500"
-    />
-    <label
-      htmlFor={`${id}-${name}`}
-      className="capitalize ml-3 text-sm text-gray-600"
-    >
-      {name}
-    </label>
-  </div>
-);
+  slug,
+}) => {
+  return (
+    <div className="flex items-center">
+      <Link href={`/shop?category=${slug}`}>
+        <label
+          htmlFor={`${id}-${name}`}
+          className="capitalize ml-3 text-sm text-gray-600"
+        >
+          <input
+            id={`${id}-${name}`}
+            name={`${id}[]`}
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500"
+          />
+
+          {name}
+        </label>
+      </Link>
+    </div>
+  );
+};
 
 const FilterSection: React.FC<{ section: SectionProps }> = ({
   section: { name, options },
@@ -31,7 +41,7 @@ const FilterSection: React.FC<{ section: SectionProps }> = ({
     as="div"
     key={name}
     defaultOpen={true}
-    className="border-t border-gray-200 py-6"
+    className="border-b border-gray-200 pb-6"
   >
     {({ open }: { open: boolean }) => (
       <>

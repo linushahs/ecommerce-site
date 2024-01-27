@@ -1,18 +1,21 @@
 "use client";
 
-import { sortOptions, subCategories } from "@/constants/";
+import { sortOptions } from "@/constants/";
 import { useGetCategoriesQuery } from "@/redux/api/productSlice.api";
 import { FunnelIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
-import {
-  FilterSection,
-  MobileFilterDialog,
-  ProductGrid,
-  SortMenu,
-} from "components/products";
+import { MobileFilterDialog, ProductGrid, SortMenu } from "components/products";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
-export default function Example() {
+export default function ShopPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const searchParams = useSearchParams();
+  const params = searchParams.get("category");
+  const queryPath = searchParams.has("category") ? `?category=${params}&` : "?";
+  const pathname = usePathname() + queryPath;
 
   const { data: categories } = useGetCategoriesQuery();
 
@@ -32,7 +35,7 @@ export default function Example() {
             </h1>
 
             <div className="flex items-center">
-              <SortMenu sortOptions={sortOptions} />
+              <SortMenu pathname={pathname} sortOptions={sortOptions} />
 
               <button
                 type="button"
@@ -65,18 +68,24 @@ export default function Example() {
                   role="list"
                   className="space-y-4 pb-6 text-sm font-medium text-black"
                 >
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
+                  {categories?.map(({ name, slug }) => (
+                    <li key={slug}>
+                      <Link
+                        href={`/shop?category=${slug}`}
+                        className={twMerge(
+                          "capitalize text-base",
+                          params === slug && "font-semibold text-primary"
+                        )}
+                      >
+                        {name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
 
-                {categories && (
-                  <FilterSection
-                    section={{ name: "category", options: categories }}
-                  />
-                )}
+                {/* <FilterSection
+                    section={{ name: "price", options: categories }}
+                  /> */}
               </form>
 
               {/* Product grid */}

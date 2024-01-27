@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { ProductFilterOptions } from "./interface";
 
 
 
@@ -44,4 +45,27 @@ const showToastMessages = async (
     }
 };
 
-export { handleApiMutation, handleApiQuery, showToastMessages };
+// Utility function to build the API URL with filter options
+function buildProductApiUrl(base: string, filters: ProductFilterOptions): string {
+    const params = [];
+
+    if (filters.category) {
+        params.push(`category=${filters.category}`);
+    }
+
+    if (filters.order) {
+        params.push(`order=${filters.order}`);
+    }
+
+    if (filters.query) {
+        params.push(`query=${filters.query}`);
+    }
+
+    if (params.length > 0) {
+        return `${base}?${params.join('&')}`;
+    }
+
+    return base;
+}
+
+export { handleApiMutation, handleApiQuery, showToastMessages, buildProductApiUrl };

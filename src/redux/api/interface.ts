@@ -90,5 +90,13 @@ interface CategoryResponse {
     products: Product[]
 }
 
+interface ProductFilterOptions {
+    category: string | null,
+    order: OrderType | null,
+    query: string | null
+}
 
-export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs, CartDetailsResponse, AllProductsResponse, ProductDetailsResponse, CartRequestBody, CategoryResponse }
+type OrderType = "price_asc" | "price_desc" | "created_desc" | "created_asc";
+
+
+export type { LoginAuthResponse, RegisterAuthResponse, AuthState, ValidateOTPInputs, UserProfileResponse, ResetPasswordInputs, CartDetailsResponse, AllProductsResponse, ProductDetailsResponse, CartRequestBody, CategoryResponse, ProductFilterOptions, OrderType }

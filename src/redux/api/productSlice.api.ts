@@ -1,18 +1,18 @@
 import { storeProducts, storeSingleProduct } from "../slices/productSlice";
-import { handleApiQuery, showToastMessages } from "./apiUtils";
+import { buildProductApiUrl, handleApiQuery, showToastMessages } from "./apiUtils";
 import { baseApi } from "./baseApi";
-import { AllProductsResponse, CategoryResponse, ProductDetailsResponse } from "./interface";
+import { AllProductsResponse, CategoryResponse, ProductDetailsResponse, ProductFilterOptions } from "./interface";
 
 export const productApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getAllProducts: builder.query<AllProductsResponse, void>({
+        getAllProducts: builder.query<AllProductsResponse, ProductFilterOptions>({
             providesTags: (res) =>
                 res ? [...res.results.map(({ slug }) =>
                     ({ type: 'Product' as const, id: slug })),
                 { type: 'Product', id: 'LIST' },
                 ] : [{ type: 'Product', id: 'LIST' }],
-            query: () => ({
-                url: '/product/',
+            query: ({ category, query, order }) => ({
+                url: buildProductApiUrl("/product", { category, query, order }),
                 method: 'GET',
             }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -20,7 +20,7 @@ export const productApi = baseApi.injectEndpoints({
             }
         }),
         getProductDetails: builder.query<ProductDetailsResponse, string>({
-            query: (slug) => ({ 
+            query: (slug) => ({
                 url: `/product/${slug}/`,
                 method: 'GET',
             }),
@@ -38,6 +38,9 @@ export const productApi = baseApi.injectEndpoints({
                 showToastMessages(queryFulfilled, "Error fetching categories !");
             }
         }),
+
+        // getFilteredProducts
+
         addProductToWishlist: builder.mutation<void, string>({
             query: (slug) => ({
                 url: `/product/${slug}/add-to-wishlist/`,

@@ -37,8 +37,6 @@ const BasketContent: React.FC<BasketContentProps> = ({ isOpen, onClose }) => {
   const products = cartDetails?.products;
   const totalNoOfProducts = products?.length;
 
-  console.log(cartDetails);
-
   {
     /* <Modal
         isOpen={isOpenModal}
