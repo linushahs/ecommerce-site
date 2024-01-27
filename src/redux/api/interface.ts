@@ -93,7 +93,9 @@ interface CategoryResponse {
 interface ProductFilterOptions {
     category: string | null,
     order: OrderType | null,
-    query: string | null
+    query: string | null,
+    lp: string | null,
+    hp: string | null
 }
 
 type OrderType = "price_asc" | "price_desc" | "created_desc" | "created_asc";

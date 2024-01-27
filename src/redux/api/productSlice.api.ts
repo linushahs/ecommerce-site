@@ -11,8 +11,8 @@ export const productApi = baseApi.injectEndpoints({
                     ({ type: 'Product' as const, id: slug })),
                 { type: 'Product', id: 'LIST' },
                 ] : [{ type: 'Product', id: 'LIST' }],
-            query: ({ category, query, order }) => ({
-                url: buildProductApiUrl("/product", { category, query, order }),
+            query: ({ category, query, order, lp, hp }) => ({
+                url: buildProductApiUrl("/product", { category, query, order, lp, hp }),
                 method: 'GET',
             }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {

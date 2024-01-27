@@ -45,21 +45,23 @@ const showToastMessages = async (
     }
 };
 
+
+
 // Utility function to build the API URL with filter options
 function buildProductApiUrl(base: string, filters: ProductFilterOptions): string {
-    const params = [];
+    const params: string[] = [];
 
-    if (filters.category) {
-        params.push(`category=${filters.category}`);
-    }
+    const addQueryParam = (key: string, value: string | null) => {
+        if (value) {
+            params.push(`${key}=${value}`);
+        }
+    };
 
-    if (filters.order) {
-        params.push(`order=${filters.order}`);
-    }
-
-    if (filters.query) {
-        params.push(`query=${filters.query}`);
-    }
+    addQueryParam('category', filters.category);
+    addQueryParam('order', filters.order);
+    addQueryParam('query', filters.query);
+    addQueryParam('lp', filters.lp);
+    addQueryParam('hp', filters.hp);
 
     if (params.length > 0) {
         return `${base}?${params.join('&')}`;

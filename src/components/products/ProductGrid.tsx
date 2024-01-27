@@ -21,10 +21,15 @@ const ProductGrid: React.FC = memo(() => {
       ? (orderQueryParam as OrderType)
       : null;
 
+  const lp = searchParams.get("lp");
+  const hp = searchParams.get("hp");
+
   const { data, isLoading } = useGetAllProductsQuery({
     category,
     query,
     order,
+    lp,
+    hp,
   });
 
   const products = data?.results;
@@ -32,11 +37,17 @@ const ProductGrid: React.FC = memo(() => {
   if (isLoading) return <ProductGridLoading />;
   return (
     <div className="lg:col-span-4">
-      <main className="grid gap-4 grid-cols-4 ">
-        {products?.map((data: Product) => (
-          <ProductCard key={data.slug} product={data} />
-        ))}
-      </main>
+      {products?.length ? (
+        <main className="grid gap-4 grid-cols-4 ">
+          {products?.map((data: Product) => (
+            <ProductCard key={data.slug} product={data} />
+          ))}
+        </main>
+      ) : (
+        <main className="h-full w-full flex justify-center items-center text-gray-600">
+          No products...
+        </main>
+      )}
     </div>
   );
 });
