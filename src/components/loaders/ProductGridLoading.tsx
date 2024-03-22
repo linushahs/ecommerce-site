@@ -1,4 +1,4 @@
-function ProductGridLoading() {
+function ProductGridLoading<ProductGridType>() {
   return (
     <div className="lg:col-span-4">
       <div className="grid gap-4 grid-cols-4">

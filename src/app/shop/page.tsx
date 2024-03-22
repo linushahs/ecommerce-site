@@ -19,10 +19,10 @@ export default function ShopPage() {
   const pathname = usePathname() + queryPath;
 
   const defaultPriceRange = {
-    lowPrice: searchParams.get("lp"),
-    highPrice: searchParams.get("hp"),
+    lowPrice: searchParams.get("lp") || "0",
+    highPrice: searchParams.get("hp") || "1000",
   };
-J
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [prices, setPrices] = useState(defaultPriceRange);
   const router = useRouter();
@@ -138,7 +138,7 @@ J
                       name="low-price"
                       placeholder="1000"
                       className={priceInput}
-                      value={prices.lowPrice}
+                      value={prices?.lowPrice}
                       onChange={handleLowPriceChange}
                     />
                     to
@@ -147,7 +147,7 @@ J
                       name="high-price"
                       placeholder="20,000"
                       className={priceInput}
-                      value={prices.highPrice}
+                      value={prices?.highPrice}
                       onChange={handleHighPriceChange}
                     />
                   </div>
